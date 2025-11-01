@@ -2,11 +2,42 @@ package Phase1;
 
 
 public class LinkedList<T>  {
+
+	    class Node<T> {//Start Node Class
+		public T data;
+		public Node<T> next;
+
+		public Node() {
+			data = null;
+			next = null;
+		}
+		public Node(T val) {
+			data = val;
+			next = null;
+		}
+		public T getData() {
+			return data;
+		}
+		public void setData(T data) {
+			this.data = data;
+		}
+		public Node<T> getNext() {
+			return next;
+		}
+		public void setNext(Node<T> next) {
+			this.next = next;
+		}
+		}//End of node class
+	    
+	
+//linked list
 private Node<T> head;
 private Node<T> current;
+int size = 0;
 
 public LinkedList () {
 	head=current=null;
+	size = 0 ;
 }
 
 public boolean empty() {
@@ -43,6 +74,7 @@ public void add (T val) {
 		current = current.next;
 		current.next = tmp;
 	}
+	size++;
 }
 public void remove() {
 	if(current == head) {
@@ -59,9 +91,26 @@ public void remove() {
 		current = head;
 	else
 		current = current.next;
+	size--;
+}
+public int size() {
+	return size;
 }
 
-public T searchId(int id) {
+public void display() {
+	if(head == null)
+		System.out.println("There is no data");
+	else {
+		Node<T> tmp = head;
+		while( tmp!= null) {
+			System.out.println(tmp.data +" ");
+			tmp=tmp.next;
+		}
+	}
+	System.out.println(" ");
+}
+
+/*public T searchId(int id) {
 	  Node<T> tmp = head;
        while(tmp != null) {
 		if(tmp.data.equals(id))
@@ -70,6 +119,6 @@ public T searchId(int id) {
        }
     return  null;
 	}
-
+*/
 
 }
