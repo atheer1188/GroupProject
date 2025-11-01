@@ -1,4 +1,4 @@
-package Product;
+package Phase1;
 
 public class Products {
 
