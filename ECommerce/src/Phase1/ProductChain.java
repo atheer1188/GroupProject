@@ -9,14 +9,14 @@ public class ProductChain {
 	}
 	
 	
-	public boolean add(Products p) {
+	public boolean addProduct(Products p) {
 		//product already exist
 				if(ProductChain.searchId(p.getProductId())!=null) {
 			System.out.println("A product with the same ID already exsists");
 			return false;
 		}
 		else {
-			ProductChain.insert(p);
+			ProductChain.add(p);
 			System.out.println("Product Added Successfully!");
 			return true;
 		}
