@@ -46,7 +46,26 @@ public class Products {
 		return reviews;
 	}
 	
-	 
+	 public void setProductId(int productId) {
+		this.productId = productId;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
+	public void setReviews(LinkedList<Reviews> reviews) {
+		this.reviews = reviews;
+	}
+	
 	 
 	
 }
