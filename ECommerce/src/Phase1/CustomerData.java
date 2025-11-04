@@ -13,7 +13,9 @@ public LinkedList<Customers> getcustomersInfo()
 
 //do File here ====================================================!!!!!!!!!!!!!!!!!!!!!!
 
-//------------------------------------------------------------------------
+
+
+//=============================================================================
 public void registerCustomer(int id , String n , String e) {
 	Customers customer = new Customers();
 	
@@ -36,7 +38,10 @@ public void registerCustomer(int id , String n , String e) {
 	customer.setEmail(email);//+======================================================!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 	customers.add(customer);
 	}
-//------------------------------------------------------------------------
+//=============================================================================
+
+
+//==============================================================================
 
 public void viewOrderHistory() {
 	if(customers.empty())
@@ -46,18 +51,8 @@ public void viewOrderHistory() {
 		{
 			System.out.println("Enter Customer ID:");	
 			int id = read.nextInt();
-			boolean flag = false;
-		customers.findfirst();
-		int length1 = customers.size();
-		for(int i = 0 ; i<length1 ; i++) {
-			if(customers.retrieve().getCustomersId().equals(id))//check if its ok to say . equals!!!!!!!!!!!!!!!!!!
-			{
-				flag = true;
-				break;
-			}
-			customers.findnext();
-		}//end for loop
-		if(flag)
+		
+		if(searchCustomerId(id))
 		{
 			LinkedList<Integer> Orders = customers.retrieve().getCustomersId();
 			if(Orders.empty())
@@ -66,8 +61,8 @@ public void viewOrderHistory() {
 			{
 			System.out.println("Order History:");
 			Orders.findfirst();
-			int length2 = Orders.size();
-			for(int i = 0 ; i<length2 ; i++)
+			
+			for(int j = 0 ; j<Orders.size(); j++)
 			{
 			System.out.println(Orders.retrieve());
 			Orders.findnext();
@@ -79,29 +74,44 @@ public void viewOrderHistory() {
 	
 		}
 	}
-//--------------------------------------------------------------------------------------------------------------------	
+//==============================================================================
 	
-	
-	
-	
-	
-	/*if(customers.searchId(customerId) == null) 
-		System.out.println("Customer with id: "+ customerId + " does not exist!");
-		return false;
+//==============================================================================
+	public boolean searchCustomerId(int id) {
+		boolean found = false;
+		if(customers.empty())
+			return found;
+		
+		else {
+			customers.findfirst();
+			for(int i = 0 ; i<customers.size() ; i++) {
+				if(customers.retrieve().getCustomersId()==id)
+				{
+					found=true;
+					break;
+				}
+				customers.findnext();
+			}
+				return found;	
+		}
 	}
-	
-	else {
-		customers.getOrders().addOrder(order);
-		System.out.println("Order for "+ customers.getName() + " has been succesfully placed!");
-		return true;
-	}/*
+//==============================================================================	
+	public Customers findCustomer(int id) {
+		if(customers.empty())
+			System.out.println("The customer has no data");
+		
+		else {
+			customers.findfirst();
+			for(int i = 0 ; i<customers.size() ; i++) {
+				if(searchCustomerId(id))
+					return customers.retrieve();
+				customers.findnext();	
+			}
 
+		}
+		return null;
+	}
 
-}
-
-public void viewOrderHistory(int customerId) {
-	customers customer = searchId(customerId);
-}
 
 
  }
