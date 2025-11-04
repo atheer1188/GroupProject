@@ -28,7 +28,7 @@ public class ProductChain {
 			return false;
 		}
 		else {
-			ProductChain.searchId(id); //sets current to the desired product
+			searchId(id); //sets current to the desired product
 			ProductChain.remove();
 			System.out.println("product was removed successfully");
 			return true;
@@ -111,6 +111,23 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
     System.out.println("Review added successfully");
     return true;
 }
+public double getAverageRating(int productId) {
+	    Products p = searchId(productId);
+	    if(p == null) {
+	        System.out.println("Product not found");
+	        return -1;
+	    }
+
+	    LinkedList<Reviews> rs = p.getReviews();
+	    if(rs.empty()) return 0;
+
+	    double sum = 0;
+	    for(int i=0;i<rs.size();i++){
+	        sum += rs.retrieve().getRating();
+	    }
+
+	    return sum / rs.size();
+	}
 
 
 
