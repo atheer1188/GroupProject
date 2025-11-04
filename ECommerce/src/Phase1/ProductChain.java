@@ -23,7 +23,7 @@ public class ProductChain {
 	}
 	
 	public boolean remove(int id) {
-		if(searchId(id)!=null) {
+		if(searchId(id)==null) {
 			System.out.println("this product does not exsist");
 			return false;
 		}
