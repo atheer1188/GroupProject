@@ -26,6 +26,11 @@ public class Products {
 			reviews=new LinkedList();
 		}
 
+public void addReview(Reviews r) {
+    reviews.add(r);
+}
+
+
 	public int getProductId() {
 		return productId;
 	}
@@ -62,9 +67,8 @@ public class Products {
 		this.stock = stock;
 	}
 
-	public void setReviews(LinkedList<Reviews> reviews) {
-		this.reviews = reviews;
-	}
+	
+
 	
 	 
 	
