@@ -76,7 +76,9 @@ public String getStatus() {
 	
 }
 
-public void setStatus(String status) { this.status = status; }
+public void setStatus(String status) { 
+	this.status = status;
+}
 
 
 public void display() {
@@ -94,3 +96,4 @@ public void display() {
 
 
 }
+
