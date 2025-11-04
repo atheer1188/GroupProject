@@ -129,7 +129,7 @@ public double getAverageRating(int productId) {
 	    return sum / rs.size();
 	}
 
-
+//edit review left
 
 	
 	}
