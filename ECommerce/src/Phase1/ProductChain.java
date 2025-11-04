@@ -37,8 +37,22 @@ public class ProductChain {
 		
 	}
 	
-	//public boolean update()
-	
+public boolean updateProduct(int id, String newName, double newPrice, int newStck) {
+
+	    Products p = searchId(id);
+
+	    if(p == null) {
+	        System.out.println("Product not found");
+	        return false;
+	    }
+
+	    p.setName(newName);
+	    p.setPrice(newPrice);
+	    p.setStock(newStck);
+
+	    System.out.println("Product updated successfully");
+	    return true;
+	}
 	
 	
 	
