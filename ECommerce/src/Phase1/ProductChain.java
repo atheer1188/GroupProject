@@ -79,7 +79,25 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 			}
 		return null;
 	    
-		}			
+		}	
+	
+	public LinkedList<Products> TrackOutOfStock() {
+	    
+	    LinkedList<Products> out = new LinkedList<Products>();
+
+	    ProductChain.findfirst();
+	    while(ProductChain.retrieve() != null) {
+	        if(ProductChain.retrieve().getStock() == 0) {
+	            out.add(ProductChain.retrieve());
+	        }
+	        ProductChain.findnext();
+	    }
+
+	    return out;
+	}	
+
+
+	
 	}
 	
 	
