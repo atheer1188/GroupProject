@@ -38,8 +38,54 @@ public void registerCustomer(int id , String n , String e) {
 	}
 //------------------------------------------------------------------------
 
-public boolean placeOrder(int customerId , Orders order ) {
-	if(customers.searchId(customerId) == null) {
+public void viewOrderHistory() {
+	if(customers.empty())
+	
+		System.out.println("No customer Data");
+		else
+		{
+			System.out.println("Enter Customer ID:");	
+			int id = read.nextInt();
+			boolean flag = false;
+		customers.findfirst();
+		int length1 = customers.size();
+		for(int i = 0 ; i<length1 ; i++) {
+			if(customers.retrieve().getCustomersId().equals(id))//check if its ok to say . equals!!!!!!!!!!!!!!!!!!
+			{
+				flag = true;
+				break;
+			}
+			customers.findnext();
+		}//end for loop
+		if(flag)
+		{
+			LinkedList<Integer> Orders = customers.retrieve().getCustomersId();
+			if(Orders.empty())
+				System.out.println("There is no past order from Customer ID: "+customers.retrieve().getCustomersId());
+			else
+			{
+			System.out.println("Order History:");
+			Orders.findfirst();
+			int length2 = Orders.size();
+			for(int i = 0 ; i<length2 ; i++)
+			{
+			System.out.println(Orders.retrieve());
+			Orders.findnext();
+			}
+			}
+		}
+		else
+			System.out.println("Customer ID doesn't Exist");
+	
+		}
+	}
+//--------------------------------------------------------------------------------------------------------------------	
+	
+	
+	
+	
+	
+	/*if(customers.searchId(customerId) == null) 
 		System.out.println("Customer with id: "+ customerId + " does not exist!");
 		return false;
 	}
@@ -48,7 +94,7 @@ public boolean placeOrder(int customerId , Orders order ) {
 		customers.getOrders().addOrder(order);
 		System.out.println("Order for "+ customers.getName() + " has been succesfully placed!");
 		return true;
-	}
+	}/*
 
 
 }
