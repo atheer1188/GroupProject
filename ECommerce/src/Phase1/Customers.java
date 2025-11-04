@@ -49,11 +49,22 @@ public String getEmail() {
 }
 
 
+public LinkedList<Integer> getOrders() {
+	return orders;
+}
+
+
+public void setOrders(LinkedList<Integer> orders) {
+	this.orders = orders;
+}
+
+
 public void setEmail(String email) {
 	this.email = email;
 }
 
 public void addOrder(Integer order) {
+	//check
 	orders.add(order);
 }
 

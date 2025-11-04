@@ -35,7 +35,7 @@ public void registerCustomer(int id , String n , String e) {
 	System.out.println("Enter customers Email : ");
 	String email = read.nextLine();
 	email = read.nextLine();//for garbage
-	customer.setEmail(email);//+======================================================!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+	customer.setEmail(email);//+=====check for mistake
 	customers.add(customer);
 	}
 //=============================================================================
@@ -54,7 +54,7 @@ public void viewOrderHistory() {
 		
 		if(searchCustomerId(id))
 		{
-			LinkedList<Integer> Orders = customers.retrieve().getCustomersId();
+			LinkedList<Integer> Orders = customers.retrieve().getOrders();
 			if(Orders.empty())
 				System.out.println("There is no past order from Customer ID: "+customers.retrieve().getCustomersId());
 			else
