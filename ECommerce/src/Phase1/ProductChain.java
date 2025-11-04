@@ -11,7 +11,7 @@ public class ProductChain {
 	
 	public boolean addProduct(Products p) {
 		//product already exist
-				if(ProductChain.searchId(p.getProductId())!=null) {
+				if(searchId(p.getProductId())!=null) {
 			System.out.println("A product with the same ID already exsists");
 			return false;
 		}
@@ -23,7 +23,7 @@ public class ProductChain {
 	}
 	
 	public boolean remove(int id) {
-		if(ProductChain.searchId(id)!=null) {
+		if(searchId(id)!=null) {
 			System.out.println("this product does not exsist");
 			return false;
 		}
