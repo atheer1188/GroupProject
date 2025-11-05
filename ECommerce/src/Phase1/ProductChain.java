@@ -106,7 +106,7 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 	    p.reviews.add(r);
 	}
 
-public boolean addReviewToProduct(int Pid,int Cid, int rate, String cmnt) {
+/*public boolean addReviewToProduct(int Pid,int Cid, int rate, String cmnt) {
 	
     Products p = search(Pid);
 
@@ -120,7 +120,7 @@ public boolean addReviewToProduct(int Pid,int Cid, int rate, String cmnt) {
 
     System.out.println("Review added successfully");
     return true;
-}
+}*/
 
 
 	
