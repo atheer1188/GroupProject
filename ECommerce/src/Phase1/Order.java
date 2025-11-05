@@ -18,7 +18,7 @@ public Order(int orderId, int customerId, int produtId, double price, LocalDate 
 	this.orderDate = orderDate;
 	this.status = status;
 	this.productIds = new LinkedList<>();
-	addIds(productIds);
+	
 }
 
 public void addIds(String Ids) {
@@ -29,10 +29,20 @@ public void addIds(String Ids) {
 }
 
 public void addId(int id) {
-	productIds.add(id);
-}
+    public void addId(int id) {
+        if (productIds.empty()) {
+            productIds.add(id);
+        } else {
+            productIds.findfirst();
+            while (!productIds.last()) {
+                productIds.findnext();
+            }
+            productIds.add(id);
+        }
+    }
 
 public void UpdateOrder(Order order) {
+	if (order == null) return;
 	this.orderId = order.orderId;
 	this.customerId = order.customerId;
 	this.produtId = order.produtId;
@@ -96,4 +106,5 @@ public void display() {
 
 
 }
+
 
