@@ -24,12 +24,12 @@ public Order(int orderId, int customerId, int produtId, double price, LocalDate 
 public void addIds(String Ids) {
 	String ids[] = Ids.split(";");
 	for(int i = 0 ; i < ids.length; i++)
-		productIds.addLast(Integer.parseInt(ids[i].trim()));
+		productIds.add(Integer.parseInt(ids[i].trim()));
 			
 }
 
 public void addId(int id) {
-	productIds.addLast(id);
+	productIds.add(id);
 }
 
 public void UpdateOrder(Order order) {
