@@ -23,7 +23,7 @@ public class ProductChain {
 	}
 	
 	public boolean remove(int id) {
-		if(searchId(id)!=null) {
+		if(searchId(id)==null) {
 			System.out.println("this product does not exsist");
 			return false;
 		}
@@ -37,8 +37,22 @@ public class ProductChain {
 		
 	}
 	
-	//public boolean update()
-	
+public boolean updateProduct(int id, String newName, double newPrice, int newStck) {
+
+	    Products p = searchId(id);
+
+	    if(p == null) {
+	        System.out.println("Product not found");
+	        return false;
+	    }
+
+	    p.setName(newName);
+	    p.setPrice(newPrice);
+	    p.setStock(newStck);
+
+	    System.out.println("Product updated successfully");
+	    return true;
+	}
 	
 	
 	
@@ -65,7 +79,59 @@ public class ProductChain {
 			}
 		return null;
 	    
-		}			
+		}	
+	
+	public LinkedList<Products> TrackOutOfStock() {
+	    
+	    LinkedList<Products> out = new LinkedList<Products>();
+
+	    ProductChain.findfirst();
+	    while(ProductChain.retrieve() != null) {
+	        if(ProductChain.retrieve().getStock() == 0) {
+	            out.add(ProductChain.retrieve());
+	        }
+	        ProductChain.findnext();
+	    }
+
+	    return out;
+	}	
+
+	public boolean addReviewToProduct(int id, int rate, String cmnt) {
+	
+    Products p = searchId(id);
+
+    if(p == null) {
+        System.out.println("Product not found");
+        return false;
+    }
+
+    Reviews r = new Reviews(rate, cmnt);
+    p.addReview(r);
+
+    System.out.println("Review added successfully");
+    return true;
+}
+public double getAverageRating(int productId) {
+	    Products p = searchId(productId);
+	    if(p == null) {
+	        System.out.println("Product not found");
+	        return -1;
+	    }
+
+	    LinkedList<Reviews> rs = p.getReviews();
+	    if(rs.empty()) return 0;
+
+	    double sum = 0;
+	    for(int i=0;i<rs.size();i++){
+	        sum += rs.retrieve().getRating();
+	    }
+
+	    return sum / rs.size();
+	}
+
+//edit review left
+
+	
 	}
 	
 	
