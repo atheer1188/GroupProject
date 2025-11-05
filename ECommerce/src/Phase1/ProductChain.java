@@ -96,7 +96,7 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 	    return out;
 	}	
 
-	public boolean addReviewToProduct(int id, int rate, String cmnt) {
+	/*public boolean addReviewToProduct(int id, int rate, String cmnt) {
 	
     Products p = searchId(id);
 
@@ -110,7 +110,7 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 
     System.out.println("Review added successfully");
     return true;
-}
+}*/
 public double getAverageRating(int productId) {
 	    Products p = searchId(productId);
 	    if(p == null) {
