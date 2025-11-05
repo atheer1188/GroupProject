@@ -69,7 +69,7 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 		}			
 	
 	
-	public Products searchId(String name) {
+	public Products searchName(String name) {
 		ProductChain.findfirst();
 		
 			while((ProductChain.retrieve()) != null) {
