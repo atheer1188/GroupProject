@@ -81,14 +81,14 @@ public static void ProductsMenu() {
 		int pStock = read.nextInt();
 		
 		Products p = new Products(pId, pName, pPrice, pStock);
-		Pchain.addProduct(p);
+		productdata.addProduct(p);
 		
 		break;		
 		
 	case 2: //remove product
 		System.out.println("Enter product ID: ");
 		int ID = read.nextInt();
-		Pchain.remove(ID);
+		productdata.remove(ID);
 		break;
 
 	case 3: //update product
@@ -102,7 +102,7 @@ public static void ProductsMenu() {
 		System.out.println("Enter product stock: ");
 		int newStock = read.nextInt();
 		
-		Pchain.updateProduct(ID2, newName, newPrice, newStock);
+		productdata.updateProduct(ID2, newName, newPrice, newStock);
 		
 		break;
 
@@ -116,13 +116,13 @@ public static void ProductsMenu() {
 			String ppName = read.nextLine();
 			read.nextLine();
 			
-			System.out.println( Pchain.search(ppName));
+			System.out.println( productdata.search(ppName));
 			break;
 		case 2:
 			System.out.println("Enter product ID: ");
 			int ppID = read.nextInt();
 			
-			System.out.println(Pchain.search(ppID));
+			System.out.println(productdata.search(ppID));
 			
 			break;
 			default:
@@ -134,7 +134,7 @@ public static void ProductsMenu() {
 	case 5: //Track out of stock
 		System.out.println("Here is a list of all out of stock products: ");
 		System.out.println("---------------------------------------------------- ");
-		Pchain.TrackOutOfStock().display();
+		productdata.TrackOutOfStock().display();
 		
 		break;
 	case 6:
@@ -145,6 +145,7 @@ public static void ProductsMenu() {
 
 
 }//End of switch
+
 
 public static void OrdersMenu() {
 	
@@ -236,6 +237,7 @@ public static void main(String[] args) {
 	}
 
 }//end Main
+
 
 
 
