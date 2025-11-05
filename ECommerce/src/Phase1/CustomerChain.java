@@ -16,7 +16,7 @@ public LinkedList<Customers> getcustomersInfo()
 
 
 //=============================================================================
-public void registerCustomer(int id , String n , String e) {
+public void registerCustomer() {
 	Customers customer = new Customers();
 	
 	System.out.println("Please enter the customers ID:");
