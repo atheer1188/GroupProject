@@ -31,7 +31,7 @@ public static void CustomersMenu() {
 		case 3:
 		case 4:
 		case 5:
-			System.out.println("Exiting...");
+			System.out.println("Returning to Main Menu...");
 			break;
 		default:
 			System.out.println("Incorrect choice, choose a valid number:");
@@ -68,14 +68,13 @@ public static void main(String[] args) {
 	int choice;
 	
 	do {
-		System.out.println("===================================");	
-		System.out.println("What menu would you like to enter?");	
+		System.out.println("==============Main Menu==============");	
 		System.out.println("1. Customer Menu");	
 		System.out.println("2. Product Menu");	
 		System.out.println("3. Orders Menu");	
 		System.out.println("4. Check Reviews");	
 		System.out.println("5. Exit");	
-		System.out.println("===================================");	
+		System.out.println("=====================================");	
 		choice = read.nextInt();
 	
 		switch(choice) {
