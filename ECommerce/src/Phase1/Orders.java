@@ -1,0 +1,185 @@
+package Phase1;
+
+import java.io.File;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
+
+public class Orders {
+
+    private LinkedList<Order> orderList;      
+    private LinkedList<Customers> customerList; 
+    static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    
+    public Orders() {
+        orderList = new LinkedList<Order>();       
+        customerList = CustomerData.customers;     
+    }
+
+    public LinkedList<Order> getOrders() {
+        return orderList;
+    }
+
+=
+
+    public Order findOrderById(int orderId) {
+
+        if (orderList.empty()) return null;
+
+        orderList.findfirst();
+        for (int i = 0; i < orderList.size(); i++) {
+            Order currentOrder = orderList.retrieve();
+            if (currentOrder.getOrderId() == orderId)
+                return currentOrder;
+
+            if (orderList.last()) break;
+            orderList.findnext();
+        }
+        return null;
+    }
+
+  
+    public void changeStatus(int orderId, String statusName) {
+        Order target = findOrderById(orderId);
+
+        if (target == null) {
+            System.out.println("Order ID not found!");
+            return;
+        }
+
+        target.setStatus(statusName);
+        System.out.println("Status updated for order " + orderId);
+    }
+
+
+
+    public void deleteOrder(int orderId) {
+
+        if (findOrderById(orderId) == null) {
+            System.out.println("Order does not exist!");
+            return;
+        }
+
+        orderList.remove();
+        System.out.println("Order " + orderId + " deleted.");
+    }
+
+    // ================= Assign Order to Customer =================
+
+    private void linkOrderToCustomer(Order orderObj) {
+
+        if (customerList.empty()) return;
+
+        customerList.findfirst();
+        for (int i = 0; i < customerList.size(); i++) {
+            Customers currentCustomer = customerList.retrieve();
+
+            if (currentCustomer.getCustomersId() == orderObj.getCustomerId()) {
+                currentCustomer.addOrder(orderObj.getOrderId());
+                return;
+            }
+
+            if (customerList.last()) break;
+            customerList.findnext();
+        }
+    }
+
+   
+
+    public void insertOrder(Order orderObj) {
+
+        if (findOrderById(orderObj.getOrderId()) != null) {
+            System.out.println("Order already exists!");
+            return;
+        }
+
+        addToEnd(orderList, orderObj);
+        linkOrderToCustomer(orderObj);
+
+        System.out.println("Order added.");
+    }
+
+    // إضافة عنصر في نهاية LinkedList (بديل addLast)
+    private void addToEnd(LinkedList<Order> list, Order item) {
+
+        if (list.empty()) {
+            list.add(item);
+            return;
+        }
+
+        list.findfirst();
+        while (!list.last()) {
+            list.findnext();
+        }
+
+        list.add(item);
+    }
+
+    
+
+    public static Order convertLineToOrder(String line) {
+
+        try {
+            String[] fields = line.split(",");
+
+            int orderId = Integer.parseInt(fields[0].trim().replace("\"", ""));
+            int customerId = Integer.parseInt(fields[1].trim().replace("\"", ""));
+            String productIdList = fields[2].trim().replace("\"", "");
+            double price = Double.parseDouble(fields[3].trim());
+            LocalDate date = LocalDate.parse(fields[4].trim(), dateFormat);
+            String status = fields[5].trim();
+
+            Order obj = new Order(orderId, customerId, price, date, status);
+            obj.addIds(productIdList);
+
+            return obj;
+
+        } catch (Exception e) {
+            System.out.println("Error in line: " + line);
+            return null;
+        }
+    }
+
+   
+
+    public void readOrdersFromFile(String fileName) {
+
+        try {
+            File f = new File(fileName);
+            Scanner scan = new Scanner(f);
+
+            scan.nextLine(); // skip header
+
+            while (scan.hasNextLine()) {
+                String row = scan.nextLine().trim();
+                Order newOrder = convertLineToOrder(row);
+                if (newOrder != null) insertOrder(newOrder);
+            }
+
+            scan.close();
+            System.out.println("Orders loaded successfully!");
+
+        } catch (Exception e) {
+            System.out.println("Error while loading orders: " + e.getMessage());
+        }
+    }
+
+   
+
+    public void showAllOrders() {
+
+        if (orderList.empty()) {
+            System.out.println("No orders available!");
+            return;
+        }
+
+        orderList.findfirst();
+        for (int i = 0; i < orderList.size(); i++) {
+            orderList.retrieve().display();
+
+            if (orderList.last()) break;
+            orderList.findnext();
+        }
+    }
+}
