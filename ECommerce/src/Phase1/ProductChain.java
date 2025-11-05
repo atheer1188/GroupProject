@@ -11,7 +11,7 @@ public class ProductChain {
 	
 	public boolean addProduct(Products p) {
 		//product already exist
-				if(searchId(p.getProductId())!=null) {
+				if(search(p.getProductId())!=null) {
 			System.out.println("A product with the same ID already exsists");
 			return false;
 		}
@@ -23,12 +23,12 @@ public class ProductChain {
 	}
 	
 	public boolean remove(int id) {
-		if(searchId(id)==null) {
+		if(search(id)==null) {
 			System.out.println("this product does not exsist");
 			return false;
 		}
 		else {
-			searchId(id); //sets current to the desired product
+			search(id); //sets current to the desired product
 			ProductChain.remove();
 			System.out.println("product was removed successfully");
 			return true;
@@ -39,7 +39,7 @@ public class ProductChain {
 	
 public boolean updateProduct(int id, String newName, double newPrice, int newStck) {
 
-	    Products p = searchId(id);
+	    Products p = search(id);
 
 	    if(p == null) {
 	        System.out.println("Product not found");
@@ -56,7 +56,7 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 	
 	
 	
-	public Products searchId(int id) {
+	public Products search(int id) {
 		ProductChain.findfirst();
 		
 			while((ProductChain.retrieve()) != null) {
@@ -69,7 +69,7 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 		}			
 	
 	
-	public Products searchName(String name) {
+	public Products search(String name) {
 		ProductChain.findfirst();
 		
 			while((ProductChain.retrieve()) != null) {
@@ -98,7 +98,7 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 
 	/*public boolean addReviewToProduct(int id, int rate, String cmnt) {
 	
-    Products p = searchId(id);
+    Products p = search(id);
 
     if(p == null) {
         System.out.println("Product not found");
@@ -112,7 +112,7 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
     return true;
 }*/
 public double getAverageRating(int productId) {
-	    Products p = searchId(productId);
+	    Products p = search(productId);
 	    if(p == null) {
 	        System.out.println("Product not found");
 	        return -1;
