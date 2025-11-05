@@ -28,7 +28,7 @@ public class ProductChain {
 			return false;
 		}
 		else {
-			ProductChain.searchId(id); //sets current to the desired product
+			searchId(id); //sets current to the desired product
 			ProductChain.remove();
 			System.out.println("product was removed successfully");
 			return true;
