@@ -66,7 +66,7 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 			}
 		return null;
 	    
-		}			
+		}	//check if neccecary
 	
 	
 	public Products searchId(String name) {
@@ -131,7 +131,17 @@ public double getAverageRating(int productId) {
 
 //edit review left
 
+public boolean searchProductId(int id) {
+	ProductChain.findfirst();
 	
+		while((ProductChain.retrieve()) != null) {
+			if(ProductChain.retrieve().getProductId()==id) 
+				return true;
+			ProductChain.findnext();
+		}
+	return false;
+    
+	}		
 	}
 	
 	

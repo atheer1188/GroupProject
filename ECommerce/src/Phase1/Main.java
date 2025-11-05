@@ -35,14 +35,19 @@ public static void CustomersMenu() {
 	
 		switch(choice) {
 		case 1: 
+		customersdata.registerCustomer();
+		break;
 		case 2:
+			
 		case 3:
-		case 4:
-		case 5:
-			System.out.println("Returning to Main Menu...");
+			customersdata.viewOrderHistory();
 			break;
+		case 4:
+			System.out.println("Returning to Main Menu...");
+		break;
 		default:
 			System.out.println("Incorrect choice, choose a valid number:");
+			break;
 
 	
 	}//End of switch
@@ -65,8 +70,8 @@ public static void ReviewsMenu() {
 	System.out.println("===================================");	
 	System.out.println("What would you like to do:");	
 	System.out.println("1. Add review");	
-	System.out.println("2. Place a new order for customer");	
-	System.out.println("3. View order history");	
+	System.out.println("2.");	
+	System.out.println("3. ");	
 	System.out.println("4. Exit");	
 	System.out.println("===================================");	
 	choice = read.nextInt();
@@ -83,7 +88,7 @@ public static void ReviewsMenu() {
 		}
 		System.out.println("Enter product ID");	
 		proid = read.nextInt();
-		while(!customersdata.searchCustomerId(cusid)) {
+		while(!productdata.searchProductId(proid)) {
 			System.out.println("This Product ID doesnt Exist input new one:");
 			proid = read.nextInt();
 		}
@@ -109,12 +114,6 @@ public static void ReviewsMenu() {
 
 
 
-
-
-
-
-
-
 public static void main(String[] args) {	
 	int choice;
 	
@@ -129,14 +128,23 @@ public static void main(String[] args) {
 		choice = read.nextInt();
 	
 		switch(choice) {
-		case 1: 
+		case 1: CustomersMenu();
+		break;
+		
 		case 2:
+			
+			break;
 		case 3:
+			
+			break;
 		case 4:ReviewsMenu();
+		break;
 		case 5:
 			System.out.println("Exiting...");
+			break;
 		default:
 			System.out.println("Incorrect choice, choose a valid number:");
+			break;
 
 	
 	}//End of switch
