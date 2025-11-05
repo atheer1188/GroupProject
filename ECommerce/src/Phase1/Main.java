@@ -185,6 +185,7 @@ public static void ReviewsMenu() {
 			proid = read.nextInt();
 		}
 		Reviews newReview = reviewdata.addReview(cusid, proid);
+		//		productdata.addReviewToProduct(proid,newReview);
 		newReview.display();
 	
 	}//add review
@@ -246,6 +247,7 @@ public static void main(String[] args) {
 	}
 
 }//end Main
+
 
 
 
