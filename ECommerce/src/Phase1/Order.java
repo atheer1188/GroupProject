@@ -28,7 +28,7 @@ public void addIds(String Ids) {
 			
 }
 
-public void addId(int id) {
+
     public void addId(int id) {
         if (productIds.empty()) {
             productIds.add(id);

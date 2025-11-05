@@ -1,7 +1,7 @@
 package Phase1;
 import java.util.Scanner;
 
-public class CustomerData {
+public class CustomerChain {
 
 public static Scanner read = new Scanner(System.in);
 public static LinkedList<Customers> customers = new LinkedList<Customers>();

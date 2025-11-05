@@ -93,14 +93,24 @@ public boolean removeOrder(Integer order) {
 
 
 
-//not good i have to fix the syntax!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-@Override
-public String toString() {
-	return "Customers [customerId=" + customerId + ", name=" + name + ", email=" + email + ", orders=" + orders
-			+ ", getCustomerId()=" + getCustomersId() + ", getName()=" + getName() + ", getEmail()=" + getEmail() + "]";
-}
+//not good i have to fix the syntax!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+public void display() {
+    System.out.println("Customer ID: " +customerId);
+    System.out.println("Customer Name: " + customerId);
+    System.out.print("Customer Email: "+email );
+    
+    if(!orders.empty()) {
+    	orders.findfirst();
+    	        orders.findfirst();
+    	        for (int i = 0; i < orders.size(); i++) {
+    	           System.out.println(orders.retrieve());
+    	            orders.findnext();
+    	        }
+    	    }
+    	}//end display
+    
+
+} 
 
 
 
-
-}

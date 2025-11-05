@@ -5,23 +5,23 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-public class Orders {
+public class OrderChain {
 
     private LinkedList<Order> orderList;      
     private LinkedList<Customers> customerList; 
     static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     
-    public Orders() {
+    public OrderChain() {
         orderList = new LinkedList<Order>();       
-        customerList = CustomerData.customers;     
+        customerList = CustomerChain.customers;     
     }
 
     public LinkedList<Order> getOrders() {
         return orderList;
     }
 
-=
+
 
     public Order findOrderById(int orderId) {
 
@@ -130,7 +130,7 @@ public class Orders {
             LocalDate date = LocalDate.parse(fields[4].trim(), dateFormat);
             String status = fields[5].trim();
 
-            Order obj = new Order(orderId, customerId, price, date, status);
+            Order obj = new Order(orderId, customerId,price, date, status);
             obj.addIds(productIdList);
 
             return obj;
