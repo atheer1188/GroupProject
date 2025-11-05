@@ -93,6 +93,10 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 	        ProductChain.findnext();
 	    }
 
+		if(out.size() == 0) {
+	    	System.out.println("No products are out of stock :)");
+	    	return null;
+	    }
 	    return out;
 	}	
 
