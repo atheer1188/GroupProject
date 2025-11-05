@@ -115,6 +115,25 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
     System.out.println("Review added successfully");
     return true;
 }*/
+
+public boolean addReviewToProduct(int Pid,int Cid, int rate, String cmnt) {
+	
+    Products p = search(Pid);
+
+    if(p == null) {
+        System.out.println("Product not found");
+        return false;
+    }
+
+    Reviews r = new Reviews(Cid,Pid,rate, cmnt);
+    p.addReview(r);
+
+    System.out.println("Review added successfully");
+    return true;
+}
+
+
+	
 public double getAverageRating(int productId) {
 	    Products p = search(productId);
 	    if(p == null) {
