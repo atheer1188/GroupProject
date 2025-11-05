@@ -100,21 +100,11 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 	    return out;
 	}	
 
-	/*public boolean addReviewToProduct(int id, int rate, String cmnt) {
-	
-    Products p = search(id);
-
-    if(p == null) {
-        System.out.println("Product not found");
-        return false;
-    }
-
-    Reviews r = new Reviews(rate, cmnt);
-    p.addReview(r);
-
-    System.out.println("Review added successfully");
-    return true;
-}*/
+	public void addReviewToProduct(int Pid,Reviews r) {
+		
+	    Products p = search(Pid);
+	    p.reviews.add(r);
+	}
 
 public boolean addReviewToProduct(int Pid,int Cid, int rate, String cmnt) {
 	
