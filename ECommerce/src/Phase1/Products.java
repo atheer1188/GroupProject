@@ -67,7 +67,11 @@ public void addReview(Reviews r) {
 		this.stock = stock;
 	}
 
-	
+	public String toString() {
+		
+		return "ID: "+productId+", Name: "+name+", Price: "+price+"SR, Stock: "+stock;
+				
+	}
 
 	
 	 
