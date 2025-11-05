@@ -65,7 +65,7 @@ public class Orders {
         System.out.println("Order " + orderId + " deleted.");
     }
 
-    // ================= Assign Order to Customer =================
+    
 
     private void linkOrderToCustomer(Order orderObj) {
 
@@ -100,7 +100,7 @@ public class Orders {
         System.out.println("Order added.");
     }
 
-    // إضافة عنصر في نهاية LinkedList (بديل addLast)
+   
     private void addToEnd(LinkedList<Order> list, Order item) {
 
         if (list.empty()) {
@@ -167,7 +167,7 @@ public class Orders {
 
    
 
-    public void showAllOrders() {
+    public void displayAllOrders() {
 
         if (orderList.empty()) {
             System.out.println("No orders available!");
@@ -182,4 +182,5 @@ public class Orders {
             orderList.findnext();
         }
     }
+
 }
