@@ -38,7 +38,7 @@ public static void CustomersMenu() {
 		customersdata.registerCustomer();
 		break;
 		case 2:
-			
+		break;
 		case 3:
 			customersdata.viewOrderHistory();
 			break;
@@ -150,7 +150,7 @@ public static void ProductsMenu() {
 
 
 }//End of switch
-
+}
 
 public static void OrdersMenu() {
 	
@@ -224,12 +224,13 @@ public static void main(String[] args) {
 		break;
 		
 		case 2:
-			
+			ProductsMenu();
 			break;
 		case 3:
 			
 			break;
-		case 4:ReviewsMenu();
+		case 4:
+		ReviewsMenu();
 		break;
 		case 5:
 			System.out.println("Exiting...");

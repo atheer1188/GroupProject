@@ -138,11 +138,15 @@ public double getAverageRating(int productId) {
 public boolean searchProductId(int id) {
 	ProductChain.findfirst();
 	
-		while((ProductChain.retrieve()) != null) {
+		if(!ProductChain.empty()){
+			while(!ProductChain.last()) {
 			if(ProductChain.retrieve().getProductId()==id) 
 				return true;
 			ProductChain.findnext();
 		}
+			if(ProductChain.retrieve().getProductId()==id) 
+				return true;// for last
+			}
 	return false;
     
 	}		
