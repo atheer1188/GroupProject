@@ -2,10 +2,16 @@ package Phase1;
 
 public class ProductChain {
 	
-	private LinkedList<Products> ProductChain;
+	public LinkedList<Products> ProductChain;
 	
-	ProductChain(){
-		ProductChain = new LinkedList();
+	
+	public ProductChain() {
+		ProductChain = new LinkedList<Products>() ;
+	}
+
+
+	public LinkedList<Products> getProductChain(){
+		 return ProductChain ;
 	}
 	
 	
@@ -66,7 +72,7 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 			}
 		return null;
 	    
-		}	//check if neccecary
+		}	
 	
 	
 	public Products search(String name) {
@@ -106,7 +112,7 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 	    p.reviews.add(r);
 	}
 
-/*public boolean addReviewToProduct(int Pid,int Cid, int rate, String cmnt) {
+public boolean addReviewToProduct(int Pid,int Cid, int rate, String cmnt) {
 	
     Products p = search(Pid);
 
@@ -120,7 +126,7 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 
     System.out.println("Review added successfully");
     return true;
-}*/
+}
 
 
 	
@@ -135,11 +141,14 @@ public double getAverageRating(int productId) {
 	    if(rs.empty()) return 0;
 
 	    double sum = 0;
-	    for(int i=0;i<rs.size();i++){
+	    int count =0;
+	    rs.findfirst();
+	    for(int i=0; i<rs.size(); i++){
 	        sum += rs.retrieve().getRating();
+	        count++;
 	    }
 
-	    return sum / rs.size();
+	    return sum / count;
 	}
 
 //edit review left
@@ -158,8 +167,63 @@ public boolean searchProductId(int id) {
 			}
 	return false;
     
-	}		
+	}	
+
+
+//---------------------------------------------------------------------------------------------------
+public LinkedList<Products> top3Products() {
+	Products first = null , second = null , third = null ;
+	double max1 = 0 , max2 = 0 , max3 = 0;
+     if(ProductChain.empty()) {
+    	 System.out.println("There are no available products");
+		return null;
+     }
+     
+		ProductChain.findfirst();
+     for(int i = 0 ; i<ProductChain.size(); i++) {
+	
+		Products p = ProductChain.retrieve();
+		double avg =getAverageRating(p.getProductId());
+		
+		if(avg > max1) 
+		{
+			third = second; max3 = max2;
+			second = first ; max2 = max1;
+			first = p; max1 = avg;
+		}//first if
+		
+		
+		else if(avg > max2){
+			third = second ; max3 = max2;
+			second = p; max2 = avg;
+		}//second if
+		
+		else if(avg > max3){
+			third = p ; max3 = avg;
+		}//third if
+		ProductChain.findnext();
 	}
+     LinkedList<Products> top3products = new LinkedList<Products>();
+     if(first!=null)top3products.add(first); 
+     if(second!=null)top3products.add(second); 
+     if(third!=null)top3products.add(third);
+return top3products;
+}
+//---------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+	}//end clas
 	
 	
 

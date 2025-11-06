@@ -162,7 +162,7 @@ public static void ReviewsMenu() {
 	System.out.println("===================================");	
 	System.out.println("What would you like to do:");	
 	System.out.println("1. Add review");	
-	System.out.println("2.");	
+	System.out.println("2. View Top Three highest rated Products");	
 	System.out.println("3. ");	
 	System.out.println("4. Exit");	
 	System.out.println("===================================");	
@@ -185,12 +185,14 @@ public static void ReviewsMenu() {
 			proid = read.nextInt();
 		}
 		Reviews newReview = reviewdata.addReview(cusid, proid);
-		//		productdata.addReviewToProduct(proid,newReview);
+		productdata.addReviewToProduct(proid,newReview);//havent tested it yet
 		newReview.display();
 	
 	}//add review
 	
 	case 2:
+		productdata.top3Products();
+		break;
 	case 3:
 	case 4:
 	case 5:
@@ -221,21 +223,26 @@ public static void main(String[] args) {
 		choice = read.nextInt();
 	
 		switch(choice) {
-		case 1: CustomersMenu();
-		break;
+		case 1: 
+			CustomersMenu();
+		    break;
 		
 		case 2:
 			ProductsMenu();
 			break;
-		case 3:
 			
-			break;
+		case 3:
+			 OrdersMenu();
+			 break;
+			
 		case 4:
-		ReviewsMenu();
-		break;
+		    ReviewsMenu();
+		    break;
+		
 		case 5:
 			System.out.println("Exiting...");
 			break;
+			
 		default:
 			System.out.println("Incorrect choice, choose a valid number:");
 			break;

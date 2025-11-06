@@ -4,7 +4,7 @@ public class Products {
 
 	//productId, name, price, stock, list of reviews.
 	
-	private int productId;
+	public int productId;
 	private String name;
 	private double price;
 	private int stock;
