@@ -63,6 +63,9 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 	
 	
 	public Products search(int id) {
+		if(ProductChain.empty())
+			return null;
+		
 		ProductChain.findfirst();
 		
 			while((ProductChain.retrieve()) != null) {
@@ -76,6 +79,9 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 	
 	
 	public Products search(String name) {
+		if(ProductChain.empty())
+			return null;
+		
 		ProductChain.findfirst();
 		
 			while((ProductChain.retrieve()) != null) {
