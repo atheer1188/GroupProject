@@ -1,21 +1,25 @@
 package Phase1;
 
 public class Reviews {
+	
+	public int reviewID;
 	public int customerID;
 	public int ProductID;
 	public int rating;
 	public String comment;
 	
 	public Reviews() {
-		this.customerID = 0;
+		reviewID =0;
+		customerID = 0;
 		ProductID = 0;
-		this.rating = 0;
-		this.comment = " ";
+		rating = 0;
+		comment = " ";
 	}
 	
 	
 	
-	public Reviews(int customerID, int productID, int rating, String comment) {
+	public Reviews(int reviewID, int customerID, int productID, int rating, String comment) {
+		this.reviewID = reviewID;
 		this.customerID = customerID;
 		ProductID = productID;
 		this.rating = rating;
@@ -25,6 +29,7 @@ public class Reviews {
 	
 	
 	public void display() {
+		System.out.println("Review ID: "+ reviewID);
 		System.out.println("Customer ID: "+ customerID);
 		System.out.println("Product ID: "+ProductID);
 		System.out.println("Rating: "+rating);
@@ -62,6 +67,18 @@ public class Reviews {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+
+
+	public int getReviewID() {
+		return reviewID;
+	}
+
+
+
+	public void setReviewID(int reviewID) {
+		this.reviewID = reviewID;
 	}
 	
 	
