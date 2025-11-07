@@ -152,6 +152,7 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 		
 	    Products p = search(Pid);
 	    p.addReview(r);//changed it but not sure bc it used to be reviews.add(r)
+	    p.addReview(r);
 	}
 
 public boolean addReviewToProduct(int Pid,int Cid, int rate, String cmnt) {
