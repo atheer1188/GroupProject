@@ -115,7 +115,7 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 	public void addReviewToProduct(int Pid,Reviews r) {
 		
 	    Products p = search(Pid);
-	    p.reviews.add(r);
+	    p.addReview(r);
 	}
 
 public boolean addReviewToProduct(int Pid,int Cid, int rate, String cmnt) {
