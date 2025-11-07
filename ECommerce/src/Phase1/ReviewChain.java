@@ -21,12 +21,13 @@ public ReviewChain(String fileName) {
         while (scan.hasNext()) {
             line = scan.nextLine();
             String [] data = line.split(",");
-            int productid = Integer.parseInt(data[0]);
-            int customerid = Integer.parseInt(data[1]);
-            int rating = Integer.parseInt(data[2]);
+            int rvwId =Integer.parseInt(data[0]);
+            int productid = Integer.parseInt(data[1]);
+            int customerid = Integer.parseInt(data[2]);
+            int rating = Integer.parseInt(data[3]);
             String comment = data[4];
 
-            Reviews r = new Reviews(productid , customerid , rating , comment);
+            Reviews r = new Reviews(rvwId , productid , customerid , rating , comment);
             reviews.add(r);
         }
 
@@ -58,7 +59,7 @@ public Reviews addReview(int customerID, int productID) {
 	System.out.println("Comment what you think about this product:");
 	String comment = read.nextLine();
 	comment = read.nextLine();//check garbage
-    Reviews review = new Reviews(customerID,productID,rate, comment);
+    Reviews review = new Reviews(rvwId,customerID,productID,rate, comment);
     reviews.add(review);
     return review;
 		}
@@ -71,7 +72,7 @@ if(reviews.empty())
 else {
 	reviews.findfirst();
 	for(int i = 0 ; i<reviews.size() ; i++) {
-		if(reviews.retrieve().getReviewsId()==id)
+		if(reviews.retrieve().getReviewID()==id)
 		{
 			found=true;
 			break;
