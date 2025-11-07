@@ -1,10 +1,44 @@
 package Phase1;
 
+import java.io.File;
+import java.util.Scanner;
+
 public class ProductChain {
 	
 	public LinkedList<Products> ProductChain;
 	
-	
+	//--------------------------------------------------------------------------------
+	public ProductChain(String fileName) {
+
+	    try {
+	        File f = new File(fileName);
+	        Scanner scan = new Scanner(f);
+	        String line =scan.nextLine(); // skip header
+
+	        while (scan.hasNext()) {
+	            line = scan.nextLine();
+	            String [] data = line.split(",");
+	            int productid = Integer.parseInt(data[0]);
+	            String name = data[1].trim();
+	            double price = Double.parseDouble(data[2]);
+	            int stock = Integer.parseInt(data[3]);
+
+	            
+
+	            Products p = new Products(productid , name , price , stock);
+	            ProductChain.add(p);
+	        }
+
+	        scan.close();
+	        System.out.println("Products loaded successfully!");
+
+	    } catch (Exception e) {
+	        System.out.println("Error while loading products: " + e.getMessage());
+	    }
+	}
+
+	//--------------------------------------------------------------------------------
+
 	public ProductChain() {
 		ProductChain = new LinkedList<Products>();
 	}
@@ -115,7 +149,7 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 	public void addReviewToProduct(int Pid,Reviews r) {
 		
 	    Products p = search(Pid);
-	    p.reviews.add(r);
+	    p.addReview(r);//changed it but not sure bc it used to be reviews.add(r)
 	}
 
 public boolean addReviewToProduct(int Pid,int Cid, int rate, String cmnt) {
@@ -138,22 +172,26 @@ public boolean addReviewToProduct(int Pid,int Cid, int rate, String cmnt) {
 	
 public double getAverageRating(int productId) {
 	    Products p = search(productId);
-	    if(p == null) {
+	   if(p == null) {
 	        System.out.println("Product not found");
 	        return -1;
 	    }
 
 	    LinkedList<Reviews> rs = p.getReviews();
-	    if(rs.empty()) return 0;
+	   if(rs.empty()) return 0;
 
 	    double sum = 0;
 	    int count =0;
 	    rs.findfirst();
 	    for(int i=0; i<rs.size(); i++){
-	        sum += rs.retrieve().getRating();
+	        if(rs.retrieve().getProductID() == productId)
+	        {
+	    	sum += rs.retrieve().getRating();
 	        count++;
+	        }
+	        if(i<rs.size()-1)
+	        rs.findnext();
 	    }
-
 	    return sum / count;
 	}
 
@@ -224,12 +262,7 @@ return top3products;
 
 
 
-
-
-
-
-
-	}//end clas
+	}//end class
 	
 	
 

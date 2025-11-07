@@ -7,16 +7,16 @@ import java.util.Scanner;
 public class Main {
 public static Scanner read = new Scanner(System.in);
 
-public static CustomerChain customersdata = new CustomerChain();	
+public static CustomerChain customersdata = new CustomerChain("");	
 public static LinkedList<Customers> customers ;	
 
-public static ProductChain productdata = new ProductChain();	
+public static ProductChain productdata = new ProductChain("");	
 public static LinkedList<Products> products ;
 
-public static OrderChain orderdata = new OrderChain();	
+public static OrderChain orderdata = new OrderChain("");	
 public static LinkedList<Order> orders ;	
 
-public static ReviewChain reviewdata = new ReviewChain();
+public static ReviewChain reviewdata = new ReviewChain("");
 public static LinkedList<Reviews> reviews;	
 
 
@@ -38,7 +38,8 @@ public static void CustomersMenu() {
 		    customersdata.registerCustomer();
 		    break;
 		case 2:
-		    break;
+			//cancelOrder
+			break;
 		case 3:
 			customersdata.viewOrderHistory();
 			break;
@@ -189,21 +190,36 @@ public static void ReviewsMenu() {
 		Reviews newReview = reviewdata.addReview(cusid, proid);
 		productdata.addReviewToProduct(proid,newReview);//havent tested it yet
 		newReview.display();
-	
+	break;
 	}//add review
 	
 	case 2:
 		productdata.top3Products();
+		LinkedList<Products> topProducts = productdata.top3Products();
+		topProducts.findfirst();
+		System.out.println("Top 3 highest rated products respectivley");
+		System.out.println("=========================================");
+		for(int k = 1 ; k<=topProducts.size() ; k++) {
+		System.out.println("Product number: "+ k);
+		System.out.println("Products ID: "+ topProducts.retrieve().getProductId());
+		System.out.println("Products name: "+ topProducts.retrieve().getName());
+		System.out.println("Products Price: "+ topProducts.retrieve().getPrice());
+		System.out.println("Products Average ratings: "+ productdata.getAverageRating(topProducts.retrieve().getProductId()));
+		topProducts.findnext();
+		}
+		System.out.println("=========================================");
+
 		break;
+		
 	case 3:
 		int id;
 		System.out.println("Enter products ID:");
 		 id = read.nextInt();
-		while(productdata.searchProductId(id)){
+		while(!productdata.searchProductId(id)){
 		System.out.println("Wrong ID,Enter a new products ID:");
 		 id = read.nextInt();
 		}
-		productdata.getAverageRating(id);
+		System.out.println("The products Average rating is: "+ productdata.getAverageRating(id));
 		break;
 	case 4:
 		

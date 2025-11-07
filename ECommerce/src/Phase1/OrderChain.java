@@ -166,7 +166,41 @@ public class OrderChain {
     }
 
   //-------------------------------------------------------------------------------  
-    
+  /*  public void readOrdersFromFile(String fileName) {
+
+        try {
+            File f = new File(fileName);
+            Scanner scan = new Scanner(f);
+            String line = scan.nextLine(); // skip header
+
+            while (scan.hasNext()) {
+                line = scan.nextLine(); 
+                String [] data = line.split(",");
+                int orderid = Integer.parseInt(data[0]);
+                int customerid=	Integer.parseInt(data[1]);
+                String pp = data[2].replaceAll("\"", "");
+                String [] p =pp.split(";");
+                Integer [] pids = new Integer [p.length];
+                for(int i = 0 ; i<pids.length ; i++)
+                	pids[i] = new Integer(Integer.parseInt(p[i].trim()));
+                double price =Double.parseDouble(data[3]);
+                String date =data[4];
+                String status =data[5];
+                
+                Order o = new Order(orderid, customerid, pids, price, date, status);
+                orderList.add(o);
+
+
+            }
+
+            scan.close();
+            System.out.println("Orders loaded successfully!");
+
+        } catch (Exception e) {
+            System.out.println("Error while loading orders: " + e.getMessage());
+        }
+    }
+*/
   //-------------------------------------------------------------------------------  
   
    

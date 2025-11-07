@@ -1,5 +1,6 @@
 package Phase1;
 
+import java.io.File;
 import java.util.Scanner;
 
 public class ReviewChain {
@@ -8,6 +9,33 @@ public static Scanner read = new Scanner(System.in);
 
 public static LinkedList<Reviews> getReviews() {
 	return reviews;
+}
+//------------------------------------------------------------------
+public ReviewChain(String fileName) {
+
+    try {
+        File f = new File(fileName);
+        Scanner scan = new Scanner(f);
+        String line =scan.nextLine(); // skip header
+
+        while (scan.hasNext()) {
+            line = scan.nextLine();
+            String [] data = line.split(",");
+            int productid = Integer.parseInt(data[0]);
+            int customerid = Integer.parseInt(data[1]);
+            int rating = Integer.parseInt(data[2]);
+            String comment = data[4];
+
+            Reviews r = new Reviews(productid , customerid , rating , comment);
+            reviews.add(r);
+        }
+
+        scan.close();
+        System.out.println("Customers loaded successfully!");
+
+    } catch (Exception e) {
+        System.out.println("Error while loading Custeomers: " + e.getMessage());
+    }
 }
 
 //------------------------------------------------------------------

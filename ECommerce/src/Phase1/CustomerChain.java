@@ -1,4 +1,5 @@
 package Phase1;
+import java.io.File;
 import java.util.Scanner;
 
 public class CustomerChain {
@@ -6,14 +7,34 @@ public class CustomerChain {
 public static Scanner read = new Scanner(System.in);
 public static LinkedList<Customers> customers = new LinkedList<Customers>();
  
-public LinkedList<Customers> getcustomersInfo()
+public LinkedList<Customers> customersInfo()
 {
 	return customers;
 }
 
 //do File here ====================================================!!!!!!!!!!!!!!!!!!!!!!
 
+public CustomerChain(String fileName) {
 
+    try {
+        File f = new File(fileName);
+        Scanner scan = new Scanner(f);
+        String line =scan.nextLine(); // skip header
+
+        while (scan.hasNext()) {
+            line = scan.nextLine();
+            String [] data = line.split(",");
+            Customers c = new Customers(Integer.parseInt(data[0]) , data[1] , data[2]);
+            customers.add(c);
+        }
+
+        scan.close();
+        System.out.println("Customers loaded successfully!");
+
+    } catch (Exception e) {
+        System.out.println("Error while loading Custeomers: " + e.getMessage());
+    }
+}
 
 //=============================================================================
 public void registerCustomer() {

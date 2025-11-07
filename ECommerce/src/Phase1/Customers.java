@@ -96,7 +96,7 @@ public boolean removeOrder(Integer order) {
 //not good i have to fix the syntax!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 public void display() {
     System.out.println("Customer ID: " +customerId);
-    System.out.println("Customer Name: " + customerId);
+    System.out.println("Customer Name: " + name);
     System.out.print("Customer Email: "+email );
     
     if(!orders.empty()) {
