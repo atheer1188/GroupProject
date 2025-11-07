@@ -40,6 +40,14 @@ public ReviewChain(String fileName) {
 
 //------------------------------------------------------------------
 public Reviews addReview(int customerID, int productID) {
+	
+	System.out.println("Enter the Reviews ID: ");
+	int rvwId = read.nextInt();
+	
+	while(searchreview(rvwId)) {
+		System.out.println("This id already exists, enter a new one: ");
+		 rvwId = read.nextInt();
+	}
 	System.out.println("How High would you rate this Product from 1->5:");
 	int rate = read.nextInt();
 	if(rate>5 || rate<1) {
@@ -55,7 +63,23 @@ public Reviews addReview(int customerID, int productID) {
     return review;
 		}
 //--------------------------------------------------------------------
+public boolean searchreview(int id){
+boolean found = false;
+if(reviews.empty())
+	return found;
 
-
+else {
+	reviews.findfirst();
+	for(int i = 0 ; i<reviews.size() ; i++) {
+		if(reviews.retrieve().getReviewsId()==id)
+		{
+			found=true;
+			break;
+		}
+		reviews.findnext();
+	}
+		return found;	
+}
+}
 
 }

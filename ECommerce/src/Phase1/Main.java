@@ -19,7 +19,41 @@ public static LinkedList<Order> orders ;
 public static ReviewChain reviewdata = new ReviewChain("");
 public static LinkedList<Reviews> reviews;	
 
+//---------------------------------------------------------------------------------------
+//read files
+public static void loadData() {
+	System.out.println("loading data from CVSs files");
+	customers = customersdata.customersInfo();
+	products = productdata.getProductChain();
+	orders = orderdata.getOrders();
+	reviews = reviewdata.getReviews();
+	
+	customers.findfirst();
+	for(int i = 0 ; i<customers.size() ; i++) {
+		orders.findfirst();
+		for(int k = 0; k<orders.size(); k++) {
+			if(customers.retrieve().getCustomersId() == orders.retrieve().linkOrderToCustomer()) {
+				int orderid =orders.retrieve().getOrderId();
+				orders.retrieve().getOrderId();
+				customers.retrieve().addOrder(orderid);
+			}
+			orders.findnext();
+		}
+		customers.findnext();		
+	}
+	////////
+	products.findfirst();
+	for(int j = 0; j<products.size(); j++)
+	{
+		reviews.findfirst();
+		for(int d = 0; d<products.size(); d++) {
+			if(products.retrieve().getProductid() == reviews.retrieve().getProduct) {
+			
+			}
+		}
+	}
 
+}
 //---------------------------------------------------------------------------------------
 public static void CustomersMenu() {
 	int choice;
