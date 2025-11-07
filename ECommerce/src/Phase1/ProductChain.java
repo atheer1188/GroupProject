@@ -6,7 +6,7 @@ public class ProductChain {
 	
 	
 	public ProductChain() {
-		ProductChain = new LinkedList<Products>() ;
+		ProductChain = new LinkedList<Products>();
 	}
 
 

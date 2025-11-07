@@ -10,6 +10,7 @@ public static LinkedList<Reviews> getReviews() {
 	return reviews;
 }
 
+//------------------------------------------------------------------
 public Reviews addReview(int customerID, int productID) {
 	System.out.println("How High would you rate this Product from 1->5:");
 	int rate = read.nextInt();
@@ -25,7 +26,7 @@ public Reviews addReview(int customerID, int productID) {
     reviews.add(review);
     return review;
 		}
-
+//--------------------------------------------------------------------
 
 
 

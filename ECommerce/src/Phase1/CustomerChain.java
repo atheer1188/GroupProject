@@ -23,7 +23,7 @@ public void registerCustomer() {
 	customer.setCustomersId(read.nextInt());
 	//do a method for search
 	//make sure this is right!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-	if(searchCustomerId(customer.getCustomersId())) {
+	while(searchCustomerId(customer.getCustomersId())) {
 	    System.out.println("Customer ID: " + customer.getCustomersId()+" already exists, Please enter a new Id");
 		customer.setCustomersId(read.nextInt());
 	}

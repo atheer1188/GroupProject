@@ -10,7 +10,7 @@ public class Reviews {
 		this.customerID = 0;
 		ProductID = 0;
 		this.rating = 0;
-		this.comment = " ";
+		this.comment = "";
 	}
 	
 	

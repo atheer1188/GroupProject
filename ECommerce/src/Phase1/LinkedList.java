@@ -110,15 +110,6 @@ public void display() {
 	System.out.println(" ");
 }
 
-/*public T searchId(int id) {
-	  Node<T> tmp = head;
-       while(tmp != null) {
-		if(tmp.data.equals(id))
-			return tmp.data ;
-        tmp = tmp.next;	
-       }
-    return  null;
-	}
-*/
+
 
 }

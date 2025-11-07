@@ -35,10 +35,10 @@ public static void CustomersMenu() {
 	
 		switch(choice) {
 		case 1: 
-		customersdata.registerCustomer();
-		break;
+		    customersdata.registerCustomer();
+		    break;
 		case 2:
-		break;
+		    break;
 		case 3:
 			customersdata.viewOrderHistory();
 			break;
@@ -150,21 +150,23 @@ public static void ProductsMenu() {
 
 
 }//End of switch
-}
+}//-------------------------------------------------------------------------------------------------
 
 public static void OrdersMenu() {
 	
 }
-
+//--------------------------------------------------------------------------------------------------
 public static void ReviewsMenu() {
 	int choice;
 
 	System.out.println("===================================");	
 	System.out.println("What would you like to do:");	
 	System.out.println("1. Add review");	
-	System.out.println("2. View Top Three highest rated Products");	
-	System.out.println("3. ");	
-	System.out.println("4. Exit");	
+	System.out.println("2. Check top 3 highest reviewed products");	
+	System.out.println("3. Average rating");	
+	System.out.println("");	
+	System.out.println("");	
+	System.out.println("6. Return");	
 	System.out.println("===================================");	
 	choice = read.nextInt();
 
@@ -194,8 +196,18 @@ public static void ReviewsMenu() {
 		productdata.top3Products();
 		break;
 	case 3:
+		int id;
+		System.out.println("Enter products ID:");
+		 id = read.nextInt();
+		while(productdata.searchProductId(id)){
+		System.out.println("Wrong ID,Enter a new products ID:");
+		 id = read.nextInt();
+		}
+		productdata.getAverageRating(id);
+		break;
 	case 4:
-	case 5:
+		
+	case 6:
 		System.out.println("Returning to Main Menu...");
 		break;
 	default:
@@ -205,7 +217,7 @@ public static void ReviewsMenu() {
 }//End of switch
 
 }
-
+//-----------------------------------------------------------------------------------------------
 
 
 
