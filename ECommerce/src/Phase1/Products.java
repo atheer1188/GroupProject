@@ -8,7 +8,7 @@ public class Products {
 	private String name;
 	private double price;
 	private int stock;
-	private LinkedList<Reviews> reviews;
+	 LinkedList<Reviews> reviews;
 	
 	 Products() {
 		productId=0;
