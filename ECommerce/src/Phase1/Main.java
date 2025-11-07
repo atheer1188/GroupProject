@@ -21,7 +21,7 @@ public static LinkedList<Reviews> reviews;
 
 //---------------------------------------------------------------------------------------
 //read files
-public static void loadData() {
+/*public static void loadData() {
 	System.out.println("loading data from CVSs files");
 	customers = customersdata.customersInfo();
 	products = productdata.getProductChain();
@@ -53,7 +53,7 @@ public static void loadData() {
 		}
 	}
 
-}
+}*/
 //---------------------------------------------------------------------------------------
 public static void CustomersMenu() {
 	int choice;
