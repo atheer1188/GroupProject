@@ -9,24 +9,28 @@ public class ProductChain {
 	
 	//--------------------------------------------------------------------------------
 	public ProductChain(String fileName) {
+	 ProductChain = new LinkedList<Products>();
 
 	    try {
 	        File f = new File(fileName);
 	        Scanner scan = new Scanner(f);
 	        String line =scan.nextLine(); // skip header
 
-	        while (scan.hasNext()) {
+	        while (scan.hasNextLine()) {
 	            line = scan.nextLine();
 	            String [] data = line.split(",");
-	            int productid = Integer.parseInt(data[0]);
-	            String name = data[1].trim();
-	            double price = Double.parseDouble(data[2]);
-	            int stock = Integer.parseInt(data[3]);
+	            if(data.length >= 4) {
+	                int productId =Integer.parseInt(data[0].trim());
+	                String name = data[1].trim();
+	                double price = Double.parseDouble(data[2].trim());
+	                int stock = Integer.parseInt(data[3].trim());
+	                
 
 	            
 
-	            Products p = new Products(productid , name , price , stock);
+	            Products p = new Products(productId , name , price , stock);
 	            ProductChain.add(p);
+	        }
 	        }
 
 	        scan.close();

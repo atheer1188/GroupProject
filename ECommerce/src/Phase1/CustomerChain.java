@@ -15,19 +15,24 @@ public LinkedList<Customers> customersInfo()
 //do File here ====================================================!!!!!!!!!!!!!!!!!!!!!!
 
 public CustomerChain(String fileName) {
-
+customers = new LinkedList<Customers>();
     try {
         File f = new File(fileName);
         Scanner scan = new Scanner(f);
         String line =scan.nextLine(); // skip header
 
-        while (scan.hasNext()) {
+        while (scan.hasNextLine()) {
             line = scan.nextLine();
             String [] data = line.split(",");
-            Customers c = new Customers(Integer.parseInt(data[0]) , data[1] , data[2]);
+            if(data.length >= 3) {
+                int customerId =Integer.parseInt(data[0].trim());
+                String name = data[1].trim();
+                String email = data[2].trim();
+
+            Customers c = new Customers(customerId , name , email);
             customers.add(c);
         }
-
+        }
         scan.close();
         System.out.println("Customers loaded successfully!");
 
@@ -48,15 +53,23 @@ public void registerCustomer() {
 	    System.out.println("Customer ID: " + customer.getCustomersId()+" already exists, Please enter a new Id");
 		customer.setCustomersId(read.nextInt());
 	}
+	read.nextLine();
 	System.out.println("Enter customers name: ");
 	String name = read.nextLine();
-	name = read.nextLine();//for garbage
 	customer.setName(name);
 	
 	System.out.println("Enter customers Email : ");
 	String email = read.nextLine();
-	email = read.nextLine();//for garbage
-	customer.setEmail(email);//+=====check for mistake
+	customer.setName(name);
+	customer.setEmail(email);
+	
+	if(customers.empty())
+		customers.findfirst();
+	else {
+		customers.findfirst();
+	while(!customers.last())
+		customers.findnext();
+	}
 	customers.add(customer);
 	}
 //=============================================================================
@@ -96,7 +109,7 @@ public void viewOrderHistory() {
 		}
 	}
 //==============================================================================
-	
+
 //==============================================================================
 	public boolean searchCustomerId(int id) {
 		boolean found = false;

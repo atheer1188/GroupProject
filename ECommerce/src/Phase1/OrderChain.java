@@ -10,6 +10,7 @@ public class OrderChain {
     private LinkedList<Order> orderList;      
     private LinkedList<Customers> customerList; 
     static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    public static Scanner read = new Scanner(System.in);
 
     
     public OrderChain() {
@@ -201,8 +202,9 @@ public class OrderChain {
         }
     }
 */
-  //-------------------------------------------------------------------------------  
+  //------------------------------------------------------------------------------- 
   
+  //-------------------------------------------------------------------------------
    
 
     public void displayAllOrders() {

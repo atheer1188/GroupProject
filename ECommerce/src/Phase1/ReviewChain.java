@@ -12,32 +12,35 @@ public static LinkedList<Reviews> getReviews() {
 }
 //------------------------------------------------------------------
 public ReviewChain(String fileName) {
+reviews = new LinkedList<Reviews>();
 
     try {
         File f = new File(fileName);
         Scanner scan = new Scanner(f);
         String line =scan.nextLine(); // skip header
 
-        while (scan.hasNext()) {
+        while (scan.hasNextLine()) {
             line = scan.nextLine();
             String [] data = line.split(",");
-            int rvwId =Integer.parseInt(data[0]);
-            int productid = Integer.parseInt(data[1]);
-            int customerid = Integer.parseInt(data[2]);
-            int rating = Integer.parseInt(data[3]);
-            String comment = data[4];
+            if(data.length >= 5) {
+            int rvwId =Integer.parseInt(data[0].trim());
+            int productid = Integer.parseInt(data[1].trim());
+            int customerid = Integer.parseInt(data[2].trim());
+            int rating = Integer.parseInt(data[3].trim());
+            String comment = data[4].trim();
 
             Reviews r = new Reviews(rvwId , productid , customerid , rating , comment);
             reviews.add(r);
         }
-
+        }
         scan.close();
-        System.out.println("Customers loaded successfully!");
+        System.out.println("Reviews loaded successfully!");
 
     } catch (Exception e) {
-        System.out.println("Error while loading Custeomers: " + e.getMessage());
+        System.out.println("Error while loading Reviews: " + e.getMessage());
     }
 }
+
 
 //------------------------------------------------------------------
 public Reviews addReview(int customerID, int productID) {

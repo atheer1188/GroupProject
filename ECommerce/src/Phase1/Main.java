@@ -1,5 +1,6 @@
 package Phase1;
 
+import java.io.File;
 import java.util.Scanner;
 
 
@@ -7,53 +8,55 @@ import java.util.Scanner;
 public class Main {
 public static Scanner read = new Scanner(System.in);
 
-public static CustomerChain customersdata = new CustomerChain("");	
-public static LinkedList<Customers> customers ;	
+public static CustomerChain customersdata = null;	
+public static LinkedList<Customers> customers = null ;	
 
-public static ProductChain productdata = new ProductChain("");	
-public static LinkedList<Products> products ;
+public static ProductChain productdata = null;	
+public static LinkedList<Products> products =null;
 
-public static OrderChain orderdata = new OrderChain();	
-public static LinkedList<Order> orders ;	
+public static OrderChain orderdata = null;	
+public static LinkedList<Order> orders =null;	
 
-public static ReviewChain reviewdata = new ReviewChain("");
-public static LinkedList<Reviews> reviews;	
+public static ReviewChain reviewdata =null;
+public static LinkedList<Reviews> reviews = null;	
 
 //---------------------------------------------------------------------------------------
 //read files
-/*public static void loadData() {
-	System.out.println("loading data from CVSs files");
+public static void loadData() {
+	
+	 customersdata = new CustomerChain("customers.csv");	
+	 productdata = new ProductChain("products.csv");	
+	 reviewdata = new ReviewChain("reviews.csv");
+	 orderdata = new OrderChain();	
+	
+	orderdata.readOrdersFromFile("orders.csv");
+
+	
+	System.out.println("loading data from CSVs files");
 	customers = customersdata.customersInfo();
 	products = productdata.getProductChain();
 	orders = orderdata.getOrders();
 	reviews = reviewdata.getReviews();
-	
+	if(!customers.empty() && !orders.empty()) {
 	customers.findfirst();
 	for(int i = 0 ; i<customers.size() ; i++) {
 		orders.findfirst();
 		for(int k = 0; k<orders.size(); k++) {
-			if(customers.retrieve().getCustomersId() == orders.retrieve().linkOrderToCustomer()) {
+			if(customers.retrieve().getCustomersId() == orders.retrieve().getCustomerId()) {
 				int orderid =orders.retrieve().getOrderId();
-				orders.retrieve().getOrderId();
 				customers.retrieve().addOrder(orderid);
 			}
-			orders.findnext();
+			if(!orders.last())orders.findnext();
 		}
-		customers.findnext();		
+		if(!customers.last())customers.findnext();
 	}
-	////////
-	products.findfirst();
-	for(int j = 0; j<products.size(); j++)
-	{
-		reviews.findfirst();
-		for(int d = 0; d<products.size(); d++) {
-			if(products.retrieve().getProductid() == reviews.retrieve().getProduct) {
-			
-			}
-		}
-	}
+}
+System.out.println("All data loaded succesfully!");
+}
+		
+	
 
-}*/
+
 //---------------------------------------------------------------------------------------
 public static void CustomersMenu() {
 	int choice;
@@ -61,9 +64,8 @@ public static void CustomersMenu() {
 		System.out.println("===================================");	
 		System.out.println("What would you like to do:");	
 		System.out.println("1. Register new customer");	
-		System.out.println("2. Place a new order for customer");	
-		System.out.println("3. View order history");	
-		System.out.println("4. Exit");	
+		System.out.println("2. View order history");	
+		System.out.println("3. Exit");	
 		System.out.println("===================================");	
 		choice = read.nextInt();
 	
@@ -71,13 +73,11 @@ public static void CustomersMenu() {
 		case 1: 
 		    customersdata.registerCustomer();
 		    break;
+		
 		case 2:
-			//cancelOrder
-			break;
-		case 3:
 			customersdata.viewOrderHistory();
 			break;
-		case 4:
+		case 3:
 			System.out.println("Returning to Main Menu...");
 		break;
 		default:
@@ -503,6 +503,7 @@ public LinkedList<Products> commonProducts(int cusID1, int cusID2){
 
 
 public static void main(String[] args) {	
+	loadData();
 	int choice;
 	
 	do {
