@@ -13,7 +13,7 @@ public static LinkedList<Customers> customers ;
 public static ProductChain productdata = new ProductChain("");	
 public static LinkedList<Products> products ;
 
-public static OrderChain orderdata = new OrderChain("");	
+public static OrderChain orderdata = new OrderChain();	
 public static LinkedList<Order> orders ;	
 
 public static ReviewChain reviewdata = new ReviewChain("");

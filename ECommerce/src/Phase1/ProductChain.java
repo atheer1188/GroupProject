@@ -165,8 +165,8 @@ public boolean addReviewToProduct(int rvwId,int Pid,int Cid, int rate, String cm
 
     Reviews r = new Reviews(rvwId,Cid,Pid,rate, cmnt);
     p.addReview(r);
-
     System.out.println("Review added successfully");
+    
     return true;
 }
 
