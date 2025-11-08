@@ -190,8 +190,6 @@ public static void ProductsMenu() {
 public static void OrdersMenu() {
     Orders om = new Orders(); 
     int choice = -1;
-
-    // نستخدم فورمات تاريخ محلي بدون تعديل imports فوق
     java.time.format.DateTimeFormatter DF = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     while (choice != 8) {
@@ -229,7 +227,7 @@ public static void OrdersMenu() {
             String d = read.next();
             java.time.LocalDate date = java.time.LocalDate.parse(d, DF);
 
-            System.out.print("Status (e.g., Pending/Delivered): ");
+            System.out.print("Status: ");
             String st = read.next();
 
             Order o = new Order(oid, cid, price, date, st);
@@ -463,6 +461,7 @@ public static void main(String[] args) {
 	}
 
 }//end Main
+
 
 
 
