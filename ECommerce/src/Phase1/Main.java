@@ -188,9 +188,9 @@ public static void ProductsMenu() {
 }//-------------------------------------------------------------------------------------------------
 
 public static void OrdersMenu() {
-    Orders om = new Orders(); 
     int choice = -1;
-    java.time.format.DateTimeFormatter DF = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    java.time.format.DateTimeFormatter DF =
+        java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     while (choice != 8) {
         System.out.println("===================================");
@@ -206,92 +206,105 @@ public static void OrdersMenu() {
         System.out.println("===================================");
         choice = read.nextInt();
 
-        if (choice == 1) {
-            // Load from CSV
-            System.out.print("Enter CSV file path: ");
-            String path = read.next();
-            om.readOrdersFromFile(path);
+        switch (choice) {
+            case 1: { //Load from CSV
+                System.out.print("Enter CSV file path: ");
+                String path = read.next();
+                orderdata.readOrdersFromFile(path);
+                break;
+            }
 
-        } else if (choice == 2) {
+            case 2: { 
+                System.out.print("Order ID: ");
+                int oid = read.nextInt();
+
+                System.out.print("Customer ID: ");
+                int cid = read.nextInt();
+
+                System.out.print("Total Price: ");
+                double price = read.nextDouble();
+
+                System.out.print("Date (yyyy-MM-dd): ");
+                String d = read.next();
+                java.time.LocalDate date = java.time.LocalDate.parse(d, DF);
+
+                System.out.print("Status: ");
+                String st = read.next();
+
+             
+                Order o = new Order(oid, cid, price, date, st);
+                orderdata.insertOrder(o);
+
             
-            System.out.print("Order ID: ");
-            int oid = read.nextInt();
-
-            System.out.print("Customer ID: ");
-            int cid = read.nextInt();
-
-            System.out.print("Total Price: ");
-            double price = read.nextDouble();
-
-            System.out.print("Date (yyyy-MM-dd): ");
-            String d = read.next();
-            java.time.LocalDate date = java.time.LocalDate.parse(d, DF);
-
-            System.out.print("Status: ");
-            String st = read.next();
-
-            Order o = new Order(oid, cid, price, date, st);
-            om.insertOrder(o);
-
-            System.out.print("Add Product IDs now? (y/n): ");
-            String ans = read.next();
-            if (ans.equalsIgnoreCase("y")) {
-                System.out.print("IDs like 10;20;30 : ");
-                String ids = read.next();
-                o.addIds(ids);
-                System.out.println("Product IDs added.");
+                System.out.print("Add Product IDs now? (y/n): ");
+                String ans = read.next();
+                if (ans.equalsIgnoreCase("y")) {
+                    System.out.print("ID: ");
+                    String ids = read.next();
+                    o.addIds(ids);
+                    System.out.println("Product IDs added.");
+                }
+                break;
             }
 
-        } else if (choice == 3) {
-            // Add Product ID
-            System.out.print("Order ID: ");
-            int oid = read.nextInt();
-
-            Order found = om.findOrderById(oid);
-            if (found == null) {
-                System.out.println("Order not found.");
-            } else {
-                System.out.print("Product ID to add: ");
-                int pid = read.nextInt();
-                found.addId(pid);
-                System.out.println("Added.");
+            case 3: { 
+                System.out.print("Order ID: ");
+                int oid = read.nextInt();
+                Order found = orderdata.findOrderById(oid);
+                if (found == null) {
+                    System.out.println("Order not found.");
+                } else {
+                    System.out.print("Product ID to add: ");
+                    int pid = read.nextInt();
+                    found.addId(pid);
+                    System.out.println("Added.");
+                }
+                break;
             }
 
-        } else if (choice == 4) {
-            // Update status
-            System.out.print("Order ID: ");
-            int oid = read.nextInt();
-            System.out.print("New status: ");
-            String st = read.next();
-            om.changeStatus(oid, st);
+            case 4: { // Update status
+                System.out.print("Order ID: ");
+                int oid = read.nextInt();
+                System.out.print("New status: ");
+                String st = read.next();
+                orderdata.changeStatus(oid, st);
+                break;
+            }
 
-        } else if (choice == 5) {
-            // Remove order
-            System.out.print("Order ID: ");
-            int oid = read.nextInt();
-            om.deleteOrder(oid);
+            case 5: { // Delete order
+                System.out.print("Order ID: ");
+                int oid = read.nextInt();
+                orderdata.deleteOrder(oid);
+                break;
+            }
 
-        } else if (choice == 6) {
-            // Search & display
-            System.out.print("Order ID: ");
-            int oid = read.nextInt();
-            Order found = om.findOrderById(oid);
-            if (found == null) System.out.println("Order not found.");
-            else found.display();
+            case 6: { // Search and display
+                System.out.print("Order ID: ");
+                int oid = read.nextInt();
+                Order found = orderdata.findOrderById(oid);
+                if (found == null) System.out.println("Order not found.");
+                else found.display();
+                break;
+            }
 
-        } else if (choice == 7) {
-            // Display all
-            om.showAllOrders();
+            case 7: { // Display all 
+                orderdata.displayAllOrders();
+                break;
+            }
 
-        } else if (choice == 8) {
-            System.out.println("Returning to Main Menu...");
-        } else {
-            System.out.println("Invalid choice.");
+            case 8:
+                System.out.println("Returning to Main Menu...");
+                break;
+
+            default:
+                System.out.println("Invalid choice.");
+                break;
         }
 
         System.out.println();
     }
 }
+
 
 //--------------------------------------------------------------------------------------------------
 public static void ReviewsMenu() {
@@ -534,6 +547,7 @@ public static void main(String[] args) {
 	}
 
 }//end Main
+
 
 
 
