@@ -188,8 +188,113 @@ public static void ProductsMenu() {
 }//-------------------------------------------------------------------------------------------------
 
 public static void OrdersMenu() {
-	
+    Orders om = new Orders(); 
+    int choice = -1;
+
+    // نستخدم فورمات تاريخ محلي بدون تعديل imports فوق
+    java.time.format.DateTimeFormatter DF = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    while (choice != 8) {
+        System.out.println("===================================");
+        System.out.println("Orders Menu - choose an option:");
+        System.out.println("1. Load orders from CSV");
+        System.out.println("2. Create a new order");
+        System.out.println("3. Add Product ID to an order");
+        System.out.println("4. Update order status");
+        System.out.println("5. Remove an order");
+        System.out.println("6. Search & display order");
+        System.out.println("7. Display all orders");
+        System.out.println("8. Return");
+        System.out.println("===================================");
+        choice = read.nextInt();
+
+        if (choice == 1) {
+            // Load from CSV
+            System.out.print("Enter CSV file path: ");
+            String path = read.next();
+            om.readOrdersFromFile(path);
+
+        } else if (choice == 2) {
+            
+            System.out.print("Order ID: ");
+            int oid = read.nextInt();
+
+            System.out.print("Customer ID: ");
+            int cid = read.nextInt();
+
+            System.out.print("Total Price: ");
+            double price = read.nextDouble();
+
+            System.out.print("Date (yyyy-MM-dd): ");
+            String d = read.next();
+            java.time.LocalDate date = java.time.LocalDate.parse(d, DF);
+
+            System.out.print("Status (e.g., Pending/Delivered): ");
+            String st = read.next();
+
+            Order o = new Order(oid, cid, price, date, st);
+            om.insertOrder(o);
+
+            System.out.print("Add Product IDs now? (y/n): ");
+            String ans = read.next();
+            if (ans.equalsIgnoreCase("y")) {
+                System.out.print("IDs like 10;20;30 : ");
+                String ids = read.next();
+                o.addIds(ids);
+                System.out.println("Product IDs added.");
+            }
+
+        } else if (choice == 3) {
+            // Add Product ID
+            System.out.print("Order ID: ");
+            int oid = read.nextInt();
+
+            Order found = om.findOrderById(oid);
+            if (found == null) {
+                System.out.println("Order not found.");
+            } else {
+                System.out.print("Product ID to add: ");
+                int pid = read.nextInt();
+                found.addId(pid);
+                System.out.println("Added.");
+            }
+
+        } else if (choice == 4) {
+            // Update status
+            System.out.print("Order ID: ");
+            int oid = read.nextInt();
+            System.out.print("New status: ");
+            String st = read.next();
+            om.changeStatus(oid, st);
+
+        } else if (choice == 5) {
+            // Remove order
+            System.out.print("Order ID: ");
+            int oid = read.nextInt();
+            om.deleteOrder(oid);
+
+        } else if (choice == 6) {
+            // Search & display
+            System.out.print("Order ID: ");
+            int oid = read.nextInt();
+            Order found = om.findOrderById(oid);
+            if (found == null) System.out.println("Order not found.");
+            else found.display();
+
+        } else if (choice == 7) {
+            // Display all
+            om.showAllOrders();
+
+        } else if (choice == 8) {
+            System.out.println("Returning to Main Menu...");
+        } else {
+            System.out.println("Invalid choice.");
+        }
+
+        System.out.println();
+    }
 }
+
 //--------------------------------------------------------------------------------------------------
 public static void ReviewsMenu() {
 	int choice;
@@ -358,6 +463,7 @@ public static void main(String[] args) {
 	}
 
 }//end Main
+
 
 
 
