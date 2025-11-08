@@ -63,6 +63,36 @@ public Reviews addReview(int customerID, int productID) {
     reviews.add(review);
     return review;
 		}
+
+	//------------------------------------------------------------------
+public boolean editReview(int rvwID) {
+	
+	if(searchreview(rvwID)) {
+		
+		
+		System.out.println("How High would you rate this Product from 1->5:");
+		int rate = read.nextInt();
+		if(rate>5 || rate<1) {
+			while(rate>5 || rate<1) {
+				System.out.print("Choose a number in the range(1-->5)");;
+				rate = read.nextInt();
+			}}//check
+		reviews.retrieve().setRating(rate); // rate edited
+		
+		System.out.println("Comment what you think about this product:");
+		String comment = read.nextLine();
+		read.nextLine();//check garbage
+		reviews.retrieve().setComment(comment);
+		
+		System.out.println("Review edited succesfully!");
+		return true;		
+	}
+	else {
+		System.out.println("Sorry we couldn't find this review");
+		return false;
+	}
+}
+
 //--------------------------------------------------------------------
 public boolean searchreview(int id){
 boolean found = false;
@@ -84,3 +114,4 @@ else {
 }
 
 }
+
