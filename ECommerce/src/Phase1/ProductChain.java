@@ -151,11 +151,10 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 	public void addReviewToProduct(int Pid,Reviews r) {
 		
 	    Products p = search(Pid);
-	    p.addReview(r);//changed it but not sure bc it used to be reviews.add(r)
 	    p.addReview(r);
 	}
 
-public boolean addReviewToProduct(int Pid,int Cid, int rate, String cmnt) {
+public boolean addReviewToProduct(int rvwId,int Pid,int Cid, int rate, String cmnt) {
 	
     Products p = search(Pid);
 
@@ -164,7 +163,7 @@ public boolean addReviewToProduct(int Pid,int Cid, int rate, String cmnt) {
         return false;
     }
 
-    Reviews r = new Reviews(Cid,Pid,rate, cmnt);
+    Reviews r = new Reviews(rvwId,Cid,Pid,rate, cmnt);
     p.addReview(r);
 
     System.out.println("Review added successfully");
