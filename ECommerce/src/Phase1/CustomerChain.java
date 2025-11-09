@@ -43,34 +43,34 @@ customers = new LinkedList<Customers>();
 
 //=============================================================================
 public void registerCustomer() {
-	Customers newcustomer = new Customers();
 	
 	System.out.println("Please enter the customers ID:");
-	newcustomer.setCustomersId(read.nextInt());
-	
-	while(searchCustomerId(newcustomer.getCustomersId())) {
-	    System.out.println("Customer ID: " + newcustomer.getCustomersId()+" already exists, Please enter a new Id");
-	    newcustomer.setCustomersId(read.nextInt());
+	int cusid =read.nextInt();
+	//check if ID exists
+	while(searchCustomerId(cusid)) {
+	    System.out.println("Customer ID: " + cusid+" already exists, Please enter a new Id");
+	    cusid =read.nextInt();
 	}
+	read.nextLine();//clear
 	System.out.println("Enter customers name: ");
 	String name = read.nextLine();
-	 read.nextLine();
-	newcustomer.setName(name);
+	
 	
 	System.out.println("Enter customers Email : ");
 	String email = read.nextLine();
-	read.nextLine();
-	newcustomer.setName(name);
-	newcustomer.setEmail(email);
+	
+	Customers newcustomer = new Customers(cusid , name , email);
+
 	
 	if(customers.empty())
-		customers.findfirst();
+		customers.add(newcustomer);
 	else {
 		customers.findfirst();
 	while(!customers.last())
 		customers.findnext();
+		customers.add(newcustomer);
 	}
-	customers.add(newcustomer);
+	System.out.println("Registeration complete!");
 	}
 //=============================================================================
 
@@ -80,25 +80,27 @@ public void registerCustomer() {
 public void viewOrderHistory() {
 	if(customers.empty())
 	
-		System.out.println("No customer Data");
+		System.out.println("No customer data is available");
 		else
 		{
 			System.out.println("Enter Customer ID:");	
 			int id = read.nextInt();
 		
 		if(searchCustomerId(id))
-		{
+		{   Customers customer = customers.retrieve();
 			LinkedList<Integer> Orders = customers.retrieve().getOrders();
 			if(Orders.empty())
-				System.out.println("There is no past order from Customer ID: "+customers.retrieve().getCustomersId());
+				System.out.println("There is no past order from Customer ID: "+customer.getCustomersId());
 			else
 			{
-			System.out.println("Order History:");
+			System.out.println("Order History for Customer:");
 			Orders.findfirst();
 			
 			for(int j = 0 ; j<Orders.size(); j++)
 			{
 			System.out.println(Orders.retrieve());
+			if(!Orders.last())
+				break;
 			Orders.findnext();
 			}
 			}
