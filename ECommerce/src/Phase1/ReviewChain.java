@@ -114,6 +114,43 @@ else {
 		return found;	
 }
 }
+//----------------------------------------------------------shaden
+
+public LinkedList<Reviews> searchReviewsByCustomer(int customerId) {
+    LinkedList<Reviews> out = new LinkedList<Reviews>();
+    if (reviews.empty()) return out;
+    reviews.findfirst();
+    for (int i = 0; i < reviews.size(); i++) {
+        Reviews r = reviews.retrieve();
+        if (r.getCustomerID() == customerId) appendToEnd(out, r);
+        if (reviews.last()) break;
+        reviews.findnext();
+    }
+    return out;
+}
+
+public LinkedList<Reviews> searchReviewsByProduct(int productId) {
+    LinkedList<Reviews> out = new LinkedList<Reviews>();
+    if (reviews.empty()) return out;
+    reviews.findfirst();
+    for (int i = 0; i < reviews.size(); i++) {
+        Reviews r = reviews.retrieve();
+        if (r.getProductID() == productId) appendToEnd(out, r);
+        if (reviews.last()) break;
+        reviews.findnext();
+    }
+    return out;
+}
+
+private void appendToEnd(LinkedList<Reviews> list, Reviews r) {
+    if (list.empty()) {
+        list.add(r);
+    } else {
+        list.findfirst();
+        while (!list.last()) list.findnext();
+        list.add(r);
+    }
+}
 
 }
 

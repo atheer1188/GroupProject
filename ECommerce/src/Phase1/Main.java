@@ -397,8 +397,62 @@ public static void ReviewsMenu() {
             System.out.println("The products Average rating is: " + productdata.getAverageRating(id));
             break;
         }
+        case 4: { // Search/Show all reviews for a product 
+            System.out.println("Enter product ID:"); 
+            int pid = read.nextInt(); 
+            while(!productdata.searchProductId(pid)){ 
+                System.out.println("Wrong ID. Enter a valid product ID:"); 
+                pid = read.nextInt(); 
+            } 
+         
+            LinkedList<Reviews> rs = reviewdata.searchReviewsByProduct(pid); 
+            if (rs == null || rs.empty()) { 
+                System.out.println("No reviews for this product."); 
+                break; 
+            } 
+         
+            System.out.println("Reviews for product ID " + pid + ":"); 
+            rs.findfirst(); 
+            for (int i = 0; i < rs.size(); i++) { 
+                Reviews r = rs.retrieve(); 
+                System.out.println("- ReviewID: " + r.getReviewID() + 
+                                   " | Rating: " + r.getRating() + 
+                                   " | Comment: " + r.getComment()); 
+                if (rs.last()) break; 
+                rs.findnext(); 
+            } 
+            break; 
+        } 
+         
+        case 5: { // Search/Show all reviews by a customer 
+            System.out.println("Enter customer ID:"); 
+            int cid = read.nextInt(); 
+            while(!customersdata.searchCustomerId(cid)) { 
+                System.out.println("This customer ID doesnt Exist input new one:"); 
+                cid = read.nextInt(); 
+            } 
+         
+            LinkedList<Reviews> rs = reviewdata.searchReviewsByCustomer(cid); 
+            if (rs == null || rs.empty()) { 
+                System.out.println("No reviews for this customer."); 
+                break; 
+            } 
+         
+            System.out.println("Reviews by customer ID " + cid + ":"); 
+            rs.findfirst(); 
+            for (int i = 0; i < rs.size(); i++) { 
+                Reviews r = rs.retrieve(); 
+                System.out.println("- ReviewID: " + r.getReviewID() + 
+                                   " | ProductID: " + r.getProductID() + 
+                                   " | Rating: " + r.getRating() + 
+                                   " | Comment: " + r.getComment()); 
+                if (rs.last()) break; 
+                rs.findnext(); 
+            } 
+            break; 
+        }
 
-        case 4: { // Show all reviews for a product
+        /*case 4: { // Show all reviews for a product
             System.out.println("Enter product ID:");
             int pid = read.nextInt();
             while(!productdata.searchProductId(pid)){
@@ -465,8 +519,8 @@ public static void ReviewsMenu() {
             if (!any) System.out.println("No reviews for this customer.");
             break;
 
-        }
-        /*case 6:
+        }*/
+        case 6:
             System.out.println("Enter first customer ID:");
             int cid1 = read.nextInt();
             while(!customersdata.searchCustomerId(cid1)) {
@@ -478,10 +532,11 @@ public static void ReviewsMenu() {
             while(!customersdata.searchCustomerId(cid2)) {
                 System.out.println("This customer ID doesnt Exist input new one:");
                 cid2 = read.nextInt();}
-            LinkedList<Products> comon = productdata.commonProducts(cid1 , cid2);
             
-            
-            */
+            LinkedList<Products> common = commonProducts(cid1,cid2);
+            common.display();
+   break;
+
         case 7:
             System.out.println("Returning to Main Menu...");
             break;
@@ -493,7 +548,7 @@ public static void ReviewsMenu() {
 }
 
 //-----------------------------------------------------------------------------------------------
-public LinkedList<Products> commonProducts(int cusID1, int cusID2){
+public static LinkedList<Products> commonProducts(int cusID1, int cusID2){
 	
 	if(reviewdata.reviews.empty()) {
 		System.out.println("No common products");
@@ -585,6 +640,7 @@ public static void main(String[] args) {
 
 
 }//end Main
+
 
 
 
