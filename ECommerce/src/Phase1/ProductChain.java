@@ -108,11 +108,15 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 		
 		ProductChain.findfirst();
 		
-			while((ProductChain.retrieve()) != null) {
+			while(!ProductChain.last()) {
 				if(ProductChain.retrieve().getProductId()==id) 
 					return ProductChain.retrieve();
 				ProductChain.findnext();
 			}
+			
+			if(ProductChain.retrieve().getProductId()==id) 
+				return ProductChain.retrieve();
+			
 		return null;
 	    
 		}	
@@ -124,14 +128,18 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 		
 		ProductChain.findfirst();
 		
-			while((ProductChain.retrieve()) != null) {
-				if((ProductChain.retrieve().getName()).equals(name)) 
+		while(!ProductChain.last()) {
+			if((ProductChain.retrieve().getName()).equals(name)) 
 					return ProductChain.retrieve();
 				ProductChain.findnext();
 			}
+		if((ProductChain.retrieve().getName()).equals(name)) 
+			return ProductChain.retrieve();
+		
 		return null;
 	    
 		}	
+	
 	
 	public LinkedList<Products> TrackOutOfStock() {
 	    
