@@ -458,9 +458,10 @@ public static void ReviewsMenu() {
             while(!customersdata.searchCustomerId(cid2)) {
                 System.out.println("This customer ID doesnt Exist input new one:");
                 cid2 = read.nextInt();}
-            LinkedList<Products> comon = productdata.commonProducts(cid1 , cid2);
             
-            
+            LinkedList<Products> common = commonProducts(cid1,cid2);
+            common.display();
+			break;
             
         case 7:
             System.out.println("Returning to Main Menu...");
@@ -473,7 +474,7 @@ public static void ReviewsMenu() {
 }
 
 //-----------------------------------------------------------------------------------------------
-public LinkedList<Products> commonProducts(int cusID1, int cusID2){
+public static LinkedList<Products> commonProducts(int cusID1, int cusID2){
 	
 	if(reviewdata.reviews.empty()) {
 		System.out.println("No common products");
@@ -563,6 +564,7 @@ public static void main(String[] args) {
 	}
 
 }//end Main
+
 
 
 
