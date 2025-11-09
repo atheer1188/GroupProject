@@ -98,8 +98,7 @@ public class OrderChain {
         addToEnd(orderList, orderObj);
         linkOrderToCustomer(orderObj);
 
-        System.out.println("Order added.");
-    }
+   }
 
    
     private void addToEnd(LinkedList<Order> list, Order item) {

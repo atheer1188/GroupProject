@@ -317,7 +317,8 @@ public static void ReviewsMenu() {
     System.out.println("3. Average rating");
     System.out.println("4. Show all reviews for a product");
     System.out.println("5. Show all reviews by a customer");
-    System.out.println("6. Return");
+    System.out.println("6. common review by two customers");
+    System.out.println("7. Return");
     System.out.println("===================================");
     choice = read.nextInt();
 
@@ -410,7 +411,6 @@ public static void ReviewsMenu() {
             }
             break;
         }
-
         case 5: { // Show all reviews by a customer
             System.out.println("Enter customer ID:");
             int cid = read.nextInt();
@@ -446,8 +446,23 @@ public static void ReviewsMenu() {
             if (!any) System.out.println("No reviews for this customer.");
             break;
         }
-
         case 6:
+            System.out.println("Enter first customer ID:");
+            int cid1 = read.nextInt();
+            while(!customersdata.searchCustomerId(cid1)) {
+                System.out.println("This customer ID doesnt Exist input new one:");
+                cid1 = read.nextInt();}
+            
+            System.out.println("Enter second customer ID:");
+            int cid2 = read.nextInt();
+            while(!customersdata.searchCustomerId(cid2)) {
+                System.out.println("This customer ID doesnt Exist input new one:");
+                cid2 = read.nextInt();}
+            LinkedList<Products> comon = productdata.commonProducts(cid1 , cid2);
+            
+            
+            
+        case 7:
             System.out.println("Returning to Main Menu...");
             break;
 
