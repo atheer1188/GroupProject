@@ -165,6 +165,25 @@ public class OrderChain {
         }
     }
 
+    public LinkedList<Order> AllOrdersBetweenDates( LocalDate first_date ,LocalDate second_date)
+    {
+    	LinkedList<Order> orders = new LinkedList<Order>();
+
+    	 if(!orderList.empty()) {
+    		 orderList.findfirst();
+    		 for(int j = 0 ;  j<orderList.size() ;j++ ) 
+    		 {Order currentOrder = orderList.retrieve();
+    			 if(orderList.retrieve().getOrderDate().isAfter(first_date) && orderList.retrieve().getOrderDate().isBefore(second_date)) {
+    				 orders.add(currentOrder);
+    				currentOrder.display();
+    			 }
+    			 if(orderList.last())
+    				 break;
+        		 orderList.findnext();
+    		 }
+    	 }
+return orders;
+    }
   //-------------------------------------------------------------------------------  
   /*  public void readOrdersFromFile(String fileName) {
 

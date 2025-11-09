@@ -17,8 +17,8 @@ public static LinkedList<Products> products =null;
 public static OrderChain orderdata = null;	
 public static LinkedList<Order> orders =null;	
 
-public static ReviewChain reviewdata =null;
-public static LinkedList<Reviews> reviews = null;	
+public static ReviewChain reviewdata ;
+public static LinkedList<Reviews> reviews ;	
 
 //---------------------------------------------------------------------------------------
 //read files
@@ -31,7 +31,6 @@ public static void loadData() {
 	
 	orderdata.readOrdersFromFile("orders.csv");
 
-	
 	System.out.println("loading data from CSVs files");
 	customers = customersdata.customersInfo();
 	products = productdata.getProductChain();
@@ -202,7 +201,8 @@ public static void OrdersMenu() {
         System.out.println("5. Remove an order");
         System.out.println("6. Search & display order");
         System.out.println("7. Display all orders");
-        System.out.println("8. Return");
+        System.out.println("8. All orders between two dates");
+        System.out.println("9. Return");
         System.out.println("===================================");
         choice = read.nextInt();
 
@@ -217,9 +217,18 @@ public static void OrdersMenu() {
             case 2: { 
                 System.out.print("Order ID: ");
                 int oid = read.nextInt();
+                while(orderdata.findOrderById(oid) != null) {
+                	System.out.println("Order Already exists, enter new one");
+                    oid = read.nextInt();
+                }
+                
 
                 System.out.print("Customer ID: ");
                 int cid = read.nextInt();
+                while(!customersdata.searchCustomerId(cid)) {
+                	System.out.println("Customer Id doesnt exist, enter new one:");
+                    cid = read.nextInt();
+                }
 
                 System.out.print("Total Price: ");
                 double price = read.nextDouble();
@@ -291,8 +300,18 @@ public static void OrdersMenu() {
                 orderdata.displayAllOrders();
                 break;
             }
-
             case 8:
+                System.out.println("Enter two dates in order:");
+                System.out.print("First Date (yyyy-MM-dd): ");
+                String d1 = read.next();
+                java.time.LocalDate date1 = java.time.LocalDate.parse(d1, DF);
+                
+                System.out.print("First Date (yyyy-MM-dd): ");
+                String d2 = read.next();
+                java.time.LocalDate date2 = java.time.LocalDate.parse(d2, DF);
+                orderdata.AllOrdersBetweenDates(date1 , date2);
+                break;
+            case 9:
                 System.out.println("Returning to Main Menu...");
                 break;
 
@@ -445,8 +464,9 @@ public static void ReviewsMenu() {
 
             if (!any) System.out.println("No reviews for this customer.");
             break;
+
         }
-        case 6:
+        /*case 6:
             System.out.println("Enter first customer ID:");
             int cid1 = read.nextInt();
             while(!customersdata.searchCustomerId(cid1)) {
@@ -461,7 +481,7 @@ public static void ReviewsMenu() {
             LinkedList<Products> comon = productdata.commonProducts(cid1 , cid2);
             
             
-            
+            */
         case 7:
             System.out.println("Returning to Main Menu...");
             break;
@@ -561,6 +581,8 @@ public static void main(String[] args) {
 
 		}while(choice!=5);
 	}
+
+
 
 }//end Main
 

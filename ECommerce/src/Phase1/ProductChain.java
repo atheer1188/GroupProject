@@ -1,4 +1,4 @@
-package Phase1;
+/*package Phase1;
 
 import java.io.File;
 import java.util.Scanner;
@@ -108,9 +108,11 @@ public boolean updateProduct(int id, String newName, double newPrice, int newStc
 		
 		ProductChain.findfirst();
 		
-			while((ProductChain.retrieve()) != null) {
+			for(int i = 0 ; i<ProductChain.size() ; i++) {
 				if(ProductChain.retrieve().getProductId()==id) 
 					return ProductChain.retrieve();
+				if(ProductChain.last())
+					break;
 				ProductChain.findnext();
 			}
 		return null;
@@ -268,7 +270,285 @@ return top3products;
 
 
 
-	}//end class
+	}//end class*/
+package Phase1;
+
+import java.io.File;
+import java.util.Scanner;
+
+public class ProductChain {
+
+
+    private LinkedList<Products> ProductChain;
+
+
+    public ProductChain(String fileName) {
+        ProductChain = new LinkedList<Products>();
+        if (fileName != null && !fileName.trim().isEmpty()) {
+            readProductsFromFile(fileName);
+        }
+    }
+
+    public ProductChain() {
+        ProductChain = new LinkedList<Products>();
+    }
+
+
+
+
+    public static Products convertLineToProduct(String line) {
+        try {
+            String[] data = line.split(",");
+            if (data.length < 4) return null;
+
+            int productId = Integer.parseInt(data[0].trim().replace("\"", ""));
+            String name    = data[1].trim().replace("\"", "");
+            double price   = Double.parseDouble(data[2].trim());
+            int stock      = Integer.parseInt(data[3].trim());
+
+            return new Products(productId, name, price, stock);
+        } catch (Exception e) {
+            System.out.println("Error in product line: " + line);
+            return null;
+        }
+    }
+
+ 
+    public void readProductsFromFile(String fileName) {
+        try {
+            File f = new File(fileName);
+            Scanner scan = new Scanner(f);
+
+            if (scan.hasNextLine()) scan.nextLine(); // skip header
+
+            while (scan.hasNextLine()) {
+                String line = scan.nextLine().trim();
+                if (line.equals("")) continue;
+
+                Products p = convertLineToProduct(line);
+                if (p != null) {
+                    addProduct(p); 
+                }
+            }
+
+            scan.close();
+            System.out.println("Products loaded successfully!");
+
+        } catch (Exception e) {
+            System.out.println("Error while loading products: " + e.getMessage());
+        }
+    }
+
+
+
+    public LinkedList<Products> getProductChain() {
+        return ProductChain;
+    }
+
+
+
+    public boolean addProduct(Products p) {
+        if (p == null) return false;
+
+        // product already exists
+        if (search(p.getProductId()) != null) {
+            System.out.println("A product with the same ID already exists");
+            return false;
+        } else {
+
+            if (ProductChain.empty()) {
+                ProductChain.add(p);
+            } else {
+                ProductChain.findfirst();
+                while (!ProductChain.last()) ProductChain.findnext();
+                ProductChain.add(p);
+            }
+            System.out.println("Product Added Successfully!");
+            return true;
+        }
+    }
+
+    public boolean remove(int id) {
+        if (search(id) == null) {
+            System.out.println("this product does not exist");
+            return false;
+        } else {
+           
+            ProductChain.remove();
+            System.out.println("product was removed successfully");
+            return true;
+        }
+    }
+
+    public boolean updateProduct(int id, String newName, double newPrice, int newStck) {
+        Products p = search(id);
+        if (p == null) {
+            System.out.println("Product not found");
+            return false;
+        }
+        p.setName(newName);
+        p.setPrice(newPrice);
+        p.setStock(newStck);
+        System.out.println("Product updated successfully");
+        return true;
+    }
+
+    
+
+    public Products search(int id) {
+        if (ProductChain.empty()) return null;
+
+        ProductChain.findfirst();
+        for (int i = 0; i < ProductChain.size(); i++) {
+            if (ProductChain.retrieve().getProductId() == id)
+                return ProductChain.retrieve();
+            if (ProductChain.last()) break;
+            ProductChain.findnext();
+        }
+        return null;
+    }
+
+    public Products search(String name) {
+        if (ProductChain.empty()) return null;
+
+        ProductChain.findfirst();
+        for (int i = 0; i < ProductChain.size(); i++) {
+            if (ProductChain.retrieve().getName().equals(name))
+                return ProductChain.retrieve();
+            if (ProductChain.last()) break;
+            ProductChain.findnext();
+        }
+        return null;
+    }
+
+    public boolean searchProductId(int id) {
+        if (ProductChain.empty()) return false;
+
+        ProductChain.findfirst();
+        for (int i = 0; i < ProductChain.size(); i++) {
+            if (ProductChain.retrieve().getProductId() == id)
+                return true;
+            if (ProductChain.last()) break;
+            ProductChain.findnext();
+        }
+        return false;
+    }
+
+ 
+
+    public LinkedList<Products> TrackOutOfStock() {
+        LinkedList<Products> out = new LinkedList<Products>();
+        if (ProductChain.empty()) {
+            System.out.println("No products are out of stock :)");
+            return out;
+        }
+
+        ProductChain.findfirst();
+        for (int i = 0; i < ProductChain.size(); i++) {
+            Products p = ProductChain.retrieve();
+            if (p.getStock() == 0) {
+                // أضف للنهاية
+                if (out.empty()) out.add(p);
+                else {
+                    out.findfirst();
+                    while (!out.last()) out.findnext();
+                    out.add(p);
+                }
+            }
+            if (ProductChain.last()) break;
+            ProductChain.findnext();
+        }
+
+        if (out.empty()) {
+            System.out.println("No products are out of stock :)");
+        }
+        return out;
+    }
+
+    public void addReviewToProduct(int Pid, Reviews r) {
+        Products p = search(Pid);
+        if (p != null) {
+            p.addReview(r);
+        }
+    }
+
+    public boolean addReviewToProduct(int rvwId, int Pid, int Cid, int rate, String cmnt) {
+        Products p = search(Pid);
+        if (p == null) {
+            System.out.println("Product not found");
+            return false;
+        }
+        Reviews r = new Reviews(rvwId, Pid, Cid, rate, cmnt); 
+        p.addReview(r);
+        System.out.println("Review added successfully");
+        return true;
+    }
+
+    public double getAverageRating(int productId) {
+	    Products p = search(productId);
+	   if(p == null) {
+	        System.out.println("Product not found");
+	        return -1;
+	    }
+
+	    LinkedList<Reviews> rs = p.getReviews();
+	   if(rs.empty()) return 0;
+
+	    double sum = 0;
+	    int count =0;
+	    rs.findfirst();
+	    for(int i=0; i<rs.size(); i++){
+	        if(rs.retrieve().getProductID() == productId)
+	        {
+	    	sum += rs.retrieve().getRating();
+	        count++;
+	        }
+	        if(i<rs.size()-1)
+	        rs.findnext();
+	    }
+	    return sum / count;
+	}
+
+
+
+    public LinkedList<Products> top3Products() {
+        Products first = null, second = null, third = null;
+        double max1 = -1, max2 = -1, max3 = -1;
+
+        if (ProductChain.empty()) {
+            System.out.println("There are no available products");
+            return new LinkedList<Products>();
+        }
+
+        ProductChain.findfirst();
+        for (int i = 0; i < ProductChain.size(); i++) {
+            Products p = ProductChain.retrieve();
+            double avg = getAverageRating(p.getProductId());
+
+            if (avg > max1) {
+                third = second; max3 = max2;
+                second = first; max2 = max1;
+                first = p;      max1 = avg;
+            } else if (avg > max2) {
+                third = second; max3 = max2;
+                second = p;     max2 = avg;
+            } else if (avg > max3) {
+                third = p;      max3 = avg;
+            }
+
+            if (ProductChain.last()) break;
+            ProductChain.findnext();
+        }
+
+        LinkedList<Products> top3products = new LinkedList<Products>();
+        if (first  != null) top3products.add(first);
+        if (second != null) top3products.add(second);
+        if (third  != null) top3products.add(third);
+        return top3products;
+    }
+
+}
+
 	
 	
 

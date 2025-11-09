@@ -43,25 +43,25 @@ customers = new LinkedList<Customers>();
 
 //=============================================================================
 public void registerCustomer() {
-	Customers customer = new Customers();
+	Customers newcustomer = new Customers();
 	
 	System.out.println("Please enter the customers ID:");
-	customer.setCustomersId(read.nextInt());
-	//do a method for search
-	//make sure this is right!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-	while(searchCustomerId(customer.getCustomersId())) {
-	    System.out.println("Customer ID: " + customer.getCustomersId()+" already exists, Please enter a new Id");
-		customer.setCustomersId(read.nextInt());
+	newcustomer.setCustomersId(read.nextInt());
+	
+	while(searchCustomerId(newcustomer.getCustomersId())) {
+	    System.out.println("Customer ID: " + newcustomer.getCustomersId()+" already exists, Please enter a new Id");
+	    newcustomer.setCustomersId(read.nextInt());
 	}
-	read.nextLine();
 	System.out.println("Enter customers name: ");
 	String name = read.nextLine();
-	customer.setName(name);
+	 read.nextLine();
+	newcustomer.setName(name);
 	
 	System.out.println("Enter customers Email : ");
 	String email = read.nextLine();
-	customer.setName(name);
-	customer.setEmail(email);
+	read.nextLine();
+	newcustomer.setName(name);
+	newcustomer.setEmail(email);
 	
 	if(customers.empty())
 		customers.findfirst();
@@ -70,7 +70,7 @@ public void registerCustomer() {
 	while(!customers.last())
 		customers.findnext();
 	}
-	customers.add(customer);
+	customers.add(newcustomer);
 	}
 //=============================================================================
 

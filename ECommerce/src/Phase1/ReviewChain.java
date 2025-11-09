@@ -12,7 +12,6 @@ public static LinkedList<Reviews> getReviews() {
 }
 //------------------------------------------------------------------
 public ReviewChain(String fileName) {
-reviews = new LinkedList<Reviews>();
 
     try {
         File f = new File(fileName);
