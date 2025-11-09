@@ -548,7 +548,7 @@ public static void ReviewsMenu() {
 }
 
 //-----------------------------------------------------------------------------------------------
-public static LinkedList<Products> commonProducts(int cusID1, int cusID2){
+/* public static LinkedList<Products> commonProducts(int cusID1, int cusID2){
 	
 	if(reviewdata.reviews.empty()) {
 		System.out.println("No common products");
@@ -574,6 +574,50 @@ public static LinkedList<Products> commonProducts(int cusID1, int cusID2){
 		
 		R2.findfirst();
 		while(R2.retrieve()!= null) {
+		
+			if(R1.retrieve().ProductID==R2.retrieve().ProductID) {
+				Products p = productdata.search(R2.retrieve().ProductID);
+				
+					if(p != null && productdata.getAverageRating(p.getProductId()) > 4) {
+						comProducts.add(p);  }
+				break;
+			}
+			R2.findnext();
+		}
+		R1.findnext();
+	}
+	
+	return comProducts;
+}*/
+
+	//-----------------------------------------------------------------------------------------------
+
+	public static LinkedList<Products> commonProducts(int cusID1, int cusID2){
+	
+	if(reviewdata.reviews.empty()) {
+		System.out.println("No common products");
+	    return new LinkedList<Products>();
+	}
+	
+	LinkedList<Products> comProducts = new LinkedList();
+	LinkedList<Reviews> R1 = new LinkedList();
+	LinkedList<Reviews> R2 = new LinkedList();
+
+	reviewdata.reviews.findfirst();
+	for(int i=0; i<reviewdata.reviews.size(); i++) {
+		if(reviewdata.reviews.retrieve().customerID == cusID1)
+			R1.add(reviewdata.reviews.retrieve());
+		if(reviewdata.reviews.retrieve().customerID == cusID2)
+			R2.add(reviewdata.reviews.retrieve());
+		
+		reviewdata.reviews.findnext();
+	}
+	
+	R1.findfirst();
+	for(int i=0; i<R1.size(); i++) {
+		
+		R2.findfirst();
+		for(int j=0; j<R2.size(); j++ ) {
 		
 			if(R1.retrieve().ProductID==R2.retrieve().ProductID) {
 				Products p = productdata.search(R2.retrieve().ProductID);
@@ -640,6 +684,7 @@ public static void main(String[] args) {
 
 
 }//end Main
+
 
 
 
