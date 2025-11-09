@@ -61,7 +61,7 @@ public Reviews addReview(int customerID, int productID) {
 	System.out.println("Comment what you think about this product:");
 	String comment = read.nextLine();
 	comment = read.nextLine();//check garbage
-    Reviews review = new Reviews(rvwId,customerID,productID,rate, comment);
+    Reviews review = new Reviews(rvwId,productID , customerID,rate, comment);
     reviews.add(review);
     return review;
 		}

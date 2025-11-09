@@ -152,8 +152,8 @@ public static void ProductsMenu() {
 		switch(option) {
 		case 1:
 			System.out.println("Enter product name: ");
+			read.nextLine();//clear
 			String ppName = read.nextLine();
-			read.nextLine();
 			
 			System.out.println( productdata.search(ppName));
 			break;
