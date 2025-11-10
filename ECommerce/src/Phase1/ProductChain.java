@@ -359,7 +359,7 @@ public class ProductChain {
 
 
 
-    /* public boolean addProduct(Products p) {
+      public boolean addProduct(Products p) {
         if (p == null) 			
         	return false;
 
@@ -372,31 +372,17 @@ public class ProductChain {
             if (ProductChain.empty()) {
                 ProductChain.add(p);
             } else {
-                ProductChain.findfirst();
-                while (!ProductChain.last()) ProductChain.findnext();
+               // ProductChain.findfirst();
+                while (!ProductChain.last()) 
+                	ProductChain.findnext();
                 ProductChain.add(p);
             }
             System.out.println("Product Added Successfully!");
             return true;
         }
-    }*/
-    
-    public boolean addProduct(Products p) {
-        if (p == null) 			
-        	return false;
-
-        // product already exists
-        if (search(p.getProductId()) != null) {
-            System.out.println("A product with the same ID already exists");
-            return false;  
-        } 
-        else {
-            ProductChain.add(p);
-            System.out.println("Product Added Successfully!");
-            return true;
-        }
     }
-
+    
+ 
     public boolean remove(int id) {
         if (search(id) == null) {
             System.out.println("this product does not exist");
