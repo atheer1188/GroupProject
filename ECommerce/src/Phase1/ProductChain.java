@@ -359,8 +359,9 @@ public class ProductChain {
 
 
 
-    public boolean addProduct(Products p) {
-        if (p == null) return false;
+    /* public boolean addProduct(Products p) {
+        if (p == null) 			
+        	return false;
 
         // product already exists
         if (search(p.getProductId()) != null) {
@@ -375,6 +376,22 @@ public class ProductChain {
                 while (!ProductChain.last()) ProductChain.findnext();
                 ProductChain.add(p);
             }
+            System.out.println("Product Added Successfully!");
+            return true;
+        }
+    }*/
+    
+    public boolean addProduct(Products p) {
+        if (p == null) 			
+        	return false;
+
+        // product already exists
+        if (search(p.getProductId()) != null) {
+            System.out.println("A product with the same ID already exists");
+            return false;  
+        } 
+        else {
+            ProductChain.add(p);
             System.out.println("Product Added Successfully!");
             return true;
         }
