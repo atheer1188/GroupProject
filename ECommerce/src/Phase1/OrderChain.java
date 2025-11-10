@@ -165,25 +165,29 @@ public class OrderChain {
         }
     }
 
-    public LinkedList<Order> AllOrdersBetweenDates( LocalDate first_date ,LocalDate second_date)
-    {
-    	LinkedList<Order> orders = new LinkedList<Order>();//1
+   public LinkedList<Order> AllOrdersBetweenDates(LocalDate first_date, LocalDate second_date) {
+    LinkedList<Order> orders = new LinkedList<Order>();            // O(1)
 
-    	 if(!orderList.empty()) {//1
-    		 orderList.findfirst();//1
-    		 for(int j = 0 ;  j<orderList.size() ;j++ )// o+1
-    		 {Order currentOrder = orderList.retrieve();//o
-    			 if(orderList.retrieve().getOrderDate().isAfter(first_date) && orderList.retrieve().getOrderDate().isBefore(second_date)) {//o
-    				 orders.add(currentOrder);//o
-    				currentOrder.display();//o
-    			 }
-    			 if(orderList.last())//o
-    				 break;//o
-        		 orderList.findnext();//o
-    		 }
-    	 }
-return orders;//1
+    if (!orderList.empty()) {                                      // O(1)
+        orderList.findfirst();                                     // O(1)
+        for (int j = 0; j < orderList.size(); j++) {               // O(n)
+            Order currentOrder = orderList.retrieve();             // O(1)
+
+            if (orderList.retrieve().getOrderDate().isAfter(first_date)   // O(1)
+             && orderList.retrieve().getOrderDate().isBefore(second_date)) // O(1)
+            {
+                orders.add(currentOrder);                          // O(1)
+                currentOrder.display();                            // O(1)
+            }
+
+            if (orderList.last()) break;                           // O(1)
+            orderList.findnext();                                  // O(1)
+        }
     }
+    return orders;                                                 // O(1)
+}
+    // Overall Time Complexity: O(n), where n = number of orders in orderList.
+    
   //-------------------------------------------------------------------------------  
   /*  public void readOrdersFromFile(String fileName) {
 
@@ -242,3 +246,4 @@ return orders;//1
     }
 
 }
+
