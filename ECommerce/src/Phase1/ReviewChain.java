@@ -134,8 +134,8 @@ public LinkedList<Reviews> searchReviewsByCustomer(int customerId) {
     return out;                                                   // O(1)
 }
 
-	//Total Time = O(n)
-	//Space Complexity: O(m)
+	//Overall Time Complexity: O(n), where n = total number of reviews in the system.
+    //Space Complexity: O(m), where m = number of reviews written by the specified customer.
 
 
 public LinkedList<Reviews> searchReviewsByProduct(int productId) {
@@ -162,5 +162,6 @@ private void appendToEnd(LinkedList<Reviews> list, Reviews r) {
 }
 
 }
+
 
 
