@@ -408,16 +408,16 @@ public class ProductChain {
     
 
     public Products search(int id) {
-        if (ProductChain.empty()) return null;
+        if (ProductChain.empty()) return null;//1
 
-        ProductChain.findfirst();
-        for (int i = 0; i < ProductChain.size(); i++) {
-            if (ProductChain.retrieve().getProductId() == id)
-                return ProductChain.retrieve();
-            if (ProductChain.last()) break;
-            ProductChain.findnext();
-        }
-        return null;
+        ProductChain.findfirst();//1
+        for (int i = 0; i < ProductChain.size(); i++) {//p+1
+            if (ProductChain.retrieve().getProductId() == id)//1
+                return ProductChain.retrieve();//1
+            if (ProductChain.last()) break;//1
+            ProductChain.findnext();//1
+        }//
+        return null;//1
     }
 
     public Products search(String name) {
@@ -434,16 +434,18 @@ public class ProductChain {
     }
 
     public boolean searchProductId(int id) {
-        if (ProductChain.empty()) return false;
+        if (ProductChain.empty()) //1
+        	return false;//1
 
-        ProductChain.findfirst();
-        for (int i = 0; i < ProductChain.size(); i++) {
-            if (ProductChain.retrieve().getProductId() == id)
-                return true;
-            if (ProductChain.last()) break;
-            ProductChain.findnext();
+        ProductChain.findfirst();//1
+        for (int i = 0; i < ProductChain.size(); i++) {//p+1
+            if (ProductChain.retrieve().getProductId() == id)//1(p)
+                return true;//1(p)
+            if (ProductChain.last()) //1(p)
+            	break;//1(p)
+            ProductChain.findnext();//1(p)
         }
-        return false;
+        return false;//1
     }
 
  
@@ -497,66 +499,68 @@ public class ProductChain {
     }
 
     public double getAverageRating(int productId) {
-	    Products p = search(productId);
-	   if(p == null) {
-	        System.out.println("Product not found");
-	        return -1;
-	    }
-
-	    LinkedList<Reviews> rs = p.getReviews();
-	   if(rs.empty()) return 0;
-
-	    double sum = 0;
-	    int count =0;
-	    rs.findfirst();
-	    for(int i=0; i<rs.size(); i++){
-	        if(rs.retrieve().getProductID() == productId)
-	        {
-	    	sum += rs.retrieve().getRating();
-	        count++;
-	        }
-	        if(i<rs.size()-1)
-	        rs.findnext();
-	    }
-	    return sum / count;
-	}
-
-
-
-    public LinkedList<Products> top3Products() {
-        Products first = null, second = null, third = null;
-        double max1 = -1, max2 = -1, max3 = -1;
-
-        if (ProductChain.empty()) {
-            System.out.println("There are no available products");
-            return new LinkedList<Products>();
+        Products p = search(productId);//O(p)
+        if(p == null) {//1
+            System.out.println("Product not found");//1
+            return -1;//1
         }
 
-        ProductChain.findfirst();
-        for (int i = 0; i < ProductChain.size(); i++) {
-            Products p = ProductChain.retrieve();
-            double avg = getAverageRating(p.getProductId());
+        LinkedList<Reviews> rs = p.getReviews();//1
+        if(rs.empty()) //1
+        	return 0;//1
 
-            if (avg > max1) {
-                third = second; max3 = max2;
-                second = first; max2 = max1;
-                first = p;      max1 = avg;
-            } else if (avg > max2) {
-                third = second; max3 = max2;
-                second = p;     max2 = avg;
-            } else if (avg > max3) {
-                third = p;      max3 = avg;
+        double sum = 0;//1
+        int count =0;//1
+        rs.findfirst();//1
+        for(int i=0; i<rs.size(); i++){//r+1
+            if(rs.retrieve().getProductID() == productId)//1(r)
+            {
+                sum += rs.retrieve().getRating();//1(r)
+                count++;//1(r)
+            }
+            if(i<rs.size()-1)//r(r)
+            rs.findnext();//1(r-1)(r)
+        }
+        return sum / count;//1
+    }
+
+
+
+    public LinkedList<Products> top3Products() {//-
+        Products first = null, second = null, third = null;//1
+        double max1 = -1, max2 = -1, max3 = -1;//1
+
+        if (ProductChain.empty()) {//1
+            System.out.println("There are no available products");//1
+            return new LinkedList<Products>();//1
+        }
+
+        ProductChain.findfirst();//1
+        for (int i = 0; i < ProductChain.size(); i++) {//p+1
+            Products p = ProductChain.retrieve();//1(p)
+            double avg = getAverageRating(p.getProductId());//1(p)*O(P*r)
+
+            if (avg > max1) {//1p
+                third = second; max3 = max2;//2p
+                second = first; max2 = max1;//2p
+                first = p;      max1 = avg;//2p
+            } else if (avg > max2) {//1p
+                third = second; max3 = max2;//2p
+                second = p;     max2 = avg;//2p
+            } else if (avg > max3) {//1p
+                third = p;   max3 = avg;//2p
             }
 
-            if (ProductChain.last()) break;
-            ProductChain.findnext();
+            if (ProductChain.last()) //p
+            	break;//p
+            ProductChain.findnext();//p
         }
 
-        LinkedList<Products> top3products = new LinkedList<Products>();
-        if (first  != null) top3products.add(first);
-        if (second != null) top3products.add(second);
-        if (third  != null) top3products.add(third);
-        return top3products;
+        LinkedList<Products> top3products = new LinkedList<Products>();//1
+        if (first  != null) top3products.add(first);//1
+        if (second != null) top3products.add(second);//1
+        if (third  != null) top3products.add(third);//1
+        return top3products;//1
     }
 
 }

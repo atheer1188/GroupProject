@@ -425,11 +425,11 @@ public static void ReviewsMenu() {
         } 
          
         case 5: { // Search/Show all reviews by a customer 
-            System.out.println("Enter customer ID:"); 
-            int cid = read.nextInt(); 
-            while(!customersdata.searchCustomerId(cid)) { 
-                System.out.println("This customer ID doesnt Exist input new one:"); 
-                cid = read.nextInt(); 
+            System.out.println("Enter customer ID:"); //1
+            int cid = read.nextInt(); //1
+            while(!customersdata.searchCustomerId(cid)) { //c
+                System.out.println("This customer ID doesnt Exist input new one:"); //1
+                cid = read.nextInt(); //1
             } 
          
             LinkedList<Reviews> rs = reviewdata.searchReviewsByCustomer(cid); 

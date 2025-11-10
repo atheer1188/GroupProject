@@ -44,27 +44,27 @@ public ReviewChain(String fileName) {
 //------------------------------------------------------------------
 public Reviews addReview(int customerID, int productID) {
 	
-	System.out.println("Enter the Reviews ID: ");
-	int rvwId = read.nextInt();
+	System.out.println("Enter the Reviews ID: ");//1
+	int rvwId = read.nextInt();//1
 	
-	while(searchreview(rvwId)) {
-		System.out.println("This id already exists, enter a new one: ");
-		 rvwId = read.nextInt();
+	while(searchreview(rvwId)) {//r
+		System.out.println("This id already exists, enter a new one: ");//r
+		 rvwId = read.nextInt();//r
 	}
-	System.out.println("How High would you rate this Product from 1->5:");
-	int rate = read.nextInt();
-	if(rate>5 || rate<1) {
-		while(rate>5 || rate<1) {
-			System.out.print("Choose a number in the range(1-->5)");;
-			rate = read.nextInt();
+	System.out.println("How High would you rate this Product from 1->5:");//1
+	int rate = read.nextInt();//1
+	if(rate>5 || rate<1) {//1
+		while(rate>5 || rate<1) {//?
+			System.out.print("Choose a number in the range(1-->5)");//1
+			rate = read.nextInt();//1
 		}}//check
-	System.out.println("Comment what you think about this product:");
-	String comment = read.nextLine();
-	comment = read.nextLine();//check garbage
-    Reviews review = new Reviews(rvwId,productID , customerID,rate, comment);
-    reviews.add(review);
-    return review;
-		}
+	System.out.println("Comment what you think about this product:");//1
+	String comment = read.nextLine();//1
+	comment = read.nextLine();//check garbage //1
+    Reviews review = new Reviews(rvwId,productID , customerID ,rate, comment);//?
+    reviews.add(review);//1
+    return review;//1
+		}//O(r)
 
 	//------------------------------------------------------------------
 public boolean editReview(int rvwID) {

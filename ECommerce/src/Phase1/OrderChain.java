@@ -167,22 +167,22 @@ public class OrderChain {
 
     public LinkedList<Order> AllOrdersBetweenDates( LocalDate first_date ,LocalDate second_date)
     {
-    	LinkedList<Order> orders = new LinkedList<Order>();
+    	LinkedList<Order> orders = new LinkedList<Order>();//1
 
-    	 if(!orderList.empty()) {
-    		 orderList.findfirst();
-    		 for(int j = 0 ;  j<orderList.size() ;j++ ) 
-    		 {Order currentOrder = orderList.retrieve();
-    			 if(orderList.retrieve().getOrderDate().isAfter(first_date) && orderList.retrieve().getOrderDate().isBefore(second_date)) {
-    				 orders.add(currentOrder);
-    				currentOrder.display();
+    	 if(!orderList.empty()) {//1
+    		 orderList.findfirst();//1
+    		 for(int j = 0 ;  j<orderList.size() ;j++ )// o+1
+    		 {Order currentOrder = orderList.retrieve();//o
+    			 if(orderList.retrieve().getOrderDate().isAfter(first_date) && orderList.retrieve().getOrderDate().isBefore(second_date)) {//o
+    				 orders.add(currentOrder);//o
+    				currentOrder.display();//o
     			 }
-    			 if(orderList.last())
-    				 break;
-        		 orderList.findnext();
+    			 if(orderList.last())//o
+    				 break;//o
+        		 orderList.findnext();//o
     		 }
     	 }
-return orders;
+return orders;//1
     }
   //-------------------------------------------------------------------------------  
   /*  public void readOrdersFromFile(String fileName) {

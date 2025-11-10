@@ -108,12 +108,12 @@ public class Order {
 
    
     public void display() {
-        System.out.println("Order ID: " + orderId);
-        System.out.println("Customer ID: " + customerId);
-        System.out.print("Product IDs: ");
+        System.out.println("Order ID: " + orderId);//1
+        System.out.println("Customer ID: " + customerId);//1
+        System.out.print("Product IDs: ");//1
         productIds.display();
-        System.out.println("Total Price: $" + price);
-        System.out.println("Date: " + orderDate);
-        System.out.println("Status: " + status);
+        System.out.println("Total Price: $" + price);//1
+        System.out.println("Date: " + orderDate);//1
+        System.out.println("Status: " + status);//1
     }
 }
