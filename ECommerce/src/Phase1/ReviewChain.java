@@ -117,17 +117,26 @@ else {
 //----------------------------------------------------------shaden
 
 public LinkedList<Reviews> searchReviewsByCustomer(int customerId) {
-    LinkedList<Reviews> out = new LinkedList<Reviews>();
-    if (reviews.empty()) return out;
-    reviews.findfirst();
-    for (int i = 0; i < reviews.size(); i++) {
-        Reviews r = reviews.retrieve();
-        if (r.getCustomerID() == customerId) appendToEnd(out, r);
-        if (reviews.last()) break;
-        reviews.findnext();
+    LinkedList<Reviews> out = new LinkedList<Reviews>();           // O(1)
+    if (reviews.empty()) return out;                              // O(1)
+    reviews.findfirst();                                          // O(1)
+
+    for (int i = 0; i < reviews.size(); i++) {                    // O(n)
+        Reviews r = reviews.retrieve();                           // O(1)
+
+        if (r.getCustomerID() == customerId)                      // O(1)
+            appendToEnd(out, r);                                  // O(m) worst-case, O(1) avg
+
+        if (reviews.last()) break;                                // O(1)
+        reviews.findnext();                                       // O(1)
     }
-    return out;
+
+    return out;                                                   // O(1)
 }
+
+	//Total Time = O(n)
+	//Space Complexity: O(m)
+
 
 public LinkedList<Reviews> searchReviewsByProduct(int productId) {
     LinkedList<Reviews> out = new LinkedList<Reviews>();
@@ -153,4 +162,5 @@ private void appendToEnd(LinkedList<Reviews> list, Reviews r) {
 }
 
 }
+
 
