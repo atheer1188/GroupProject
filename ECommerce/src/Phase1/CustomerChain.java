@@ -12,7 +12,9 @@ public LinkedList<Customers> customersInfo()
 	return customers;
 }
 
-//do File here ====================================================!!!!!!!!!!!!!!!!!!!!!!
+
+
+// File here ====================================================!!!!!!!!!!!!!!!!!!!!!!
 
 public CustomerChain(String fileName) {
 customers = new LinkedList<Customers>();
@@ -44,15 +46,15 @@ customers = new LinkedList<Customers>();
 //=============================================================================
 public void registerCustomer() {
 	
-	System.out.println("Please enter the customers ID:");
-	int cusid =read.nextInt();
+	System.out.println("Please enter the customers ID:");//1
+	int cusid =read.nextInt();//1
 	//check if ID exists
-	while(searchCustomerId(cusid)) {
-	    System.out.println("Customer ID: " + cusid+" already exists, Please enter a new Id");
-	    cusid =read.nextInt();
+	while(searchCustomerId(cusid)) {//O(c)
+	    System.out.println("Customer ID: " + cusid+" already exists, Please enter a new Id");//O(c)
+	    cusid =read.nextInt();//O(c)
 	}
-	read.nextLine();//clear
-	System.out.println("Enter customers name: ");
+	read.nextLine();//clear//1
+	System.out.println("Enter customers name: ");//1
 	String name = read.nextLine();
 	
 	
@@ -62,8 +64,8 @@ public void registerCustomer() {
 	Customers newcustomer = new Customers(cusid , name , email);
 
 	
-	if(customers.empty())
-		customers.add(newcustomer);
+	if(customers.empty())//1
+		customers.add(newcustomer);//1
 	else {
 		customers.findfirst();
 	while(!customers.last())

@@ -36,6 +36,9 @@ public static void loadData() {
 	products = productdata.getProductChain();
 	orders = orderdata.getOrders();
 	reviews = reviewdata.getReviews();
+	
+	linkReviewsToProducts();
+	
 	if(!customers.empty() && !orders.empty()) {
 	customers.findfirst();
 	for(int i = 0 ; i<customers.size() ; i++) {
@@ -53,7 +56,28 @@ public static void loadData() {
 System.out.println("All data loaded succesfully!");
 }
 		
-	
+private static void linkReviewsToProducts() {
+    if (reviews == null || reviews.empty()) {
+        System.out.println("No reviews to link");
+        return;
+    }
+    
+    reviews.findfirst();
+    for (int i = 0; i < reviews.size(); i++) {
+        Reviews review = reviews.retrieve();
+        int productId = review.getProductID();
+        
+        // Find the product and add this review to it
+        Products product = productdata.search(productId);
+        if (product != null) {
+            product.addReview(review);
+        }
+        
+        if (reviews.last()) break;
+        reviews.findnext();
+    }
+    System.out.println("✓ Reviews linked to products");
+}
 
 
 //---------------------------------------------------------------------------------------
@@ -110,8 +134,8 @@ public static void ProductsMenu() {
 	switch(choice) {
 	case 1: // adding a new product
 		System.out.println("Enter product name: ");
-		String pName = read.nextLine();
 		read.nextLine();
+		String pName = read.nextLine();
 		System.out.println("Enter product ID: ");
 		int pId = read.nextInt();
 		System.out.println("Enter product price: ");
@@ -120,14 +144,17 @@ public static void ProductsMenu() {
 		int pStock = read.nextInt();
 		
 		Products p = new Products(pId, pName, pPrice, pStock);
-		productdata.addProduct(p);
+		if(productdata.addProduct(p));
+		System.out.println("Product added successfully");
 		
 		break;		
 		
 	case 2: //remove product
 		System.out.println("Enter product ID: ");
 		int ID = read.nextInt();
-		productdata.remove(ID);
+		if(productdata.remove(ID));
+		System.out.println("Product Removed successfully");
+
 		break;
 
 	case 3: //update product
@@ -191,7 +218,7 @@ public static void OrdersMenu() {
     java.time.format.DateTimeFormatter DF =
         java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    while (choice != 8) {
+    while (choice != 9) {
         System.out.println("===================================");
         System.out.println("Orders Menu - choose an option:");
         System.out.println("1. Load orders from CSV");
@@ -248,7 +275,7 @@ public static void OrdersMenu() {
                 System.out.print("Add Product IDs now? (y/n): ");
                 String ans = read.next();
                 if (ans.equalsIgnoreCase("y")) {
-                    System.out.print("ID: ");
+                	System.out.print("ID: ");
                     String ids = read.next();
                     o.addIds(ids);
                     System.out.println("Product IDs added.");
@@ -265,8 +292,15 @@ public static void OrdersMenu() {
                 } else {
                     System.out.print("Product ID to add: ");
                     int pid = read.nextInt();
+                    //validate
+                    while(!productdata.searchProductId(pid)) { 
+                    	System.out.println("The ID: "+pid +" doesnt exist, enter a new one:");
+                    	pid = read.nextInt();
+                    }
+                     
                     found.addId(pid);
-                    System.out.println("Added.");
+                    System.out.println("Product Added Successfully!");
+                    
                 }
                 break;
             }
@@ -423,8 +457,9 @@ public static void ReviewsMenu() {
             } 
             break; 
         } 
+      
          
-        case 5: { // Search/Show all reviews by a customer 
+       case 5: { // Search/Show all reviews by a customer 
             System.out.println("Enter customer ID:"); //1
             int cid = read.nextInt(); //1
             while(!customersdata.searchCustomerId(cid)) { //c
@@ -594,45 +629,45 @@ public static void ReviewsMenu() {
 
 	public static LinkedList<Products> commonProducts(int cusID1, int cusID2){
 	
-	if(reviewdata.reviews.empty()) {
-		System.out.println("No common products");
-	    return new LinkedList<Products>();
+	if(reviewdata.reviews.empty()) {//1
+		System.out.println("No common products");//1
+	    return new LinkedList<Products>();//1
 	}
 	
-	LinkedList<Products> comProducts = new LinkedList();
-	LinkedList<Reviews> R1 = new LinkedList();
-	LinkedList<Reviews> R2 = new LinkedList();
+	LinkedList<Products> comProducts = new LinkedList();//1
+	LinkedList<Reviews> R1 = new LinkedList();//1
+	LinkedList<Reviews> R2 = new LinkedList();//1
 
-	reviewdata.reviews.findfirst();
-	for(int i=0; i<reviewdata.reviews.size(); i++) {
-		if(reviewdata.reviews.retrieve().customerID == cusID1)
-			R1.add(reviewdata.reviews.retrieve());
-		if(reviewdata.reviews.retrieve().customerID == cusID2)
-			R2.add(reviewdata.reviews.retrieve());
+	reviewdata.reviews.findfirst();//1
+	for(int i=0; i<reviewdata.reviews.size(); i++) {//R+1
+		if(reviewdata.reviews.retrieve().customerID == cusID1)//R
+			R1.add(reviewdata.reviews.retrieve());//R
+		if(reviewdata.reviews.retrieve().customerID == cusID2)//R
+			R2.add(reviewdata.reviews.retrieve());//R
 		
-		reviewdata.reviews.findnext();
+		reviewdata.reviews.findnext();//R
 	}
 	
-	R1.findfirst();
-	for(int i=0; i<R1.size(); i++) {
+	R1.findfirst();//1
+	for(int i=0; i<R1.size(); i++) {//R1+1
 		
-		R2.findfirst();
-		for(int j=0; j<R2.size(); j++ ) {
+		R2.findfirst();//R1
+		for(int j=0; j<R2.size(); j++ ) {//R1(R2+1)
 		
-			if(R1.retrieve().ProductID==R2.retrieve().ProductID) {
-				Products p = productdata.search(R2.retrieve().ProductID);
+			if(R1.retrieve().ProductID==R2.retrieve().ProductID) {//R1*R2
+				Products p = productdata.search(R2.retrieve().ProductID);//O(P)*R1*R2
 				
-					if(p != null && productdata.getAverageRating(p.getProductId()) > 4) {
-						comProducts.add(p);  }
-				break;
+					if(p != null && productdata.getAverageRating(p.getProductId()) > 4) {//R1*R2*O(R)
+						comProducts.add(p);  }//R1*R2*O(R)
+				break;//R1*R2
 			}
-			R2.findnext();
+			R2.findnext();//R1*R2
 		}
-		R1.findnext();
+		R1.findnext();//R1
 	}
 	
-	return comProducts;
-}
+	return comProducts;//1
+}//(R^3+R^2P) badddd
 //-----------------------------------------------------------------------------------------------
 
 

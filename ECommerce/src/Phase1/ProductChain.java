@@ -375,7 +375,6 @@ public class ProductChain {
                 while (!ProductChain.last()) ProductChain.findnext();
                 ProductChain.add(p);
             }
-            System.out.println("Product Added Successfully!");
             return true;
         }
     }
@@ -387,7 +386,6 @@ public class ProductChain {
         } else {
            
             ProductChain.remove();
-            System.out.println("product was removed successfully");
             return true;
         }
     }
@@ -513,14 +511,16 @@ public class ProductChain {
         int count =0;//1
         rs.findfirst();//1
         for(int i=0; i<rs.size(); i++){//r+1
-            if(rs.retrieve().getProductID() == productId)//1(r)
-            {
+            /*if(rs.retrieve().getProductID() == productId)//1(r)
+            {*/
                 sum += rs.retrieve().getRating();//1(r)
                 count++;//1(r)
+              if(i<rs.size()-1)//r(r)
+            rs.findnext();//1(r-1)(r)   
+                
             }
-            if(i<rs.size()-1)//r(r)
-            rs.findnext();//1(r-1)(r)
-        }
+           
+            if(count == 0) return 0;
         return sum / count;//1
     }
 
@@ -538,7 +538,7 @@ public class ProductChain {
         ProductChain.findfirst();//1
         for (int i = 0; i < ProductChain.size(); i++) {//p+1
             Products p = ProductChain.retrieve();//1(p)
-            double avg = getAverageRating(p.getProductId());//1(p)*O(P*r)
+            double avg = getAverageRating(p.getProductId());//O(p+r)*O(p)
 
             if (avg > max1) {//1p
                 third = second; max3 = max2;//2p
@@ -563,7 +563,7 @@ public class ProductChain {
         return top3products;//1
     }
 
-}
+}//O(p^2 +p*r)//O(1)
 
 	
 	

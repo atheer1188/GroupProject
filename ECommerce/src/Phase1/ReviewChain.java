@@ -10,6 +10,7 @@ public static Scanner read = new Scanner(System.in);
 public static LinkedList<Reviews> getReviews() {
 	return reviews;
 }
+
 //------------------------------------------------------------------
 public ReviewChain(String fileName) {
 
@@ -28,7 +29,7 @@ public ReviewChain(String fileName) {
             int rating = Integer.parseInt(data[3].trim());
             String comment = data[4].trim();
 
-            Reviews r = new Reviews(rvwId , productid , customerid , rating , comment);
+            Reviews r = new Reviews(rvwId , customerid , productid , rating , comment);
             reviews.add(r);
         }
         }
@@ -95,6 +96,7 @@ public boolean editReview(int rvwID) {
 	}
 }
 
+
 //--------------------------------------------------------------------
 public boolean searchreview(int id){
 boolean found = false;
@@ -133,6 +135,8 @@ public LinkedList<Reviews> searchReviewsByCustomer(int customerId) {
 
     return out;                                                   // O(1)
 }
+
+
 
 	//Overall Time Complexity: O(n), where n = total number of reviews in the system.
     //Space Complexity: O(m), where m = number of reviews written by the specified customer.
