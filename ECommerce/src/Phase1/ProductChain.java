@@ -359,8 +359,9 @@ public class ProductChain {
 
 
 
-    public boolean addProduct(Products p) {
-        if (p == null) return false;
+      public boolean addProduct(Products p) {
+        if (p == null) 			
+        	return false;
 
         // product already exists
         if (search(p.getProductId()) != null) {
@@ -371,14 +372,16 @@ public class ProductChain {
             if (ProductChain.empty()) {
                 ProductChain.add(p);
             } else {
-                ProductChain.findfirst();
-                while (!ProductChain.last()) ProductChain.findnext();
+               // ProductChain.findfirst();
+                while (!ProductChain.last()) 
+                	ProductChain.findnext();
                 ProductChain.add(p);
             }
             return true;
         }
     }
-
+    
+ 
     public boolean remove(int id) {
         if (search(id) == null) {
             System.out.println("this product does not exist");
@@ -496,33 +499,6 @@ public class ProductChain {
         return true;
     }
 
-    public double getAverageRating(int productId) {
-        Products p = search(productId);//O(p)
-        if(p == null) {//1
-            System.out.println("Product not found");//1
-            return -1;//1
-        }
-
-        LinkedList<Reviews> rs = p.getReviews();//1
-        if(rs.empty()) //1
-        	return 0;//1
-
-        double sum = 0;//1
-        int count =0;//1
-        rs.findfirst();//1
-        for(int i=0; i<rs.size(); i++){//r+1
-            /*if(rs.retrieve().getProductID() == productId)//1(r)
-            {*/
-                sum += rs.retrieve().getRating();//1(r)
-                count++;//1(r)
-              if(i<rs.size()-1)//r(r)
-            rs.findnext();//1(r-1)(r)   
-                
-            }
-           
-            if(count == 0) return 0;
-        return sum / count;//1
-    }
 
 
 
@@ -563,7 +539,35 @@ public class ProductChain {
         return top3products;//1
     }
 
-}//O(p^2 +p*r)//O(1)
+    public double getAverageRating(int productId) {
+          Products p = search(productId);//O(p)
+          if(p == null) {//1
+              System.out.println("Product not found");//1
+              return -1;//1
+          }
+
+          LinkedList<Reviews> rs = p.getReviews();
+          if(rs.empty()) return 0;
+          double sum = 0;//1
+          int count =0;//1
+          rs.findfirst();//1
+          for(int i=0; i<rs.size(); i++){//r+1
+              /*if(rs.retrieve().getProductID() == productId)//1(r)
+              {*/
+                  sum += rs.retrieve().getRating();//1(r)
+                  count++;//1(r)
+                if(i<rs.size()-1)//r(r)
+              rs.findnext();//1(r-1)(r)   
+                  
+              }
+             
+              if(count == 0) return 0;
+          return sum / count;//1
+      }
+
+
+}
+
 
 	
 	
