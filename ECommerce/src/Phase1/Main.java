@@ -36,7 +36,7 @@ public static void loadData() {
 	products = productdata.getProductChain();
 	orders = orderdata.getOrders();
 	reviews = reviewdata.getReviews();
-	//LinkReviewssToProducts();
+	LinkReviewssToProducts();
 	
 	if(!customers.empty() && !orders.empty()) {
 	customers.findfirst();
@@ -55,7 +55,7 @@ public static void loadData() {
 System.out.println("All data loaded succesfully!");
 }
 //method for linking reviews to products
-/*private static void LinkReviewssToProducts() {
+private static void LinkReviewssToProducts() {
 	if(reviews == null||  reviews.empty()) {
 		System.out.println("No reviews to link");
 		return ;
@@ -72,7 +72,7 @@ System.out.println("All data loaded succesfully!");
 		reviews.findnext();
 	}System.out.println("Reviews Linked to Products successfully");
 }
-*/
+
 
 
 
@@ -408,7 +408,7 @@ public static void ReviewsMenu() {
                 System.out.println("Products ID: " + p.getProductId());
                 System.out.println("Products name: " + p.getName());
                 System.out.println("Products Price: " + p.getPrice());
-                System.out.println("Products Average ratings: " + productdata.getAverageRating(p.getProductId()));
+                System.out.println("Products Average ratings: " + productdata.getAverageRating(p));
                 if (topProducts.last()) break;
                 topProducts.findnext();
             }
@@ -424,7 +424,9 @@ public static void ReviewsMenu() {
                 System.out.println("Wrong ID,Enter a new products ID:");
                 id = read.nextInt();
             }
-            System.out.println("The products Average rating is: " + productdata.getAverageRating(id));
+            Products p = productdata.search(id);
+            
+            System.out.println("The products Average rating is: " + productdata.getAverageRating(p));
             break;
         }
         case 4: { // Search/Show all reviews for a product 
@@ -564,7 +566,7 @@ public static void ReviewsMenu() {
                 System.out.println("This customer ID doesnt Exist input new one:");
                 cid2 = read.nextInt();}
             
-            LinkedList<Products> common = commonProducts(cid1,cid2);
+          LinkedList<Products> common = commonProducts(cid1,cid2);
             common.display();
    break;
 
@@ -609,7 +611,7 @@ public static void ReviewsMenu() {
 				if(R1.retrieve().ProductID == R2.retrieve().ProductID) {
 					Products p = productdata.search(R2.retrieve().ProductID);
 					
-						if(p != null && productdata.getAverageRating(p.getProductId()) > 4) {
+						if(p != null && productdata.getAverageRating(p) > 4) {
 							comProducts.add(p);  }
 							break;
 				}
