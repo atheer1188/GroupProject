@@ -140,7 +140,7 @@ public static void ProductsMenu() {
 		int pStock = read.nextInt();
 		
 		Products p = new Products(pId, pName, pPrice, pStock);
-		if(productdata.addProduct(p));
+		if(productdata.addProduct(p))
 		System.out.println("Product added successfully");
 		
 		break;		
@@ -673,6 +673,7 @@ public static void main(String[] args) {
 
 
 }//end Main
+
 
 
 
