@@ -9,7 +9,7 @@ public class Products {
 	private double price;
 	private int stock;
 	public LinkedList<Reviews> reviews;
-	
+
 	 Products() {
 		productId=0;
 		name=null;
@@ -30,7 +30,8 @@ public void addReview(Reviews r) {
     reviews.add(r);
 }
 
-
+	
+	 
 	public int getProductId() {
 		return productId;
 	}

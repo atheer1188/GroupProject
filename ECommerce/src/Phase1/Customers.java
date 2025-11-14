@@ -64,8 +64,7 @@ public void setEmail(String email) {
 }
 
 public void addOrder(Integer order) {
-	//check
-	orders.add(order);
+orders.add(order);
 }
 
 //==========================================================
@@ -100,7 +99,6 @@ public void display() {
     System.out.print("Customer Email: "+email );
     
     if(!orders.empty()) {
-    	orders.findfirst();
     	        orders.findfirst();
     	        for (int i = 0; i < orders.size(); i++) {
     	           System.out.println(orders.retrieve());

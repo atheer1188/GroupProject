@@ -54,6 +54,7 @@ public static void loadData() {
 }
 System.out.println("All data loaded succesfully!");
 }
+
 //method for linking reviews to products
 private static void LinkReviewssToProducts() {
 	if(reviews == null||  reviews.empty()) {

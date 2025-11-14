@@ -580,13 +580,13 @@ public class ProductChain {
            } else if (avg > max2) {//1p
                third = second; max3 = max2;//2p
                second = p;     max2 = avg;//2p
-           } else if (avg > max3) {//1p
-               third = p;   max3 = avg;//2p
+           } else if (avg > max3) {
+        	   third = p;   max3 = avg;
            }
 
-           if (ProductChain.last()) //p
-           	break;//p
-           ProductChain.findnext();//p
+           if (ProductChain.last())
+           	break;
+           ProductChain.findnext();
        }
 
        LinkedList<Products> top3products = new LinkedList<Products>();//1
