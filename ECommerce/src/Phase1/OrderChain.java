@@ -12,7 +12,6 @@ public class OrderChain {
     static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     public static Scanner read = new Scanner(System.in);
 
-    
     public OrderChain() {
         orderList = new LinkedList<Order>();       
         customerList = CustomerChain.customers;     
@@ -22,8 +21,8 @@ public class OrderChain {
         return orderList;
     }
 
-
-
+    // ---------------------------------------------------
+    // Search order by ID
     public Order findOrderById(int orderId) {
 
         if (orderList.empty()) return null;
@@ -40,7 +39,8 @@ public class OrderChain {
         return null;
     }
 
-  
+    // ---------------------------------------------------
+    // Update order status
     public void changeStatus(int orderId, String statusName) {
         Order target = findOrderById(orderId);
 
@@ -53,21 +53,23 @@ public class OrderChain {
         System.out.println("Status updated for order " + orderId);
     }
 
+    // ---------------------------------------------------
+    // Cancel order (used instead of delete)
+    public void cancelOrder(int orderId) {
+        Order target = findOrderById(orderId);
 
-
-    public void deleteOrder(int orderId) {
-
-        if (findOrderById(orderId) == null) {
-            System.out.println("Order does not exist!");
+        if (target == null) {
+            System.out.println("Order ID not found!");
             return;
         }
 
-        orderList.remove();
-        System.out.println("Order " + orderId + " deleted.");
+        target.setStatus("Cancelled");
+        System.out.println("Order " + orderId + " has been cancelled.");
     }
 
-    
 
+    // ---------------------------------------------------
+    // Link order to customer (add orderId to customer.orders list)
     private void linkOrderToCustomer(Order orderObj) {
 
         if (customerList.empty()) return;
@@ -86,8 +88,8 @@ public class OrderChain {
         }
     }
 
-   
-
+    // ---------------------------------------------------
+    // Insert new order (create order)
     public void insertOrder(Order orderObj) {
 
         if (findOrderById(orderObj.getOrderId()) != null) {
@@ -97,10 +99,8 @@ public class OrderChain {
 
         addToEnd(orderList, orderObj);
         linkOrderToCustomer(orderObj);
+    }
 
-   }
-
-   
     private void addToEnd(LinkedList<Order> list, Order item) {
 
         if (list.empty()) {
@@ -116,8 +116,8 @@ public class OrderChain {
         list.add(item);
     }
 
-    
-
+    // ---------------------------------------------------
+    // Convert CSV line to Order
     public static Order convertLineToOrder(String line) {
 
         try {
@@ -130,8 +130,10 @@ public class OrderChain {
             LocalDate date = LocalDate.parse(fields[4].trim(), dateFormat);
             String status = fields[5].trim();
 
-            Order obj = new Order(orderId, customerId,price, date, status);
+            
+            Order obj = new Order(orderId, customerId, price, date, status);
             obj.addIds(productIdList);
+
 
             return obj;
 
@@ -141,18 +143,21 @@ public class OrderChain {
         }
     }
 
-   
-
+    // ---------------------------------------------------
+    // Read orders from file
     public void readOrdersFromFile(String fileName) {
 
         try {
             File f = new File(fileName);
             Scanner scan = new Scanner(f);
 
-            scan.nextLine(); // skip header
+            if (scan.hasNextLine())
+                scan.nextLine(); // skip header
 
             while (scan.hasNextLine()) {
                 String row = scan.nextLine().trim();
+                if (row.length() == 0) continue;
+
                 Order newOrder = convertLineToOrder(row);
                 if (newOrder != null) insertOrder(newOrder);
             }
@@ -165,70 +170,53 @@ public class OrderChain {
         }
     }
 
-   public LinkedList<Order> AllOrdersBetweenDates(LocalDate first_date, LocalDate second_date) {
-    LinkedList<Order> orders = new LinkedList<Order>();            // O(1)
+    // ---------------------------------------------------
+    // All orders between two dates
+    public LinkedList<Order> AllOrdersBetweenDates(LocalDate first_date, LocalDate second_date) {
 
-    if (!orderList.empty()) {                                      // O(1)
-        orderList.findfirst();                                     // O(1)
-        for (int j = 0; j < orderList.size(); j++) {               // O(n)
-            Order currentOrder = orderList.retrieve();             // O(1)
+        LinkedList<Order> orders = new LinkedList<Order>();
 
-            if (orderList.retrieve().getOrderDate().isAfter(first_date)   // O(1)
-             && orderList.retrieve().getOrderDate().isBefore(second_date)) // O(1)
-            {
-                orders.add(currentOrder);                          // O(1)
-                currentOrder.display();                            // O(1)
+        if (orderList.empty()) {
+            System.out.println("No orders in the system.");
+            return orders;
+        }
+
+        if (second_date.isBefore(first_date)) {
+            LocalDate tmp = first_date;
+            first_date = second_date;
+            second_date = tmp;
+        }
+
+        boolean found = false;
+
+        orderList.findfirst();
+        for (int j = 0; j < orderList.size(); j++) {
+
+            Order currentOrder = orderList.retrieve();
+            LocalDate d = currentOrder.getOrderDate();
+
+             
+            if ((d.isAfter(first_date) || d.isEqual(first_date)) &&
+                (d.isBefore(second_date) || d.isEqual(second_date))) {
+
+                orders.add(currentOrder);
+                currentOrder.display();
+                found = true;
             }
 
-            if (orderList.last()) break;                           // O(1)
-            orderList.findnext();                                  // O(1)
+            if (orderList.last()) break;
+            orderList.findnext();
         }
-    }
-    return orders;                                                 // O(1)
-}
-    // Overall Time Complexity: O(n), where n = number of orders in orderList.
-    
-  //-------------------------------------------------------------------------------  
-  /*  public void readOrdersFromFile(String fileName) {
 
-        try {
-            File f = new File(fileName);
-            Scanner scan = new Scanner(f);
-            String line = scan.nextLine(); // skip header
-
-            while (scan.hasNext()) {
-                line = scan.nextLine(); 
-                String [] data = line.split(",");
-                int orderid = Integer.parseInt(data[0]);
-                int customerid=	Integer.parseInt(data[1]);
-                String pp = data[2].replaceAll("\"", "");
-                String [] p =pp.split(";");
-                Integer [] pids = new Integer [p.length];
-                for(int i = 0 ; i<pids.length ; i++)
-                	pids[i] = new Integer(Integer.parseInt(p[i].trim()));
-                double price =Double.parseDouble(data[3]);
-                String date =data[4];
-                String status =data[5];
-                
-                Order o = new Order(orderid, customerid, pids, price, date, status);
-                orderList.add(o);
-
-
-            }
-
-            scan.close();
-            System.out.println("Orders loaded successfully!");
-
-        } catch (Exception e) {
-            System.out.println("Error while loading orders: " + e.getMessage());
+        if (!found) {
+            System.out.println("No orders between these two dates.");
         }
-    }
-*/
-  //------------------------------------------------------------------------------- 
-  
-  //-------------------------------------------------------------------------------
-   
 
+        return orders;
+    }
+
+
+    // ---------------------------------------------------
     public void displayAllOrders() {
 
         if (orderList.empty()) {
@@ -246,4 +234,3 @@ public class OrderChain {
     }
 
 }
-
