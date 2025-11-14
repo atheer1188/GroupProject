@@ -141,7 +141,7 @@ public void viewOrderHistory() {
 		else {
 			customers.findfirst();
 			for(int i = 0 ; i<customers.size() ; i++) {
-				if(searchCustomerId(id))
+				if(customers.retrieve().getCustomersId()==id)
 					return customers.retrieve();
 				customers.findnext();	
 			}
@@ -149,6 +149,7 @@ public void viewOrderHistory() {
 		}
 		return null;
 	}
+
 
 
 
