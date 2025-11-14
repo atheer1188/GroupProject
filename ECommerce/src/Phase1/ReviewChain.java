@@ -128,7 +128,8 @@ public LinkedList<Reviews> searchReviewsByCustomer(int customerId) {
 
         if (r.getCustomerID() == customerId)                      // O(1)
             appendToEnd(out, r);                                  // O(m) worst-case, O(1) avg
-
+			//update: out.add(r);
+		
         if (reviews.last()) break;                                // O(1)
         reviews.findnext();                                       // O(1)
     }
@@ -166,6 +167,7 @@ private void appendToEnd(LinkedList<Reviews> list, Reviews r) {
 }
 
 }
+
 
 
 
