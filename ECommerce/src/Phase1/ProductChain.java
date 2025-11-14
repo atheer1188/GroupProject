@@ -359,20 +359,28 @@ public class ProductChain {
 
 
 
-      public boolean addProduct(Products p) {
+     public boolean addProduct(Products p) {
         if (p == null) 			
         	return false;
 
         // product already exists
-        if (search(p.getProductId()) != null) {
-            System.out.println("A product with the same ID already exists");
-            return false;
+        if (search(p.getProductId()) != null) {		
+            System.out.println("A product with the same ID already exists");	
+            return false;			
         } else {
-            ProductChain.add(p);
+
+            if (ProductChain.empty()) {
+                ProductChain.add(p);
+            } else {
+                ProductChain.findfirst();
+                while (!ProductChain.last()) 
+                	ProductChain.findnext();
+                ProductChain.add(p);
+            }
+        	ProductChain.add(p);
             return true;
         }
     }
-    
  
     public boolean remove(int id) {
         if (search(id) == null) {
