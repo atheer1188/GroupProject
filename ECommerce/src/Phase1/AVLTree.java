@@ -307,6 +307,36 @@ public boolean removeKey(int key) {//three cases for removing a key
 	
 }	
 	
+//***************Return List Of All Nodes In AVLTree*****************
+public LinkedList<T> inOrderTrverse(){
+	LinkedList<T> l = new LinkedList<T>();
+	recInOrderTrverse(root , l);
+	return l;
+}
+
+private void recInOrderTrverse(AVLNode<T> t , LinkedList<T> l) {
+	//tree is empty
+	if(t==null)
+		return;
+	recInOrderTrverse(t.left , l);
+	l.add(t.data);
+	recInOrderTrverse(t.right , l);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }//end whole class
 

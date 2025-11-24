@@ -6,8 +6,7 @@ public class Customers{
 private int customerId;
 private String name;
 private String email;
-private LinkedList<Integer> orders = new LinkedList<Integer>();
-
+private AVLTree<Order> orders = new AVLTree<>();
 
 public Customers() {
 	customerId = 0;
@@ -49,44 +48,21 @@ public String getEmail() {
 }
 
 
-public LinkedList<Integer> getOrders() {
+public AVLTree<Order> getOrders() {
 	return orders;
 }
-
-
-public void setOrders(LinkedList<Integer> orders) {
-	this.orders = orders;
-}
-
 
 public void setEmail(String email) {
 	this.email = email;
 }
 
-public void addOrder(Integer order) {
-orders.add(order);
+public void addOrder(Order order) {
+orders.insert(order.getOrderId() , order );
 }
 
 //==========================================================
-public boolean removeOrder(Integer order) {
-	if(! orders.empty())
-	{
-		orders.findfirst();
-		while(orders.last()) {//check all nodes if equals the given order
-			if(orders.retrieve().equals(order)) {
-				orders.remove();
-				return true;
-			}
-			
-			else
-				orders.findnext();
-		}
-		if(orders.retrieve().equals(order)) {//for the last Node
-			orders.remove();
-			return true;
-	 }
-	}
-	return false;
+public boolean removeOrder(int ID) {
+return orders.removeKey(ID);
 }
 //==========================================================End of RemoveOrder
 
@@ -99,14 +75,15 @@ public void display() {
     System.out.print("Customer Email: "+email );
     
     if(!orders.empty()) {
-    	        orders.findfirst();
-    	        for (int i = 0; i < orders.size(); i++) {
+    	       
     	           System.out.println(orders.retrieve());
-    	            orders.findnext();
-    	        }
+    	            //need method for display
+    	       
     	    }
     	}//end display
-    
+    public String getDataToFile() {
+    	return customerId + ", "+name+ ", "+ ", "+email;
+    }
 
 } 
 

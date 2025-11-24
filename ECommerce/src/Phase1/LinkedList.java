@@ -69,7 +69,6 @@ public void add (T val) {
 		current= head =new Node<T> (val);
 	}
 	else {
-			findfirst();
 		tmp = current.next;
 		current.next = new Node<T>(val);
 		current = current.next;
@@ -109,6 +108,10 @@ public void display() {
 		}
 	}
 	System.out.println(" ");
+}
+
+public Node<T> getHead() {
+	return head;
 }
 
 

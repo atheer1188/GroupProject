@@ -22,7 +22,7 @@ public static LinkedList<Reviews> reviews ;
 
 //---------------------------------------------------------------------------------------
 //read files
-public static void loadData() {
+/*public static void loadData() {
 	
 	 customersdata = new CustomerChain("customers.csv");	
 	 productdata = new ProductChain("products.csv");	
@@ -57,7 +57,7 @@ System.out.println("All data loaded succesfully!");
 
 //method for linking reviews to products
 
-
+*/
 
 
 //---------------------------------------------------------------------------------------
@@ -68,7 +68,8 @@ public static void CustomersMenu() {
 		System.out.println("What would you like to do:");	
 		System.out.println("1. Register new customer");	
 		System.out.println("2. View order history");	
-		System.out.println("3. Exit");	
+		System.out.println("3. Search for Customer (By Id)");
+		System.out.println("4. List customers names Alphabetically");	
 		System.out.println("===================================");	
 		choice = read.nextInt();
 	
@@ -81,6 +82,14 @@ public static void CustomersMenu() {
 			customersdata.viewOrderHistory();
 			break;
 		case 3:
+			customersdata.searchCustomerById();
+			break;
+		
+		case 4:
+			customersdata.ListCustomersInAlphabeticalOrder();
+		
+		
+		case 5:
 			System.out.println("Returning to Main Menu...");
 		break;
 		default:

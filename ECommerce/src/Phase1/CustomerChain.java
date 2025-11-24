@@ -5,9 +5,9 @@ import java.util.Scanner;
 public class CustomerChain {
 
 public static Scanner read = new Scanner(System.in);
-public static LinkedList<Customers> customers = new LinkedList<Customers>();
+public static AVLTree<Customers> customers = new AVLTree<Customers>();
  
-public LinkedList<Customers> customersInfo()
+public AVLTree<Customers> getcustomers()
 {
 	return customers;
 }
@@ -16,7 +16,7 @@ public LinkedList<Customers> customersInfo()
 
 // File here ====================================================!!!!!!!!!!!!!!!!!!!!!!
 
-public CustomerChain(String fileName) {
+/*public CustomerChain(String fileName) {
 customers = new LinkedList<Customers>();
     try {
         File f = new File(fileName);
@@ -42,14 +42,14 @@ customers = new LinkedList<Customers>();
         System.out.println("Error while loading Custeomers: " + e.getMessage());
     }
 }
-
+*/
 //=============================================================================
 public void registerCustomer() {
 	
 	System.out.println("Please enter the customers ID:");//1
 	int cusid =read.nextInt();//1
 	//check if ID exists
-	while(searchCustomerId(cusid)) {//O(c)
+	while(customers.findkey(cusid)) {//O(c)
 	    System.out.println("Customer ID: " + cusid+" already exists, Please enter a new Id");//O(c)
 	    cusid =read.nextInt();//O(c)
 	}
@@ -63,15 +63,7 @@ public void registerCustomer() {
 	
 	Customers newcustomer = new Customers(cusid , name , email);
 
-	
-	if(customers.empty())//1
-		customers.add(newcustomer);//1
-	else {
-		customers.findfirst();
-	while(!customers.last())
-		customers.findnext();
-		customers.add(newcustomer);
-	}
+	customers.insert(cusid, newcustomer);
 	System.out.println("Registeration complete!");
 	}
 //=============================================================================
@@ -88,23 +80,14 @@ public void viewOrderHistory() {
 			System.out.println("Enter Customer ID:");	
 			int id = read.nextInt();
 		
-		if(searchCustomerId(id))
-		{   Customers customer = customers.retrieve();
-			LinkedList<Integer> Orders = customers.retrieve().getOrders();
-			if(Orders.empty())
-				System.out.println("There is no past order from Customer ID: "+customer.getCustomersId());
+		if(customers.findkey(id))
+		{   
+			if(customers.retrieve().getOrders().empty())
+				System.out.println("There is no past order from Customer ID: "+customers.retrieve().getCustomersId());
 			else
 			{
-			System.out.println("Order History for Customer:");
-			Orders.findfirst();
-			
-			for(int j = 0 ; j<Orders.size(); j++)
-			{
-			System.out.println(Orders.retrieve());
-			if(!Orders.last())
-				break;
-			Orders.findnext();
-			}
+				System.out.println("Orders History:");
+				System.out.println(customers.retrieve().getOrders());
 			}
 		}
 		else
@@ -115,40 +98,65 @@ public void viewOrderHistory() {
 //==============================================================================
 
 //==============================================================================
-	public boolean searchCustomerId(int id) {
-		boolean found = false;
-		if(customers.empty())
-			return found;
-		
-		else {
-			customers.findfirst();
-			for(int i = 0 ; i<customers.size() ; i++) {
-				if(customers.retrieve().getCustomersId()==id)
-				{
-					found=true;
-					break;
-				}
-				customers.findnext();
-			}
-				return found;	
+	public Customers searchCustomerById() {
+		if(customers.empty()) {
+			System.out.println("No customers");
+			return null;
 		}
+		else {
+		System.out.println("Enter customers ID");
+		int cusID = read.nextInt();
+			if(customers.findkey(cusID)) {
+				System.out.println(customers.retrieve());
+				return customers.retrieve();
+			}
+		}
+		System.out.println("customers ID Doesnt Exist");
+		return null;
+
 	}
 //==============================================================================	
-	public Customers findCustomer(int id) {
-		if(customers.empty())
-			System.out.println("The customer has no data");
-		
-		else {
-			customers.findfirst();
-			for(int i = 0 ; i<customers.size() ; i++) {
-				if(customers.retrieve().getCustomersId() == id )
-					return customers.retrieve();
-				customers.findnext();	
+private Customers[] convertListToArray(LinkedList<Customers> list) {
+	int size = list.size();//size for the array
+	Customers [] array = new Customers[size]; // initialize the array
+	list.findfirst();
+	for(int i = 0 ; i< size ; i++) {
+		array[i]= list.retrieve();//print value of node in the array
+		if(!list.last())//to make sure it doesnt point to null
+			list.findnext();
+	}	
+	return array;	
+}
+//==============================================================================
+//sort the array using bubble 
+private void sortNameByBubble(Customers[] array) {
+	int size = array.length;
+	for(int i=0 ; i < size -1 ; i++) {
+		for(int k=0 ; k<size-i-1 ; k++) {
+			if(array[k].getName().compareToIgnoreCase(array[k+1].getName()) >0) {
+				Customers temp = array[k];
+				array[k] = array[k+1];
+				array[k+1] = temp;
+				
 			}
 		}
-		return null;
 	}
-
+}
+//==============================================================================
+//method that uses method helpers to print names in alphabetical order
+public void ListCustomersInAlphabeticalOrder() {
+	//insert all customer nodes from tree to list
+	LinkedList<Customers> cusL = customers.inOrderTrverse();
+	//convert it to array to sort it
+	Customers[] cA =convertListToArray(cusL);
+	//sort the array alphabeticcally using bubble
+	sortNameByBubble(cA);
+	//print all the values of the sorted bubble
+	System.out.println("Names of customers in Alphabetical Order:");
+	for(int i = 0; i < cA.length ; i++) {
+		System.out.println(cA[i].getName());
+	}
+}
 
 
  }
