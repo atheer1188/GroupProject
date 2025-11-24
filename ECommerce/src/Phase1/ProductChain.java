@@ -372,7 +372,7 @@ public class ProductChain {
             if (ProductChain.empty()) {
                 ProductChain.add(p);
             } else {
-               // ProductChain.findfirst();
+               ProductChain.findfirst();
                 while (!ProductChain.last()) 
                 	ProductChain.findnext();
                 ProductChain.add(p);
@@ -387,7 +387,6 @@ public class ProductChain {
             System.out.println("this product does not exist");
             return false;
         } else {
-           
             ProductChain.remove();
             return true;
         }
@@ -462,7 +461,7 @@ public class ProductChain {
         for (int i = 0; i < ProductChain.size(); i++) {
             Products p = ProductChain.retrieve();
             if (p.getStock() == 0) {
-                // أضف للنهاية
+                
                 if (out.empty()) out.add(p);
                 else {
                     out.findfirst();

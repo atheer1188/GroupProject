@@ -69,11 +69,7 @@ public void add (T val) {
 		current= head =new Node<T> (val);
 	}
 	else {
-		if(current==null) {
 			findfirst();
-		while(!last())
-			findnext();
-		}
 		tmp = current.next;
 		current.next = new Node<T>(val);
 		current = current.next;

@@ -56,23 +56,6 @@ System.out.println("All data loaded succesfully!");
 }
 
 //method for linking reviews to products
-private static void LinkReviewssToProducts() {
-	if(reviews == null||  reviews.empty()) {
-		System.out.println("No reviews to link");
-		return ;
-	}
-	reviews.findfirst();
-	for(int i = 0 ; i<reviews.size(); i++) {
-		Reviews review = reviews.retrieve();
-		int productId = review.getProductID();
-		Products product = productdata.search(productId);
-		if(product != null) {
-		product.addReview(review);	
-}
-		if(reviews.last())break;
-		reviews.findnext();
-	}System.out.println("Reviews Linked to Products successfully");
-}
 
 
 
@@ -119,7 +102,7 @@ public static void ProductsMenu() {
 
 	System.out.println("===================================");	
 	System.out.println("What would you like to do:");	
-	System.out.println("1. Add  a new product");	
+	System.out.println("1. Add a new product");	
 	System.out.println("2. Remove a product");	
 	System.out.println("3. Update a product's information");
 	System.out.println("4. Search for a product");
@@ -582,6 +565,23 @@ public static void ReviewsMenu() {
 }
 
 //-----------------------------------------------------------------------------------------------
+private static void LinkReviewssToProducts() {
+	if(reviews == null||  reviews.empty()) {
+		System.out.println("No reviews to link");
+		return ;
+	}
+	reviews.findfirst();
+	for(int i = 0 ; i<reviews.size(); i++) {
+		Reviews review = reviews.retrieve();
+		int productId = review.getProductID();
+		Products product = productdata.search(productId);
+		if(product != null) {
+		product.addReview(review);	
+}
+		if(reviews.last())break;
+		reviews.findnext();
+	}System.out.println("Reviews Linked to Products successfully");
+}
 
 
 //-----------------------------------------------------------------------------------------------
