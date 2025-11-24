@@ -437,6 +437,16 @@ public class ProductChain {
 	    	 
 	    	 return p;	 
 	    }
+	 //-------------------------------------------------------------------------------
+	    
+	    public boolean searchProductId(int id) {
+	        if (ProductChain.empty()) {
+	        	return false;
+	        	}
+	        
+	         return ProductChain.findkey(id);
+	    }
+	    
 	    
 	    //-------------------------------------------------------------------------------
 
