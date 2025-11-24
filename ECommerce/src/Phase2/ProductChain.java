@@ -515,7 +515,28 @@ public class ProductChain {
 	        	System.out.println("There are No products that fall in that range of price");
 	        return results;
 	    }	    
-	    
+	 //-------------------------------------------------------------------------------
+     // needs to be checked
+	     public double getAverageRating(Products pro) {
+	          
+
+	         LinkedList<Reviews> ReveiwsForProduct = pro.getReviews();
+	          if(ReveiwsForProduct.empty()) return 0;
+	          double sum = 0;//1
+	          int count =0;//1
+	          ReveiwsForProduct.findfirst();
+	          for(int i=0; i<ReveiwsForProduct.size(); i++){
+	              {
+	                  sum += ReveiwsForProduct.retrieve().getRating();
+	                  count++;
+	                 }
+	                /*  if(i<ReveiwsForProduct.size()-1)
+	                	  ReveiwsForProduct.findnext(); */ 
+	                       
+	              }  
+	           if(count == 0) return 0;
+	          return sum / count;
+	      }
 	    
 	    
 	    
