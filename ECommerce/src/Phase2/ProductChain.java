@@ -369,10 +369,10 @@ public class ProductChain {
 	       
 	        
 	        if(ProductChain.insert(id, p)) {      //already checks for duplicates
-	        	System.out.println("Product added successfully!");
+	        	//System.out.println("Product added successfully!");
 	        	return true; }
 	        	else {
-		        	System.out.println("Couldn't add your product :( try again");
+		        	//System.out.println("Couldn't add your product :( try again");
 		        	return false; }
 	        		
 	        	}
