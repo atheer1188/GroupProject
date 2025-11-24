@@ -304,6 +304,11 @@ public class ProductChain {
 	            readProductsFromFile(fileName);
 	        }
 	    }
+
+	 public AVLTree<Products> getProductChain(){
+		 return ProductChain;
+	 }
+	 
 	 
 	 
 	 public static Products convertLineToProduct(String line) {
