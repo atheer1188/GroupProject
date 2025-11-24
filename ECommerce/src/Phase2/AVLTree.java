@@ -102,6 +102,11 @@ return  ExtractKeyData(t.getLeft(), key);
 else
 return  ExtractKeyData(t.getRight(), key);
 }
+	
+	//--------------- by laila -----------
+	public T ExtractKeyData(int key) {
+		return ExtractKeyData(root, key);
+	}
 /////////////////////////////////////////////
 
 private void updateBalanceFactor(AVLNode t) {
@@ -353,6 +358,7 @@ public void inOrder(Visitor<T> v) {
 
 
 }//end whole class
+
 
 
 
