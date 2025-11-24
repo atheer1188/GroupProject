@@ -1,4 +1,4 @@
-package Phase1;
+package Phase2;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -7,43 +7,32 @@ import java.util.Scanner;
 
 public class OrderChain {
 
-    private LinkedList<Order> orderList;      
-    private LinkedList<Customers> customerList; 
+    private AVLTree<Order> orderTree;
+    private LinkedList<Customers> customerList;
+
     static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     public static Scanner read = new Scanner(System.in);
 
     public OrderChain() {
-        orderList = new LinkedList<Order>();       
-        customerList = CustomerChain.customers;     
+        orderTree = new AVLTree<Order>();
+        customerList = CustomerChain.customers; 
     }
 
-    public LinkedList<Order> getOrders() {
-        return orderList;
+    public AVLTree<Order> getOrderTree() {
+        return orderTree;
     }
 
-    // ---------------------------------------------------
-    // Search order by ID
+    // ---------------------------------------
     public Order findOrderById(int orderId) {
-
-        if (orderList.empty()) return null;
-
-        orderList.findfirst();
-        for (int i = 0; i < orderList.size(); i++) {
-            Order currentOrder = orderList.retrieve();
-            if (currentOrder.getOrderId() == orderId)
-                return currentOrder;
-
-            if (orderList.last()) break;
-            orderList.findnext();
+        if (orderTree.findkey(orderId)) {
+            return orderTree.retrieve();
         }
         return null;
     }
 
-    // ---------------------------------------------------
-    // Update order status
+    // -------------------- --------------------
     public void changeStatus(int orderId, String statusName) {
         Order target = findOrderById(orderId);
-
         if (target == null) {
             System.out.println("Order ID not found!");
             return;
@@ -53,13 +42,16 @@ public class OrderChain {
         System.out.println("Status updated for order " + orderId);
     }
 
-    // ---------------------------------------------------
-    // Cancel order (used instead of delete)
+    // ----------------------------------------
     public void cancelOrder(int orderId) {
         Order target = findOrderById(orderId);
-
         if (target == null) {
             System.out.println("Order ID not found!");
+            return;
+        }
+
+        if ("Cancelled".equalsIgnoreCase(target.getStatus())) {
+            System.out.println("Order " + orderId + " was already cancelled.");
             return;
         }
 
@@ -67,12 +59,9 @@ public class OrderChain {
         System.out.println("Order " + orderId + " has been cancelled.");
     }
 
-
-    // ---------------------------------------------------
-    // Link order to customer (add orderId to customer.orders list)
+    // ---------------------------------------
     private void linkOrderToCustomer(Order orderObj) {
-
-        if (customerList.empty()) return;
+        if (customerList == null || customerList.empty()) return;
 
         customerList.findfirst();
         for (int i = 0; i < customerList.size(); i++) {
@@ -88,52 +77,31 @@ public class OrderChain {
         }
     }
 
-    // ---------------------------------------------------
-    // Insert new order (create order)
+    // ----------------------------------------
     public void insertOrder(Order orderObj) {
-
         if (findOrderById(orderObj.getOrderId()) != null) {
             System.out.println("Order already exists!");
             return;
         }
 
-        addToEnd(orderList, orderObj);
+        orderTree.insert(orderObj.getOrderId(), orderObj);
         linkOrderToCustomer(orderObj);
     }
 
-    private void addToEnd(LinkedList<Order> list, Order item) {
-
-        if (list.empty()) {
-            list.add(item);
-            return;
-        }
-
-        list.findfirst();
-        while (!list.last()) {
-            list.findnext();
-        }
-
-        list.add(item);
-    }
-
-    // ---------------------------------------------------
-    // Convert CSV line to Order
+    // ------------------- --------------------
     public static Order convertLineToOrder(String line) {
-
         try {
             String[] fields = line.split(",");
 
-            int orderId = Integer.parseInt(fields[0].trim().replace("\"", ""));
+            int orderId    = Integer.parseInt(fields[0].trim().replace("\"", ""));
             int customerId = Integer.parseInt(fields[1].trim().replace("\"", ""));
             String productIdList = fields[2].trim().replace("\"", "");
-            double price = Double.parseDouble(fields[3].trim());
+            double price   = Double.parseDouble(fields[3].trim());
             LocalDate date = LocalDate.parse(fields[4].trim(), dateFormat);
-            String status = fields[5].trim();
+            String status  = fields[5].trim();
 
-            
             Order obj = new Order(orderId, customerId, price, date, status);
             obj.addIds(productIdList);
-
 
             return obj;
 
@@ -143,10 +111,8 @@ public class OrderChain {
         }
     }
 
-    // ---------------------------------------------------
-    // Read orders from file
+    // ---------------------------------------
     public void readOrdersFromFile(String fileName) {
-
         try {
             File f = new File(fileName);
             Scanner scan = new Scanner(f);
@@ -170,13 +136,12 @@ public class OrderChain {
         }
     }
 
-    // ---------------------------------------------------
-    // All orders between two dates
+    // ----------------------------------------
     public LinkedList<Order> AllOrdersBetweenDates(LocalDate first_date, LocalDate second_date) {
 
         LinkedList<Order> orders = new LinkedList<Order>();
 
-        if (orderList.empty()) {
+        if (orderTree.empty()) {
             System.out.println("No orders in the system.");
             return orders;
         }
@@ -187,50 +152,41 @@ public class OrderChain {
             second_date = tmp;
         }
 
-        boolean found = false;
+        final LocalDate f = first_date;
+        final LocalDate s = second_date;
 
-        orderList.findfirst();
-        for (int j = 0; j < orderList.size(); j++) {
-
-            Order currentOrder = orderList.retrieve();
-            LocalDate d = currentOrder.getOrderDate();
-
-             
-            if ((d.isAfter(first_date) || d.isEqual(first_date)) &&
-                (d.isBefore(second_date) || d.isEqual(second_date))) {
-
-                orders.add(currentOrder);
-                currentOrder.display();
-                found = true;
+      
+        orderTree.inOrder(new AVLTree.Visitor<Order>() {
+            @Override
+            public void visit(int key, Order o) {
+                LocalDate d = o.getOrderDate();
+                if ((d.isAfter(f) || d.isEqual(f)) &&
+                    (d.isBefore(s) || d.isEqual(s))) {
+                    orders.add(o);
+                    o.display();
+                }
             }
+        });
 
-            if (orderList.last()) break;
-            orderList.findnext();
-        }
-
-        if (!found) {
+        if (orders.size() == 0) {
             System.out.println("No orders between these two dates.");
         }
 
         return orders;
     }
 
-
-    // ---------------------------------------------------
+    // --------------------------------------
     public void displayAllOrders() {
-
-        if (orderList.empty()) {
+        if (orderTree.empty()) {
             System.out.println("No orders available!");
             return;
         }
 
-        orderList.findfirst();
-        for (int i = 0; i < orderList.size(); i++) {
-            orderList.retrieve().display();
-
-            if (orderList.last()) break;
-            orderList.findnext();
-        }
+        orderTree.inOrder(new AVLTree.Visitor<Order>() {
+            @Override
+            public void visit(int key, Order o) {
+                o.display();
+            }
+        });
     }
-
 }
