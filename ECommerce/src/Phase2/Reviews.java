@@ -18,7 +18,7 @@ public class Reviews {
 	
 	
 	
-	public Reviews(int reviewID, int customerID, int productID, int rating, String comment) {
+	public Reviews(int reviewID, int productID, int customerID, int rating, String comment) {
 		this.reviewID = reviewID;
 		this.customerID = customerID;
 		ProductID = productID;
@@ -80,7 +80,17 @@ public class Reviews {
 	public void setReviewID(int reviewID) {
 		this.reviewID = reviewID;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "Reviews [reviewID=" + reviewID + ", customerID=" + customerID + ", ProductID=" + ProductID + ", rating="
+				+ rating + ", comment=" + comment + "]";
+	}
 	
-	
+	public String getDataToFile() {
+		return reviewID + ", "+ProductID + ", " +customerID+ ", " +rating+ ", "+ comment;
+	}
 
 }

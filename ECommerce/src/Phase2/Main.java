@@ -8,17 +8,17 @@ import java.util.Scanner;
 public class Main {
 public static Scanner read = new Scanner(System.in);
 
-public static CustomerChain customersdata = null;	
-public static LinkedList<Customers> customers = null ;	
+public static CustomerChain customersdata = new CustomerChain("customers.csv");	
+public static AVLTree<Customers> customers = customersdata.getcustomers() ;	
 
-public static ProductChain productdata = null;	
-public static LinkedList<Products> products =null;
+public static ProductChain productdata = new ProductChain("products.csv");	
+public static AVLTree<Products> products =productdata.getProductChain();
 
 public static OrderChain orderdata = null;	
 public static LinkedList<Order> orders =null;	
 
-public static ReviewChain reviewdata ;
-public static LinkedList<Reviews> reviews ;	
+public static ReviewChain reviewdata = new ReviewChain("reviews.csv" ) ;
+public static LinkedList<Reviews> reviews=reviewdata.getReviews() ;	
 
 //---------------------------------------------------------------------------------------
 //read files
@@ -70,6 +70,7 @@ public static void CustomersMenu() {
 		System.out.println("2. View order history");	
 		System.out.println("3. Search for Customer (By Id)");
 		System.out.println("4. List customers names Alphabetically");	
+		System.out.println("5. Return to Main Menu");	
 		System.out.println("===================================");	
 		choice = read.nextInt();
 	
@@ -87,8 +88,7 @@ public static void CustomersMenu() {
 		
 		case 4:
 			customersdata.ListCustomersInAlphabeticalOrder();
-		
-			
+			break;
 		case 5:
 			System.out.println("Returning to Main Menu...");
 		break;
@@ -347,7 +347,34 @@ public static void OrdersMenu() {
     }
 }
 
+//method that extracts all reviews by certain customer 
+public static void ReviewsForCustomer() {
+    System.out.println("Enter customer ID:"); 
+    int cid = read.nextInt(); 
+    while(!customers.findkey(cid)) { 
+        System.out.println("This customer ID doesnt Exist input new one:"); 
+        cid = read.nextInt(); 
+    } 
+ 
+    LinkedList<Reviews> rs = reviewdata.searchReviewsByCustomer(cid); 
+    if (rs == null || rs.empty()) { 
+        System.out.println("No reviews for this customer."); 
+ 
+    } 
+ 
+    System.out.println("Reviews by customer ID " + cid + ":"); 
+    rs.findfirst(); 
+    for (int i = 0; i < rs.size(); i++) { 
+        Reviews r = rs.retrieve(); 
+        System.out.println("- ReviewID: " + r.getReviewID() + 
+                           " | ProductID: " + r.getProductID() + 
+                           " | Rating: " + r.getRating() + 
+                           " | Comment: " + r.getComment()); 
+        if (rs.last()) break; 
+        rs.findnext(); 
+    } 
 
+}
 //--------------------------------------------------------------------------------------------------
 public static void ReviewsMenu() {
     int choice;
@@ -355,9 +382,9 @@ public static void ReviewsMenu() {
     System.out.println("===================================");
     System.out.println("What would you like to do:");
     System.out.println("1. Add review");
-    System.out.println("2. Check top 3 highest reviewed products");
-    System.out.println("3. Average rating");
-    System.out.println("4. Show all reviews for a product");
+    System.out.println("2. Edit review");
+    System.out.println("3. Check top 3 highest reviewed products");
+    System.out.println("4. Average rating");
     System.out.println("5. Show all reviews by a customer");
     System.out.println("6. common review by two customers");
     System.out.println("7. Return");
@@ -370,23 +397,30 @@ public static void ReviewsMenu() {
             int proid;
             System.out.println("Enter customer ID");
             cusid = read.nextInt();
-            while(!customersdata.searchCustomerId(cusid)) {
+            while(!customers.findkey(cusid)) {
                 System.out.println("This customer ID doesnt Exist input new one:");
                 cusid = read.nextInt();
             }
             System.out.println("Enter product ID");
             proid = read.nextInt();
-            while(!productdata.searchProductId(proid)) {
+            while(!products.findkey(proid)) {
                 System.out.println("This Product ID doesnt Exist input new one:");
                 proid = read.nextInt();
             }
-            Reviews newReview = reviewdata.addReview(cusid, proid);
-            productdata.addReviewToProduct(proid, newReview);
+            Reviews newReview = reviewdata.addReview(proid, cusid);
+            productdata.addReviewToProduct(proid, newReview);//check
             newReview.display();
             break;
         }
+        case 2:{
+        	System.out.println("Enter Review ID");
+            int revid = read.nextInt();
+            reviewdata.editReview(revid);
+            break;
+        	
+        }
 
-        case 2: { // Top 3 products
+        case 3: { // Top 3 products
             LinkedList<Products> topProducts = productdata.top3Products();
             if (topProducts == null || topProducts.empty()) {
                 System.out.println("No products found.");
@@ -409,7 +443,7 @@ public static void ReviewsMenu() {
             break;
         }
 
-        case 3: { // Average rating
+        case 4: { // Average rating
             int id;
             System.out.println("Enter products ID:");
             id = read.nextInt();
@@ -422,140 +456,21 @@ public static void ReviewsMenu() {
             System.out.println("The products Average rating is: " + productdata.getAverageRating(p));
             break;
         }
-        case 4: { // Search/Show all reviews for a product 
-            System.out.println("Enter product ID:"); 
-            int pid = read.nextInt(); 
-            while(!productdata.searchProductId(pid)){ 
-                System.out.println("Wrong ID. Enter a valid product ID:"); 
-                pid = read.nextInt(); 
-            } 
-         
-            LinkedList<Reviews> rs = reviewdata.searchReviewsByProduct(pid); 
-            if (rs == null || rs.empty()) { 
-                System.out.println("No reviews for this product."); 
-                break; 
-            } 
-         
-            System.out.println("Reviews for product ID " + pid + ":"); 
-            rs.findfirst(); 
-            for (int i = 0; i < rs.size(); i++) { 
-                Reviews r = rs.retrieve(); 
-                System.out.println("- ReviewID: " + r.getReviewID() + 
-                                   " | Rating: " + r.getRating() + 
-                                   " | Comment: " + r.getComment()); 
-                if (rs.last()) break; 
-                rs.findnext(); 
-            } 
-            break; 
-        } 
+        case 5:  // Search/Show all reviews for a product 
+        	ReviewsForCustomer();
+        	break;
       
-         
-       case 5: { // Search/Show all reviews by a customer 
-            System.out.println("Enter customer ID:"); //1
-            int cid = read.nextInt(); //1
-            while(!customersdata.searchCustomerId(cid)) { //c
-                System.out.println("This customer ID doesnt Exist input new one:"); //1
-                cid = read.nextInt(); //1
-            } 
-         
-            LinkedList<Reviews> rs = reviewdata.searchReviewsByCustomer(cid); 
-            if (rs == null || rs.empty()) { 
-                System.out.println("No reviews for this customer."); 
-                break; 
-            } 
-         
-            System.out.println("Reviews by customer ID " + cid + ":"); 
-            rs.findfirst(); 
-            for (int i = 0; i < rs.size(); i++) { 
-                Reviews r = rs.retrieve(); 
-                System.out.println("- ReviewID: " + r.getReviewID() + 
-                                   " | ProductID: " + r.getProductID() + 
-                                   " | Rating: " + r.getRating() + 
-                                   " | Comment: " + r.getComment()); 
-                if (rs.last()) break; 
-                rs.findnext(); 
-            } 
-            break; 
-        }
-
-        /*case 4: { // Show all reviews for a product
-            System.out.println("Enter product ID:");
-            int pid = read.nextInt();
-            while(!productdata.searchProductId(pid)){
-                System.out.println("Wrong ID. Enter a valid product ID:");
-                pid = read.nextInt();
-            }
-
-            Products prod = productdata.search(pid); 
-            if (prod == null) {
-                System.out.println("Product not found.");
-                break;
-            }
-
-            LinkedList<Reviews> rs = prod.getReviews();
-            if (rs == null || rs.empty()) {
-                System.out.println("No reviews for this product.");
-                break;
-            }
-
-            System.out.println("Reviews for product ID " + pid + ":");
-            rs.findfirst();
-            for (int i = 0; i < rs.size(); i++) {
-                Reviews r = rs.retrieve();
-                System.out.println("- ReviewID: " + r.getReviewID() +
-                                   " | Rating: " + r.getRating() +
-                                   " | Comment: " + r.getComment());
-                if (rs.last()) break;
-                rs.findnext();
-            }
-            break;
-        }
-        case 5: { // Show all reviews by a customer
-            System.out.println("Enter customer ID:");
-            int cid = read.nextInt();
-            while(!customersdata.searchCustomerId(cid)) {
-                System.out.println("This customer ID doesnt Exist input new one:");
-                cid = read.nextInt();
-            }
-
-            LinkedList<Reviews> rs = ReviewChain.reviews;
-            if (rs == null || rs.empty()) {
-                System.out.println("No reviews found.");
-                break;
-            }
-
-            boolean any = false;
-            rs.findfirst();
-            for (int i = 0; i < rs.size(); i++) {
-                Reviews r = rs.retrieve();
-                if (r.getCustomerID() == cid) {
-                    if (!any) {
-                        System.out.println("Reviews by customer ID " + cid + ":");
-                        any = true;
-                    }
-                    System.out.println("- ReviewID: " + r.getReviewID() +
-                                       " | ProductID: " + r.getProductID() +
-                                       " | Rating: " + r.getRating() +
-                                       " | Comment: " + r.getComment());
-                }
-                if (rs.last()) break;
-                rs.findnext();
-            }
-
-            if (!any) System.out.println("No reviews for this customer.");
-            break;
-
-        }*/
+ 
         case 6:
             System.out.println("Enter first customer ID:");
             int cid1 = read.nextInt();
-            while(!customersdata.searchCustomerId(cid1)) {
+            while(!customers.findkey(cid1))  {
                 System.out.println("This customer ID doesnt Exist input new one:");
                 cid1 = read.nextInt();}
             
             System.out.println("Enter second customer ID:");
             int cid2 = read.nextInt();
-            while(!customersdata.searchCustomerId(cid2)) {
+            while(!customers.findkey(cid2)) {
                 System.out.println("This customer ID doesnt Exist input new one:");
                 cid2 = read.nextInt();}
             
@@ -636,7 +551,7 @@ private static void LinkReviewssToProducts() {
 
 
 public static void main(String[] args) {	
-	loadData();
+	//loadData();
 	int choice;
 	
 	do {

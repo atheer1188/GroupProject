@@ -283,6 +283,7 @@ return top3products;
 
 
 	}//end class*/
+
 package Phase2;
 
 import java.io.File;
@@ -296,7 +297,8 @@ public class ProductChain {
 	 public ProductChain() {
 	        ProductChain = new AVLTree<Products>();
 	    }
-	
+
+
 	 //constructer
 	 public ProductChain(String fileName) {
 	        ProductChain = new AVLTree<Products>();
@@ -509,13 +511,13 @@ public class ProductChain {
 	        return results;
 	    }	    
 	    
+} // end class
+
 	    
 	    
 	    
 	    
 	    
-	    
-	    }// end class
 	    
 
 

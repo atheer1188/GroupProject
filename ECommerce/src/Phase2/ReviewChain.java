@@ -29,7 +29,7 @@ public ReviewChain(String fileName) {
             int rating = Integer.parseInt(data[3].trim());
             String comment = data[4].trim();
 
-            Reviews r = new Reviews(rvwId , customerid , productid , rating , comment);
+            Reviews r = new Reviews(rvwId , productid ,  customerid, rating , comment);
             reviews.add(r);
         }
         }
@@ -43,29 +43,29 @@ public ReviewChain(String fileName) {
 
 
 //------------------------------------------------------------------
-public Reviews addReview(int customerID, int productID) {
+public Reviews addReview(int productID, int customerID ) {
 	
-	System.out.println("Enter the Reviews ID: ");//1
-	int rvwId = read.nextInt();//1
+	System.out.println("Enter the Reviews ID: ");
+	int rvwId = read.nextInt();
 	
-	while(searchreview(rvwId)) {//r
+	while(searchreview(rvwId)) {
 		System.out.println("This id already exists, enter a new one: ");//r
-		 rvwId = read.nextInt();//r
+		 rvwId = read.nextInt();
 	}
 	System.out.println("How High would you rate this Product from 1->5:");//1
-	int rate = read.nextInt();//1
-	if(rate>5 || rate<1) {//1
-		while(rate>5 || rate<1) {//?
+	int rating = read.nextInt();
+	if(rating>5 || rating<1) {
+		while(rating>5 || rating<1) {
 			System.out.print("Choose a number in the range(1-->5)");//1
-			rate = read.nextInt();//1
-		}}//check
+			rating = read.nextInt();
+		}}
 	System.out.println("Comment what you think about this product:");//1
-	String comment = read.nextLine();//1
-	comment = read.nextLine();//check garbage //1
-    Reviews review = new Reviews(rvwId,productID , customerID ,rate, comment);//?
-    reviews.add(review);//1
-    return review;//1
-		}//O(r)
+	String comment = read.nextLine();
+	comment = read.nextLine();//check garbage 
+    Reviews review = new Reviews(rvwId,productID, customerID ,rating, comment);//?
+    reviews.add(review);
+    return review;
+		}
 
 	//------------------------------------------------------------------
 public boolean editReview(int rvwID) {
@@ -119,30 +119,29 @@ else {
 //----------------------------------------------------------shaden
 
 public LinkedList<Reviews> searchReviewsByCustomer(int customerId) {
-    LinkedList<Reviews> out = new LinkedList<Reviews>();           // O(1)
-    if (reviews.empty()) return out;                              // O(1)
-    reviews.findfirst();                                          // O(1)
+    LinkedList<Reviews> out = new LinkedList<Reviews>();          
+    if (reviews.empty()) return out;                            
+    reviews.findfirst();                                          
 
-    for (int i = 0; i < reviews.size(); i++) {                    // O(n)
-        Reviews r = reviews.retrieve();                           // O(1)
+    for (int i = 0; i < reviews.size(); i++) {                    
+        Reviews r = reviews.retrieve();                         
 
-        if (r.getCustomerID() == customerId)                      // O(1)
-            appendToEnd(out, r);                                  // O(m) worst-case, O(1) avg
+        if (r.getCustomerID() == customerId)                     
+          out.add(r);
+        	// appendToEnd(out, r);                                  
 
-        if (reviews.last()) break;                                // O(1)
-        reviews.findnext();                                       // O(1)
+        if (reviews.last()) break;                                
+        reviews.findnext();                                       
     }
 
-    return out;                                                   // O(1)
+    return out;                                                   
 }
 
 
 
-	//Overall Time Complexity: O(n), where n = total number of reviews in the system.
-    //Space Complexity: O(m), where m = number of reviews written by the specified customer.
 
 
-public LinkedList<Reviews> searchReviewsByProduct(int productId) {
+/*public LinkedList<Reviews> searchReviewsByProduct(int productId) {
     LinkedList<Reviews> out = new LinkedList<Reviews>();
     if (reviews.empty()) return out;
     reviews.findfirst();
@@ -163,7 +162,7 @@ private void appendToEnd(LinkedList<Reviews> list, Reviews r) {
         while (!list.last()) list.findnext();
         list.add(r);
     }
-}
+}*/
 
 }
 

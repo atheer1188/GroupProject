@@ -66,6 +66,10 @@ return orders.removeKey(ID);
 }
 
 
+@Override
+public String toString() {
+	return "Customers\ncustomerId = " + customerId + "\nname = " + name + "\nEmail = " + email + "\nNumber of orders = " + orders.size() ;
+}
 
 public void display() {
     System.out.println("Customer ID: " +customerId);
@@ -76,8 +80,7 @@ public void display() {
     	       
     	           System.out.println(orders.retrieve());
     	            //need method for display
-    	       
-    	    }
+=    	    }
     	}//end display
 
 
