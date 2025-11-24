@@ -306,6 +306,11 @@ public class ProductChain {
 	            readProductsFromFile(fileName);
 	        }
 	    }
+
+	 public AVLTree<Products> getProductChain(){
+		 return ProductChain;
+	 }
+	 
 	 
 	 
 	 public static Products convertLineToProduct(String line) {
@@ -366,10 +371,10 @@ public class ProductChain {
 	       
 	        
 	        if(ProductChain.insert(id, p)) {      //already checks for duplicates
-	        	System.out.println("Product added successfully!");
+	        	//System.out.println("Product added successfully!");
 	        	return true; }
 	        	else {
-		        	System.out.println("Couldn't add your product :( try again");
+		        	//System.out.println("Couldn't add your product :( try again");
 		        	return false; }
 	        		
 	        	}
@@ -475,6 +480,8 @@ public class ProductChain {
 	             Products p = Products.retrieve();
 	             if (p.getStock() == 0) 
 	            	 out.add(p);
+				  Products.findnext();
+
 	         }
 	         
 	         if (out.empty()) 
