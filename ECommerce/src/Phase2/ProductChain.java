@@ -478,6 +478,8 @@ public class ProductChain {
 	             Products p = Products.retrieve();
 	             if (p.getStock() == 0) 
 	            	 out.add(p);
+				  Products.findnext();
+
 	         }
 	         
 	         if (out.empty()) 
