@@ -332,6 +332,23 @@ private void recInOrderTrverse(AVLNode<T> t , LinkedList<T> l) {
 	recInOrderTrverse(t.right , l);
 }
 
+//-------------------out of stock ---------------
+	public LinkedList<Products> inOrderOOS(){
+		LinkedList<Products> out = new LinkedList<Products>();
+		recInOrderOOS( (AVLTree<T>.AVLNode<Products>) root , out);
+		return out;
+	}
+
+	private void recInOrderOOS(AVLNode<Products> t , LinkedList<Products> out) {
+		//tree is empty
+		if(t==null)
+			return;
+		recInOrderOOS(t.left , out);
+		if(t.data.getStock()==0)
+			out.add(t.data);
+		recInOrderOOS(t.right , out);
+	}
+
 
 
 
@@ -362,6 +379,7 @@ public void inOrder(Visitor<T> v) {
 
 
 }//end whole class
+
 
 
 
