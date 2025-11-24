@@ -68,6 +68,10 @@ return null;
 public int size() { 
 return count;
 }
+	
+public AVLNode<T> getRoot(){
+return root;
+}
 
 //check if the the node exists
 public boolean findkey(int tkey) {
@@ -358,6 +362,7 @@ public void inOrder(Visitor<T> v) {
 
 
 }//end whole class
+
 
 
 
