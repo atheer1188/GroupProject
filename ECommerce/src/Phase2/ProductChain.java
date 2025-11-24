@@ -283,7 +283,7 @@ return top3products;
 
 
 	}//end class*/
-package Phase1;
+package Phase2;
 
 import java.io.File;
 import java.util.Scanner;

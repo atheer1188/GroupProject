@@ -1,4 +1,4 @@
-package Phase1;
+package Phase2;
 
 import java.io.File;
 import java.util.Scanner;
@@ -88,7 +88,7 @@ public static void CustomersMenu() {
 		case 4:
 			customersdata.ListCustomersInAlphabeticalOrder();
 		
-		
+			
 		case 5:
 			System.out.println("Returning to Main Menu...");
 		break;

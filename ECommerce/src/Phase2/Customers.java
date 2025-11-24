@@ -1,12 +1,10 @@
-package Phase1;
-
-
+package Phase2;
 
 public class Customers{
 private int customerId;
 private String name;
 private String email;
-private AVLTree<Order> orders = new AVLTree<>();
+private AVLTree<Order> orders = new AVLTree<Order>();//each customer has there own orders list
 
 public Customers() {
 	customerId = 0;
@@ -55,20 +53,20 @@ public AVLTree<Order> getOrders() {
 public void setEmail(String email) {
 	this.email = email;
 }
-
+//==========================================================
+//add order
 public void addOrder(Order order) {
 orders.insert(order.getOrderId() , order );
 }
 
 //==========================================================
+//remove order
 public boolean removeOrder(int ID) {
 return orders.removeKey(ID);
 }
-//==========================================================End of RemoveOrder
 
 
 
-//not good i have to fix the syntax!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 public void display() {
     System.out.println("Customer ID: " +customerId);
     System.out.println("Customer Name: " + name);
@@ -81,6 +79,8 @@ public void display() {
     	       
     	    }
     	}//end display
+
+
     public String getDataToFile() {
     	return customerId + ", "+name+ ", "+ ", "+email;
     }

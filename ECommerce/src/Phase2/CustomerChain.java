@@ -1,4 +1,5 @@
-package Phase1;
+package Phase2;
+
 import java.io.File;
 import java.util.Scanner;
 
@@ -13,6 +14,25 @@ public AVLTree<Customers> getcustomers()
 }
 
 
+
+public CustomerChain(String fileName) {
+
+    try {
+        File f = new File(fileName);
+        Scanner scan = new Scanner(f);
+        String line =scan.nextLine(); // skip header
+
+        while (scan.hasNext()) {
+            line = scan.nextLine();
+            String [] data = line.split(",");
+            Customers c = new Customers(Integer.parseInt(data[0]) , data[1] , data[2]);
+            customers.insert(c.getCustomersId() , c);
+        }
+        scan.close();
+    } catch (Exception e) {
+        System.out.println("Error while loading Custeomers: " + e.getMessage());
+    }
+}
 
 // File here ====================================================!!!!!!!!!!!!!!!!!!!!!!
 
@@ -159,4 +179,4 @@ public void ListCustomersInAlphabeticalOrder() {
 }
 
 
- }
+}

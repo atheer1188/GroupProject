@@ -1,8 +1,3 @@
-/**
- * 
- */
-/**
- * 
- */
+
 module ECommerce {
 }

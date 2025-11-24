@@ -1,4 +1,4 @@
-package Phase1;
+package Phase2;
 
 import java.io.FileWriter;
 
@@ -327,6 +327,20 @@ private void recInOrderTrverse(AVLNode<T> t , LinkedList<T> l) {
 
 
 
+public interface Visitor<E> {
+    void visit(int key, E data);
+}
+
+private void inOrder(AVLNode<T> node, Visitor<T> v) {
+    if (node == null) return;
+    inOrder(node.left, v);
+    v.visit(node.key, node.data);
+    inOrder(node.right, v);
+}
+
+public void inOrder(Visitor<T> v) {
+    inOrder(root, v);
+}
 
 
 
