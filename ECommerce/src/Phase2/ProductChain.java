@@ -470,6 +470,12 @@ public class ProductChain {
 	         
 	         return out;
 	    }
+//-------------------------------------------------------------------------------
+	//better option
+	
+	  public LinkedList<Products> TrackOUTOfStock(){
+	    	return ProductChain.inOrderOOS();
+	    }
 	    
 	    
 	    //-------------------------------------------------------------------------------
