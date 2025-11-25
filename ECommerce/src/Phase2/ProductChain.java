@@ -533,9 +533,71 @@ public class ProductChain {
 	        }
 	    }
 	    
+	    //-------------------------------------------------------------------------------
 
 	    
+	    public Reviews[] SortReviewsByCustomerID(int ProductID){
+	        Products p = search(ProductID);
+	        if (p == null) {
+	            return new Reviews[0]; // Return empty array if product not found
+	        }
+	        
+	        LinkedList<Reviews> reviews = p.getReviews();
+	        
+	        // Check if reviews are empty
+	        if (reviews.empty()) {
+	            return new Reviews[0];
+	        }
+	        
+	        Reviews[] RevArray = new Reviews[reviews.size()];  // convert to array for sorting
+	        
+	        reviews.findfirst();
+	        for(int i = 0; i < reviews.size(); i++) {
+	            RevArray[i] = reviews.retrieve();
+	            
+	            if(reviews.last())
+	                break;
+	            reviews.findnext();
+	        } //end conversion
+	        
+	        mergeSortByCustomerID(RevArray, 0, RevArray.length - 1);
+	        return RevArray;
+	    }
+
+	    // Merge sort for reviews by customer ID (ascending)
+	    public void mergeSortByCustomerID(Reviews[] A, int l, int r) {
+	        if (l >= r) return;
+	        
+	        int m = (l + r) / 2;
+	        mergeSortByCustomerID(A, l, m);
+	        mergeSortByCustomerID(A, m + 1, r);
+	        mergeByCustomerID(A, l, m, r);
+	    }
+
+	    private void mergeByCustomerID(Reviews[] A, int l, int m, int r) {
+	        Reviews[] B = new Reviews[r - l + 1];
+	        int i = l, j = m + 1, k = 0;
+	        
+	        while (i <= m && j <= r) {
+	            // Ascending order: lower customer IDs first
+	            if (A[i].getCustomerID() <= A[j].getCustomerID()) {
+	                B[k++] = A[i++];
+	            } else {
+	                B[k++] = A[j++];
+	            }
+	        }
+	        
+	        while (i <= m) B[k++] = A[i++];
+	        while (j <= r) B[k++] = A[j++];
+	        
+	        for (k = 0; k < B.length; k++) {
+	            A[l + k] = B[k];
+	        }
+	    }
+
 	    
+	    //-------------------------------------------------------------------------------
+
 	    //-------------------------------------------------------------------------------
 	    
 	    public LinkedList<Products> rangeQueryByPrice(double minPrice, double maxPrice) {
@@ -681,6 +743,7 @@ public class ProductChain {
 
 
 	 
+
 
 
 	    
