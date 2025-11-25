@@ -288,6 +288,8 @@ package Phase2;
 import java.io.File;
 import java.util.Scanner;
 
+import Phase2.AVLTree.AVLNode;
+
 
 public class ProductChain {
 	
@@ -304,11 +306,10 @@ public class ProductChain {
 	            readProductsFromFile(fileName);
 	        }
 	    }
-
+	 
 	 public AVLTree<Products> getProductChain(){
 		 return ProductChain;
 	 }
-	 
 	 
 	 
 	 public static Products convertLineToProduct(String line) {
@@ -442,7 +443,7 @@ public class ProductChain {
 	    	 
 	    	 return p;	 
 	    }
-	 //-------------------------------------------------------------------------------
+	    //-------------------------------------------------------------------------------
 	    
 	    public boolean searchProductId(int id) {
 	        if (ProductChain.empty()) {
@@ -451,7 +452,6 @@ public class ProductChain {
 	        
 	         return ProductChain.findkey(id);
 	    }
-	    
 	    
 	    //-------------------------------------------------------------------------------
 
@@ -478,8 +478,8 @@ public class ProductChain {
 	             Products p = Products.retrieve();
 	             if (p.getStock() == 0) 
 	            	 out.add(p);
-				  Products.findnext();
-
+	             Products.findnext();
+	             
 	         }
 	         
 	         if (out.empty()) 
@@ -487,15 +487,77 @@ public class ProductChain {
 	         
 	         return out;
 	    }
-//-------------------------------------------------------------------------------
-	//better option
-	
-	  public LinkedList<Products> TrackOUTOfStock(){
+	    // better option
+	    public LinkedList<Products> TrackOUTOfStock(){
 	    	return ProductChain.inOrderOOS();
 	    }
+	
+	    //-------------------------------------------------------------------------------
+
+	    public Reviews[] SortReviewsByRating(int ProductID){
+	        Products p = search(ProductID);
+	        if (p == null) {
+	            return new Reviews[0]; // Return empty array if product not found
+	        }
+	        
+	        LinkedList<Reviews> reviews = p.getReviews();
+	        
+	        // Check if reviews are empty
+	        if (reviews.empty()) {
+	            return new Reviews[0];
+	        }
+	        
+	        Reviews[] RevArray = new Reviews[reviews.size()];  // convert to array for sorting
+	        
+	        reviews.findfirst();
+	        for(int i = 0; i < reviews.size(); i++) {
+	            RevArray[i] = reviews.retrieve();
+	            
+	            if(reviews.last())
+	                break;
+	            reviews.findnext();
+	        } //end conversion
+	        
+	        mergeSortByRating(RevArray, 0, RevArray.length - 1);
+	        return RevArray;
+	    }
+
+	    // Merge sort for reviews by rating (descending - highest first)
+	    public void mergeSortByRating(Reviews[] A, int l, int r) {
+	        if (l >= r) return;
+	        
+	        int m = (l + r) / 2;
+	        mergeSortByRating(A, l, m);
+	        mergeSortByRating(A, m + 1, r);
+	        mergeByRating(A, l, m, r);
+	    }
+
+	    private void mergeByRating(Reviews[] A, int l, int m, int r) {
+	        Reviews[] B = new Reviews[r - l + 1];
+	        int i = l, j = m + 1, k = 0;
+	        
+	        while (i <= m && j <= r) {
+	            // Descending order: higher ratings first
+	            if (A[i].getRating() >= A[j].getRating()) {
+	                B[k++] = A[i++];
+	            } else {
+	                B[k++] = A[j++];
+	            }
+	        }
+	        
+	        while (i <= m) B[k++] = A[i++];
+	        while (j <= r) B[k++] = A[j++];
+	        
+	        for (k = 0; k < B.length; k++) {
+	            A[l + k] = B[k];
+	        }
+	    }
+	    
+
 	    
 	    
 	    //-------------------------------------------------------------------------------
+	    
 	    public LinkedList<Products> rangeQueryByPrice(double minPrice, double maxPrice) {
 	    	
 	    	 LinkedList<Products> Products = ProductChain.inOrderTrverse();
@@ -515,9 +577,8 @@ public class ProductChain {
 	        	System.out.println("There are No products that fall in that range of price");
 	        return results;
 	    }	    
-	 //-------------------------------------------------------------------------------
-     // needs to be checked
-	     public double getAverageRating(Products pro) {
+	    
+	    public double getAverageRating(Products pro) {
 	          
 
 	         LinkedList<Reviews> ReveiwsForProduct = pro.getReviews();
@@ -538,6 +599,72 @@ public class ProductChain {
 	          return sum / count;
 	      }
 	    
+	    //-------------------------------------------------------------------------------
+
+//******************convert List of Products to Array***************************
+	    
+	    private Products[] convertListToArray(LinkedList<Products> list) {
+	    	int size = list.size();//size for the array
+	    	Products [] array = new Products[size]; // initialize the array
+	    	list.findfirst();
+	    	for(int i = 0 ; i< size ; i++) {
+	    		array[i]= list.retrieve();//print value of node in the array
+	    		if(!list.last())//to make sure it doesnt point to null
+	    			list.findnext();
+	    	}	
+	    	return array;	
+	    }
+	    
+	 //******************Sort By Merge Sort******************************************
+	    public static void mergeSort(Products[] A , int l , int r) {
+	    	if(l >= r)
+	    		return;
+	    	int m = (l + r) /2;
+	    	mergeSort(A , l , m); // sort first half (left side)
+	    	mergeSort(A , m+1 , r); // sort second half (right side)
+	    	merge(A, l , m , r);//merge
+	    }
+	    
+	    private static void merge(Products[] A , int l , int m , int r) {
+	    	Products [] P = new Products [r -l + 1];
+	    	int i = l , j =m+1 , k=0;
+	    	while(i <= m && j<=r) {
+	    		if(A[i].reviews.size() >= A[j].reviews.size()) {//sorts from most reviewed to least
+	    			P[k++] = A[i++];
+	    		}
+	    		else {
+	    			P[k++] = A[j++];
+	    		}
+	    	}
+	    	if(i <= m)
+	    	while(j <= r)
+    			P[k++] = A[j++];
+	    	else
+	    	while(i <= m)
+    			P[k++] = A[i++];
+	    	
+	    	for(k =0 ; k < P.length ; k++)
+	    		A[k+1] = P[k];
+	    	
+	    }
+		
+	  //******************Top 3 Most Rated Products************************************
+	    public void Top3MostRatedProducts() {
+	    	LinkedList<Products> p = ProductChain.inOrderOOS();//list all nodes from tree to linked list
+	    	Products[] pA = convertListToArray(p);//Convert list of products to Array 
+	    	 int r =pA.length-1;
+	    	mergeSort(pA , 0 , r);
+	    	
+	    	//Print First Three elements of array with are the highest
+	    	System.out.println("Top Three Most Reviewed Products:");
+	    	for(int b=0; b<3 ; b++) {
+		    	System.out.println(pA[b]);
+	    	}
+	    		
+	    	
+	    }
+
+
 	    
 	    
 	    
@@ -550,106 +677,6 @@ public class ProductChain {
 	 
 
 
-
-/*
-    public LinkedList<Products> top3Products() {//-
-        Products first = null, second = null, third = null;//1
-        double max1 = -1, max2 = -1, max3 = -1;//1
-
-        if (ProductChain.empty()) {//1
-            System.out.println("There are no available products");//1
-            return new LinkedList<Products>();//1
-        }
-
-        ProductChain.findfirst();//1
-        for (int i = 0; i < ProductChain.size(); i++) {//p+1
-            Products p = ProductChain.retrieve();//1(p)
-            double avg = getAverageRating(p.getProductId());//O(p+r)*O(p)
-
-            if (avg > max1) {//1p
-                third = second; max3 = max2;//2p
-                second = first; max2 = max1;//2p
-                first = p;      max1 = avg;//2p
-            } else if (avg > max2) {//1p
-                third = second; max3 = max2;//2p
-                second = p;     max2 = avg;//2p
-            } else if (avg > max3) {//1p
-                third = p;   max3 = avg;//2p
-            }
-
-            if (ProductChain.last()) //p
-            	break;//p
-            ProductChain.findnext();//p
-        }
-
-        LinkedList<Products> top3products = new LinkedList<Products>();//1
-        if (first  != null) top3products.add(first);//1
-        if (second != null) top3products.add(second);//1
-        if (third  != null) top3products.add(third);//1
-        return top3products;//1
-    }
-*/
-   public double getAverageRating(Products pro) {
-          
-
-         LinkedList<Reviews> ReveiwsForProduct = pro.getReviews();
-          if(ReveiwsForProduct.empty()) return 0;
-          double sum = 0;//1
-          int count =0;//1
-          ReveiwsForProduct.findfirst();
-          for(int i=0; i<ReveiwsForProduct.size(); i++){
-              {
-                  sum += ReveiwsForProduct.retrieve().getRating();
-                  count++;
-                 }
-                /*  if(i<ReveiwsForProduct.size()-1)
-                	  ReveiwsForProduct.findnext(); */ 
-                       
-              }  
-           if(count == 0) return 0;
-          return sum / count;
-      }
-   public LinkedList<Products> top3Products() {//-
-       Products first = null, second = null, third = null;//1
-       double max1 = -1, max2 = -1, max3 = -1;//1
-
-       if (ProductChain.empty()) {//1
-           System.out.println("There are no available products");//1
-           return new LinkedList<Products>();//1
-       }
-
-       ProductChain.findfirst();//1
-       for (int i = 0; i < ProductChain.size(); i++) {//p+1
-           Products p = ProductChain.retrieve();//1(p)
-           double avg = getAverageRating(p);//O(p+r)*O(p)
-
-           if (avg > max1) {//1p
-               third = second; max3 = max2;//2p
-               second = first; max2 = max1;//2p
-               first = p;      max1 = avg;//2p
-           } else if (avg > max2) {//1p
-               third = second; max3 = max2;//2p
-               second = p;     max2 = avg;//2p
-           } else if (avg > max3) {
-        	   third = p;   max3 = avg;
-           }
-
-           if (ProductChain.last())
-           	break;
-           ProductChain.findnext();
-       }
-
-       LinkedList<Products> top3products = new LinkedList<Products>();//1
-       if (first  != null) top3products.add(first);//1
-       if (second != null) top3products.add(second);//1
-       if (third  != null) top3products.add(third);//1
-       return top3products;//1
-   }
-  
-}
-
-
-	
 	
 
 
