@@ -464,34 +464,14 @@ public class ProductChain {
 	    
 	    //-------------------------------------------------------------------------------
 
-	    public LinkedList<Products> TrackOutOfStock() {
-	    	 if (ProductChain.empty()) {
-		        	System.out.println("There is No Products");
-		        	return null;
-		        	}
-	    	 
-	    	 LinkedList<Products> Products = ProductChain.inOrderTrverse();
-	         LinkedList<Products> out = new LinkedList<Products>();
-	         
-	         Products.findfirst();
-	         for (int i = 0; i < Products.size(); i++) {
-	             Products p = Products.retrieve();
-	             if (p.getStock() == 0) 
-	            	 out.add(p);
-	             Products.findnext();
-	             
-	         }
-	         
-	         if (out.empty()) 
-	             System.out.println("No products are out of stock :)");
-	         
-	         return out;
-	    }
-	    // better option
-	    public LinkedList<Products> TrackOUTOfStock(){
+	  
+	    
+	    public LinkedList<Products> TrackOutOfStock(){
 	    	return ProductChain.inOrderOOS();
 	    }
-	
+	    
+	   	
+	    
 	    //-------------------------------------------------------------------------------
 
 	    public Reviews[] SortReviewsByRating(int ProductID){
@@ -578,7 +558,7 @@ public class ProductChain {
 	        return results;
 	    }	    
 	    
-	       public double getAverageRating(Products pro) {
+	    public double getAverageRating(Products pro) {
 	          
 
 	         LinkedList<Reviews> ReveiwsForProduct = pro.getReviews();
@@ -664,6 +644,31 @@ public class ProductChain {
 	    		
 	    	
 	    }
+	    
+	    
+	    /* public LinkedList<Products> TrackOUTOfStock() {
+   	 if (ProductChain.empty()) {
+	        	System.out.println("There is No Products");
+	        	return null;
+	        	}
+   	 
+   	 LinkedList<Products> Products = ProductChain.inOrderTrverse();
+        LinkedList<Products> out = new LinkedList<Products>();
+        
+        Products.findfirst();
+        for (int i = 0; i < Products.size(); i++) {
+            Products p = Products.retrieve();
+            if (p.getStock() == 0) 
+           	 out.add(p);
+            Products.findnext();
+            
+        }
+        
+        if (out.empty()) 
+            System.out.println("No products are out of stock :)");
+        
+        return out;
+   }*/
 
 
 	    
@@ -672,6 +677,12 @@ public class ProductChain {
 	    
 	    
 	    }// end class
+	    
+
+
+	 
+
+
 	    
 
 
