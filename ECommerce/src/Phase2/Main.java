@@ -14,8 +14,7 @@ public static AVLTree<Customers> customers = customersdata.getcustomers() ;
 public static ProductChain productdata = new ProductChain("products.csv");	
 public static AVLTree<Products> products =productdata.getProductChain();
 
-public static OrderChain orderdata = null;	
-public static LinkedList<Order> orders =null;	
+public static OrderChain orderdata = new OrderChain();  
 
 public static ReviewChain reviewdata = new ReviewChain("reviews.csv" ) ;
 public static LinkedList<Reviews> reviews=reviewdata.getReviews() ;	
@@ -688,6 +687,7 @@ public static void main(String[] args) {
 
 
 }//end Main
+
 
 
 
