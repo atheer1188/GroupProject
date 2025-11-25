@@ -105,101 +105,132 @@ public static void CustomersMenu() {
 
 
 public static void ProductsMenu() {
-	
-	
-	int choice;
+	 
+	 
+	 int choice;
 
-	System.out.println("===================================");	
-	System.out.println("What would you like to do:");	
-	System.out.println("1. Add a new product");	
-	System.out.println("2. Remove a product");	
-	System.out.println("3. Update a product's information");
-	System.out.println("4. Search for a product");
-	System.out.println("5. Track out of stock products");
-	System.out.println("6. Exit");	
-	System.out.println("===================================");	
-	choice = read.nextInt();
+	 System.out.println("==================================="); 
+	 System.out.println("What would you like to do:"); 
+	 System.out.println("1. Add a new product"); 
+	 System.out.println("2. Remove a product"); 
+	 System.out.println("3. Update a product's information");
+	 System.out.println("4. Search for a product");
+	 System.out.println("5. Track out of stock products");
+	 System.out.println("6. poduct in a price range");
+	 System.out.println("7. reviews sorted by rating");
+	 System.out.println("8. Exit"); 
+	 System.out.println("==================================="); 
+	 choice = read.nextInt();
 
-	switch(choice) {
-	case 1: // adding a new product
-		System.out.println("Enter product name: ");
-		read.nextLine();
-		String pName = read.nextLine();
-		System.out.println("Enter product ID: ");
-		int pId = read.nextInt();
-		System.out.println("Enter product price: ");
-		double pPrice = read.nextDouble();
-		System.out.println("Enter product stock: ");
-		int pStock = read.nextInt();
-		
-		Products p = new Products(pId, pName, pPrice, pStock);
-		if(productdata.addProduct(p));
-		System.out.println("Product added successfully");
-		
-		break;		
-		
-	case 2: //remove product
-		System.out.println("Enter product ID: ");
-		int ID = read.nextInt();
-		if(productdata.remove(ID));
-		System.out.println("Product Removed successfully");
+	 switch(choice) {
+	 case 1: // adding a new product
+	  System.out.println("Enter product name: ");
+	  read.nextLine();
+	  String pName = read.nextLine();
+	  System.out.println("Enter product ID: ");
+	  int pId = read.nextInt();
+	  System.out.println("Enter product price: ");
+	  double pPrice = read.nextDouble();
+	  System.out.println("Enter product stock: ");
+	  int pStock = read.nextInt();
+	  
+	  Products p = new Products(pId, pName, pPrice, pStock);
+	  if(productdata.addProduct(p));
+	  System.out.println("Product added successfully");
+	  
+	  break;  
+	  
+	 case 2: //remove product
+	  System.out.println("Enter product ID: ");
+	  int ID = read.nextInt();
+	  if(productdata.remove(ID));
+	  System.out.println("Product Removed successfully");
 
-		break;
+	  break;
 
-	case 3: //update product
-		System.out.println("Enter product ID: ");
-		int ID2 = read.nextInt();
-		System.out.println("Enter new name: ");
-		String newName = read.nextLine();
-		read.nextLine();
-		System.out.println("Enter new price: ");
-		double newPrice = read.nextDouble();
-		System.out.println("Enter product stock: ");
-		int newStock = read.nextInt();
-		
-		productdata.updateProduct(ID2, newName, newPrice, newStock);
-		
-		break;
+	 case 3: //update product
+	  System.out.println("Enter product ID: ");
+	  int ID2 = read.nextInt();
+	  System.out.println("Enter new name: ");
+	  String newName = read.nextLine();
+	  newName = read.nextLine();
+	  System.out.println("Enter new price: ");
+	  double newPrice = read.nextDouble();
+	  System.out.println("Enter product stock: ");
+	  int newStock = read.nextInt();
+	  
+	  productdata.updateProduct(ID2, newName, newPrice, newStock);
+	  
+	  break;
 
-	case 4: //search for a product
-		System.out.println("Enter 1 if your'e searching by the name, 2 if your'e using ID: ");
-		int option = read.nextInt();
-		
-		switch(option) {
-		case 1:
-			System.out.println("Enter product name: ");
-			read.nextLine();//clear
-			String ppName = read.nextLine();
-			
-			System.out.println( productdata.search(ppName));
-			break;
-		case 2:
-			System.out.println("Enter product ID: ");
-			int ppID = read.nextInt();
-			
-			System.out.println(productdata.search(ppID));
-			
-			break;
-			default:
-				System.out.println("Incorrect choice, choose a valid number:");
-		} // end of search switch
+	 case 4: //search for a product
+	  System.out.println("Enter 1 if your'e searching by the name, 2 if your'e using ID: ");
+	  int option = read.nextInt();
+	  
+	  switch(option) {
+	  case 1:
+	   System.out.println("Enter product name: ");
+	   read.nextLine();//clear
+	   String ppName = read.nextLine();
+	   
+	   System.out.println( productdata.search(ppName));
+	   break;
+	  case 2:
+	   System.out.println("Enter product ID: ");
+	   int ppID = read.nextInt();
+	   
+	   System.out.println(productdata.search(ppID));
+	   
+	   break;
+	   default:
+	    System.out.println("Incorrect choice, choose a valid number:");
+	  } // end of search switch
 
-		break;
-		
-	case 5: //Track out of stock
-		System.out.println("Here is a list of all out of stock products: ");
-		System.out.println("---------------------------------------------------- ");
-		productdata.TrackOutOfStock().display();
-		
-		break;
-	case 6:
-		System.out.println("Exiting...");
-		break;
-	default:
-		System.out.println("Incorrect choice, choose a valid number:");
+	  break;
+	  
+	 case 5: //Track out of stock
+	  System.out.println("Here is a list of all out of stock products: ");
+	  System.out.println("---------------------------------------------------- ");
+	  productdata.TrackOutOfStock().display();
+	  
+	  break;
+	 case 6:
+	  System.out.println("Enter minimum price ");
+	  double minPrice = read.nextDouble();
+	  System.out.println("Enter maximum price ");
+	  double maxPrice = read.nextDouble();
+	  System.out.println ("Products with a price between "+minPrice+" And "+maxPrice+" :");
+	    (productdata.rangeQueryByPrice(minPrice, maxPrice)).display();
+
+	  break;
+	 case 7:
+	     System.out.println("Enter Product ID: ");
+	     int pid = read.nextInt();
+	     
+	     Reviews[] r = productdata.SortReviewsByRating(pid);
+	     
+	     if (r.length == 0) {
+	         System.out.println("No reviews found for product ID: " + pid);
+	     } else {
+	         System.out.println("\n=== Reviews for Product ID: " + pid + " ===");
+	         System.out.println("Sorted by Rating (Highest First)");
+	         System.out.println("=================================");
+	         
+	         for(int i = 0; i < r.length; i++) {
+	             System.out.println((i+1) + ". ");
+	             r[i].display();
+	         }
+	         System.out.println("Total reviews: " + r.length);
+	     }
+	     break;
+	 case 8:
+	  System.out.println("Exiting...");
+	  break;
+	 default:
+	  System.out.println("Incorrect choice, choose a valid number:");
 
 
-}//End of switch
+	}//End of switch
 }//-------------------------------------------------------------------------------------------------
 
 public static void OrdersMenu() {

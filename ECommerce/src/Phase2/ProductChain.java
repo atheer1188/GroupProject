@@ -283,7 +283,6 @@ return top3products;
 
 
 	}//end class*/
-
 package Phase2;
 
 import java.io.File;
@@ -297,8 +296,7 @@ public class ProductChain {
 	 public ProductChain() {
 	        ProductChain = new AVLTree<Products>();
 	    }
-
-
+	
 	 //constructer
 	 public ProductChain(String fileName) {
 	        ProductChain = new AVLTree<Products>();
@@ -517,14 +515,35 @@ public class ProductChain {
 	        	System.out.println("There are No products that fall in that range of price");
 	        return results;
 	    }	    
-	    
-} // end class
+	 //-------------------------------------------------------------------------------
+     // needs to be checked
+	     public double getAverageRating(Products pro) {
+	          
 
+	         LinkedList<Reviews> ReveiwsForProduct = pro.getReviews();
+	          if(ReveiwsForProduct.empty()) return 0;
+	          double sum = 0;//1
+	          int count =0;//1
+	          ReveiwsForProduct.findfirst();
+	          for(int i=0; i<ReveiwsForProduct.size(); i++){
+	              {
+	                  sum += ReveiwsForProduct.retrieve().getRating();
+	                  count++;
+	                 }
+	                /*  if(i<ReveiwsForProduct.size()-1)
+	                	  ReveiwsForProduct.findnext(); */ 
+	                       
+	              }  
+	           if(count == 0) return 0;
+	          return sum / count;
+	      }
 	    
 	    
 	    
 	    
 	    
+	    
+	    }// end class
 	    
 
 
@@ -632,5 +651,6 @@ public class ProductChain {
 
 	
 	
+
 
 
