@@ -63,14 +63,21 @@ public class OrderChain {
  
     private void linkOrderToCustomer(Order orderObj) {
 
-        AVLTree<Customers> tree = CustomerChain.customers;  
+        AVLTree<Customers> tree = CustomerChain.customers;
+
         if (tree.empty()) return;
 
+        
         if (tree.findkey(orderObj.getCustomerId())) {
-            Customers currentCustomer = tree.retrieve();   
-            currentCustomer.addOrder(orderObj.getOrderId());
+            Customers currentCustomer = tree.retrieve();
+
+          
+            currentCustomer.addOrder(orderObj);
+
+            return;
         }
     }
+
 
 
 
@@ -186,3 +193,4 @@ public class OrderChain {
             }
         });
     }
+}
