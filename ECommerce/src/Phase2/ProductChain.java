@@ -578,7 +578,7 @@ public class ProductChain {
 	        return results;
 	    }	    
 	    
-	    public double getAverageRating(Products pro) {
+	       public double getAverageRating(Products pro) {
 	          
 
 	         LinkedList<Reviews> ReveiwsForProduct = pro.getReviews();
@@ -590,9 +590,10 @@ public class ProductChain {
 	              {
 	                  sum += ReveiwsForProduct.retrieve().getRating();
 	                  count++;
+	                  if(i<ReveiwsForProduct.size()-1)
+	                	  ReveiwsForProduct.findnext(); 
 	                 }
-	                /*  if(i<ReveiwsForProduct.size()-1)
-	                	  ReveiwsForProduct.findnext(); */ 
+	                
 	                       
 	              }  
 	           if(count == 0) return 0;
