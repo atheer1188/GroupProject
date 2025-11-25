@@ -102,7 +102,6 @@ public static void CustomersMenu() {
 }
 //-----------------------------------------------------------------------------------------
 
-
 public static void ProductsMenu() {
 	 
 	 
@@ -117,7 +116,8 @@ public static void ProductsMenu() {
 	 System.out.println("5. Track out of stock products");
 	 System.out.println("6. poduct in a price range");
 	 System.out.println("7. reviews sorted by rating");
-	 System.out.println("8. Exit"); 
+	 System.out.println("8. reviews sorted by Customer ID");
+	 System.out.println("9. Exit"); 
 	 System.out.println("==================================="); 
 	 choice = read.nextInt();
 
@@ -223,6 +223,27 @@ public static void ProductsMenu() {
 	     }
 	     break;
 	 case 8:
+	     System.out.println("Enter Product ID: ");
+	     int PId = read.nextInt();
+	     
+	     Reviews[] R = productdata.SortReviewsByCustomerID(PId);
+	     
+	     if (R.length == 0) {
+	         System.out.println("No reviews found for product ID: " + PId);
+	     } else {
+	         System.out.println("\n=== Reviews for Product ID: " + PId + " ===");
+	         System.out.println("Sorted by Customers ID (Lowest First)");
+	         System.out.println("=================================");
+	         
+	         for(int i = 0; i < R.length; i++) {
+	             System.out.println((i+1) + ". ");
+	             R[i].display();
+	         }
+	         System.out.println("Total reviews: " + R.length);
+	     }
+	     break;
+	     
+	 case 9:
 	  System.out.println("Exiting...");
 	  break;
 	 default:
@@ -687,6 +708,7 @@ public static void main(String[] args) {
 
 
 }//end Main
+
 
 
 
