@@ -232,140 +232,187 @@ public static void ProductsMenu() {
 
 	}//End of switch
 }//-------------------------------------------------------------------------------------------------
-
 public static void OrdersMenu() {
     int choice = -1;
     java.time.format.DateTimeFormatter DF =
         java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    while (choice != 9) {
+    while (choice != 8) {
         System.out.println("===================================");
         System.out.println("Orders Menu - choose an option:");
         System.out.println("1. Load orders from CSV");
         System.out.println("2. Create a new order");
-        System.out.println("3. Add Product ID to an order");
-        System.out.println("4. Update order status");
-        System.out.println("5. Remove an order");
-        System.out.println("6. Search & display order");
-        System.out.println("7. Display all orders");
-        System.out.println("8. All orders between two dates");
-        System.out.println("9. Return");
+        System.out.println("3. Update order status");
+        System.out.println("4. Cancel an order");
+        System.out.println("5. Search & display order");
+        System.out.println("6. Display all orders");
+        System.out.println("7. All orders between two dates");
+        System.out.println("8. Return");
         System.out.println("===================================");
         choice = read.nextInt();
 
         switch (choice) {
-            case 1: { //Load from CSV
+        case 1: { // Load from CSV
+           
+            if (!orderdata.getOrderTree().empty()) {
+                System.out.println("Orders are already loaded.");
+            } else {
                 System.out.print("Enter CSV file path: ");
                 String path = read.next();
                 orderdata.readOrdersFromFile(path);
-                break;
+            }
+            break;
+        }
+
+
+        case 2: { // Create new order (price from products)
+            System.out.print("Order ID: ");
+            int oid = read.nextInt();
+            while (orderdata.findOrderById(oid) != null) {
+                System.out.println("Order already exists, enter new one:");
+                oid = read.nextInt();
             }
 
-            case 2: { 
-                System.out.print("Order ID: ");
-                int oid = read.nextInt();
-                while(orderdata.findOrderById(oid) != null) {
-                	System.out.println("Order Already exists, enter new one");
-                    oid = read.nextInt();
-                }
-                
+            System.out.print("Customer ID: ");
+            int cid = read.nextInt();
+            while (!customersdata.getcustomers().findkey(cid)) {
+                System.out.println("Customer ID doesn't exist, enter new one:");
+                cid = read.nextInt();
+            }
 
-                System.out.print("Customer ID: ");
-                int cid = read.nextInt();
-                while(!customersdata.searchCustomerId(cid)) {
-                	System.out.println("Customer Id doesnt exist, enter new one:");
-                    cid = read.nextInt();
-                }
 
-                System.out.print("Total Price: ");
-                double price = read.nextDouble();
+            System.out.print("Enter product IDs separated by ';' (e.g. 101;102;103): ");
+            String ids = read.next();   
 
-                System.out.print("Date (yyyy-MM-dd): ");
-                String d = read.next();
-                java.time.LocalDate date = java.time.LocalDate.parse(d, DF);
-
-                System.out.print("Status: ");
-                String st = read.next();
-
-             
-                Order o = new Order(oid, cid, price, date, st);
-                orderdata.insertOrder(o);
+            String[] parts = ids.split(";");
+            double price = 0;
+            boolean valid = true;
 
             
-                System.out.print("Add Product IDs now? (y/n): ");
-                String ans = read.next();
-                if (ans.equalsIgnoreCase("y")) {
-                	System.out.print("ID: ");
-                    String ids = read.next();
-                    o.addIds(ids);
-                    System.out.println("Product IDs added.");
+            for (int i = 0; i < parts.length; i++) {
+                int pid = Integer.parseInt(parts[i].trim());
+                Products p = productdata.search(pid);
+                if (p == null) {
+                    System.out.println("Product ID " + pid + " not found. Order cancelled.");
+                    valid = false;
+                    break;
                 }
-                break;
+                price += p.getPrice();
             }
 
-            case 3: { 
-                System.out.print("Order ID: ");
-                int oid = read.nextInt();
-                Order found = orderdata.findOrderById(oid);
-                if (found == null) {
-                    System.out.println("Order not found.");
-                } else {
-                    System.out.print("Product ID to add: ");
-                    int pid = read.nextInt();
-                    //validate
-                    while(!productdata.searchProductId(pid)) { 
-                    	System.out.println("The ID: "+pid +" doesnt exist, enter a new one:");
-                    	pid = read.nextInt();
-                    }
-                     
-                    found.addId(pid);
-                    System.out.println("Product Added Successfully!");
-                    
+            if (!valid) break;
+
+           
+            java.time.LocalDate date = null;
+            while (true) {
+                try {
+                    System.out.print("Date (yyyy-MM-dd): ");
+                    String d = read.next();
+                    date = java.time.LocalDate.parse(d, DF);
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Invalid date, try again (yyyy-MM-dd).");
                 }
-                break;
             }
 
-            case 4: { // Update status
+            String st = "Pending";
+
+         
+            Order o = new Order(oid, cid, price, date, st);
+
+            o.addIds(ids);                
+            orderdata.insertOrder(o);    
+
+            System.out.println("Order created successfully with status: " + st);
+            break;
+        }
+
+           
+
+            case 3: { // Update status
                 System.out.print("Order ID: ");
-                int oid = read.nextInt();
-                System.out.print("New status: ");
-                String st = read.next();
+                int oid = read.nextInt();  
+
+                String st = "";
+                int sChoice = 0;
+
+                while (true) {
+                    System.out.println("Choose new status:");
+                    System.out.println("1. Pending");
+                    System.out.println("2. Processing");
+                    System.out.println("3. Delivered");
+                    System.out.println("4. Cancelled");
+
+                    sChoice = read.nextInt();
+
+                    if (sChoice == 1) { st = "Pending"; break; }
+                    else if (sChoice == 2) { st = "Processing"; break; }
+                    else if (sChoice == 3) { st = "Delivered"; break; }
+                    else if (sChoice == 4) { st = "Cancelled"; break; }
+                    else System.out.println("Invalid choice. Try again.");
+                }
+
                 orderdata.changeStatus(oid, st);
                 break;
             }
 
-            case 5: { // Delete order
+
+            case 4: { 
                 System.out.print("Order ID: ");
                 int oid = read.nextInt();
-                orderdata.deleteOrder(oid);
+                orderdata.cancelOrder(oid);
                 break;
             }
 
-            case 6: { // Search and display
+            case 5: { // Search and display
                 System.out.print("Order ID: ");
                 int oid = read.nextInt();
                 Order found = orderdata.findOrderById(oid);
-                if (found == null) System.out.println("Order not found.");
-                else found.display();
+                if (found == null)
+                    System.out.println("Order not found.");
+                else
+                    found.display();
                 break;
             }
 
-            case 7: { // Display all 
+            case 6: { // Display all 
                 orderdata.displayAllOrders();
                 break;
             }
-            case 8:
+
+            case 7: { // All orders between two dates
                 System.out.println("Enter two dates in order:");
-                System.out.print("First Date (yyyy-MM-dd): ");
-                String d1 = read.next();
-                java.time.LocalDate date1 = java.time.LocalDate.parse(d1, DF);
-                
-                System.out.print("First Date (yyyy-MM-dd): ");
-                String d2 = read.next();
-                java.time.LocalDate date2 = java.time.LocalDate.parse(d2, DF);
-                orderdata.AllOrdersBetweenDates(date1 , date2);
+
+                java.time.LocalDate date1 = null;
+                java.time.LocalDate date2 = null;
+
+                while (true) {
+                    try {
+                        System.out.print("First Date (yyyy-MM-dd): ");
+                        String d1 = read.next();
+                        date1 = java.time.LocalDate.parse(d1, DF);
+                        break;
+                    } catch (Exception e) {
+                        System.out.println("Invalid date, try again (yyyy-MM-dd).");
+                    }
+                }
+
+                while (true) {
+                    try {
+                        System.out.print("Second Date (yyyy-MM-dd): ");
+                        String d2 = read.next();
+                        date2 = java.time.LocalDate.parse(d2, DF);
+                        break;
+                    } catch (Exception e) {
+                        System.out.println("Invalid date, try again (yyyy-MM-dd).");
+                    }
+                }
+
+                orderdata.AllOrdersBetweenDates(date1, date2);
                 break;
-            case 9:
+            }
+
+            case 8:
                 System.out.println("Returning to Main Menu...");
                 break;
 
@@ -377,6 +424,7 @@ public static void OrdersMenu() {
         System.out.println();
     }
 }
+
 
 
 //method that extracts all reviews by certain customer 
@@ -638,6 +686,7 @@ public static void main(String[] args) {
 
 
 }//end Main
+
 
 
 
