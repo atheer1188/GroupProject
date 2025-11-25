@@ -1,8 +1,5 @@
 package Phase2;
-import java.io.File;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
+
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,14 +8,14 @@ import java.util.Scanner;
 public class OrderChain {
 
     private AVLTree<Order> orderTree;
-    private LinkedList<Customers> customerList;
+  
 
     static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     public static Scanner read = new Scanner(System.in);
 
     public OrderChain() {
         orderTree = new AVLTree<Order>();
-        customerList = CustomerChain.customers; 
+        
     }
 
     public AVLTree<Order> getOrderTree() {
@@ -63,22 +60,19 @@ public class OrderChain {
     }
 
     // ---------------------------------------
+ 
     private void linkOrderToCustomer(Order orderObj) {
-        if (customerList == null || customerList.empty()) return;
 
-        customerList.findfirst();
-        for (int i = 0; i < customerList.size(); i++) {
-            Customers currentCustomer = customerList.retrieve();
+        AVLTree<Customers> tree = CustomerChain.customers;  
+        if (tree.empty()) return;
 
-            if (currentCustomer.getCustomersId() == orderObj.getCustomerId()) {
-                currentCustomer.addOrder(orderObj.getOrderId());
-                return;
-            }
-
-            if (customerList.last()) break;
-            customerList.findnext();
+        if (tree.findkey(orderObj.getCustomerId())) {
+            Customers currentCustomer = tree.retrieve();   
+            currentCustomer.addOrder(orderObj.getOrderId());
         }
     }
+
+
 
     // ----------------------------------------
     public void insertOrder(Order orderObj) {
@@ -193,4 +187,3 @@ public class OrderChain {
         });
     }
 }
-

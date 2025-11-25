@@ -378,6 +378,7 @@ public static void OrdersMenu() {
     }
 }
 
+
 //method that extracts all reviews by certain customer 
 public static void ReviewsForCustomer() {
     System.out.println("Enter customer ID:"); 
@@ -415,10 +416,11 @@ public static void ReviewsMenu() {
     System.out.println("1. Add review");
     System.out.println("2. Edit review");
     System.out.println("3. Check top 3 highest reviewed products");
-    System.out.println("4. Average rating");
-    System.out.println("5. Show all reviews by a customer");
-    System.out.println("6. common review by two customers");
-    System.out.println("7. Return");
+    System.out.println("3. Check top 3 most reviewed products");
+    System.out.println("5. Average rating");
+    System.out.println("6. Show all reviews by a customer");
+    System.out.println("7. common review by two customers");
+    System.out.println("8. Return");
     System.out.println("===================================");
     choice = read.nextInt();
 
@@ -438,6 +440,7 @@ public static void ReviewsMenu() {
                 System.out.println("This Product ID doesnt Exist input new one:");
                 proid = read.nextInt();
             }
+            
             Reviews newReview = reviewdata.addReview(proid, cusid);
             productdata.addReviewToProduct(proid, newReview);//check
             newReview.display();
@@ -450,8 +453,9 @@ public static void ReviewsMenu() {
             break;
         	
         }
+        
 
-        case 3: { // Top 3 products
+        /*case 3: { // Top 3 products
             LinkedList<Products> topProducts = productdata.top3Products();
             if (topProducts == null || topProducts.empty()) {
                 System.out.println("No products found.");
@@ -472,9 +476,13 @@ public static void ReviewsMenu() {
             }
             System.out.println("=========================================");
             break;
-        }
-
-        case 4: { // Average rating
+        }*/
+        
+        case 4:
+        	productdata.Top3MostRatedProducts();
+        	break;
+        	
+        	   /* case 5: { // Average rating
             int id;
             System.out.println("Enter products ID:");
             id = read.nextInt();
@@ -486,13 +494,14 @@ public static void ReviewsMenu() {
             
             System.out.println("The products Average rating is: " + productdata.getAverageRating(p));
             break;
-        }
-        case 5:  // Search/Show all reviews for a product 
+        }*/
+        	
+        case 6:  // Search/Show all reviews for a product 
         	ReviewsForCustomer();
         	break;
       
  
-        case 6:
+        case 7:
             System.out.println("Enter first customer ID:");
             int cid1 = read.nextInt();
             while(!customers.findkey(cid1))  {
@@ -509,7 +518,7 @@ public static void ReviewsMenu() {
             common.display();
    break;
 
-        case 7:
+        case 8:
             System.out.println("Returning to Main Menu...");
             break;
 

@@ -63,6 +63,7 @@ public Reviews addReview(int productID, int customerID ) {
 	String comment = read.nextLine();
 	comment = read.nextLine();//check garbage 
     Reviews review = new Reviews(rvwId,productID, customerID ,rating, comment);//?
+    reviews.findfirst();
     reviews.add(review);
     return review;
 		}
