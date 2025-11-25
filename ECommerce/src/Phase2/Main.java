@@ -640,6 +640,8 @@ private static void LinkReviewssToProducts() {
 
 public static void main(String[] args) {	
 	//loadData();
+	LinkReviewssToProducts();
+
 	int choice;
 	
 	do {
@@ -686,6 +688,7 @@ public static void main(String[] args) {
 
 
 }//end Main
+
 
 
 
